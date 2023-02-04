@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const BackNav = ({ props }: any) => {
+const BackNav = ({ title }) => {
     return (
         <div className="h-14 bg-white shadow-sm flex px-4 items-center w-full fixed top-0 z-50">
             <Link href='/'>
@@ -8,7 +8,7 @@ const BackNav = ({ props }: any) => {
                     <path strokeLinecap="round" strokeLinejoin="round" d="M19.5 12h-15m0 0l6.75 6.75M4.5 12l6.75-6.75" />
                 </svg>
             </Link>
-            <h2 className="text-base font-bold ml-3 font-[Urbanist]">{props.title}</h2>
+            <h2 className="text-base font-bold ml-3 font-[Urbanist]">{title}</h2>
         </div>
     )
 }
