@@ -1,6 +1,6 @@
 import Link from "next/link";
 
-const BackNav = ({ title }) => {
+const BackNav = ({ title }: { title: any }) => {
     return (
         <div className="h-14 bg-white shadow-sm flex px-4 items-center w-full fixed top-0 z-50">
             <Link href='/'>
