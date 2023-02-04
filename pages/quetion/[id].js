@@ -1,9 +1,6 @@
 import {
-    collection,
     doc,
     onSnapshot,
-    orderBy,
-    query,
 } from "@firebase/firestore";
 import { getProviders, getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
@@ -12,11 +9,9 @@ import { useRecoilState } from "recoil";
 import { modalState } from "../../atoms/modalAtom";
 import Sidebar from "../../components/Sidebar";
 import FullPost from "../../components/post/Full-post";
-import BackNav from "../../components/BackNav";
+import BackNav from "../../components/navbar/BackNav";
 import { db } from "../../firebase";
-import Comment from "../../components/Comment";
 import RightBar from "../../components/RightBar";
-import Head from "next/head";
 
 function PostPage({ providers }) {
     const { data: session } = useSession();
