@@ -4,7 +4,6 @@ export default function ShareModalBox(props) {
 
     return (
         <>
-
             {props.showModel ? (
                 <>
                     <div

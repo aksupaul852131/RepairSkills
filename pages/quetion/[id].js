@@ -10,7 +10,7 @@ import { modalState } from "../../atoms/modalAtom";
 import Sidebar from "../../components/Sidebar";
 import FullPost from "../../components/post/Full-post";
 import BackNav from "../../components/navbar/BackNav";
-import { db } from "../../firebase";
+import { db } from ".././api/auth/firebase-config";
 import RightBar from "../../components/RightBar";
 
 function PostPage({ providers }) {

@@ -1,16 +1,11 @@
-import { useRecoilState } from "recoil";
-import { modalState, postIdState } from "../atoms/modalAtom";
-import { Dialog, Transition } from "@headlessui/react";
 import { Fragment, useEffect, useState } from "react";
 import {
   onSnapshot,
-  doc,
   query,
-  addDoc,
   collection,
-  serverTimestamp,
+
 } from "@firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../pages/api/auth/firebase-config";
 
 import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";

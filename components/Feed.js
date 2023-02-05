@@ -1,7 +1,7 @@
 
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, orderBy } from "@firebase/firestore";
-import { db } from "../firebase";
+import { db } from "../pages/api/auth/firebase-config";
 import Post from "./post/Post";
 
 function Feed() {

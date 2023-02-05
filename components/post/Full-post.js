@@ -15,7 +15,7 @@ import { useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState, useRef } from "react";
 import Moment from "react-moment";
-import { db } from "../../firebase";
+import { db } from "../../pages/api/auth/firebase-config";
 import Comment from './Response'
 
 

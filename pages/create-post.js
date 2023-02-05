@@ -1,7 +1,7 @@
 import Sidebar from "../components/Sidebar";
 import BackNav from "../components/navbar/BackNav";
 import { useRef, useState } from "react";
-import { db, storage } from "../firebase";
+import { db, storage } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
 import {
     doc,
