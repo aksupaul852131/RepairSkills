@@ -9,7 +9,7 @@ import { getStorage } from "firebase/storage";
 // Your web app's Firebase configuration
 const firebaseConfig = {
     apiKey: "AIzaSyBQDtkR3sE4_m5fyYhSpxXxpVVWETo8ncE",
-    authDomain: "wire360b.firebaseapp.com",
+    authDomain: "https://repair-skills.vercel.app",
     projectId: "wire360b",
     storageBucket: "wire360b.appspot.com",
     messagingSenderId: "810263925226",
