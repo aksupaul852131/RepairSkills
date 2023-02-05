@@ -9,7 +9,7 @@ import {
   serverTimestamp,
   setDoc,
 } from "@firebase/firestore";
-import { useSession } from "next-auth/react";
+import { useSession, getProviders } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
 import Moment from "react-moment";
@@ -19,6 +19,8 @@ import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ShareModalBox from "../model/share";
 import PostModelBox from "../model/post-model";
+import Login from "../Login";
+
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -84,41 +86,55 @@ function Post({ id, post, postPage }) {
 
   //  do things
   const likePost = async () => {
-    if (holdVote == 0 || holdVote == 2) {
-      setholdVote(1);
-      await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
-      await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
-        username: session.user.name,
-      });
+    if (!session) {
+      router.push('/login');
+    } else {
+      if (holdVote == 0 || holdVote == 2) {
+        setholdVote(1);
+        await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
+        await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
+          username: session.user.name,
+        });
+      }
     }
+
+
   };
 
 
 
   const downV = async () => {
-    if (holdVote == 0 || holdVote == 1) {
-      setholdVote(2);
-      await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
-      await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
-        username: session.user.name,
-      });
+    if (!session) {
+      router.push('/login');
+    } else {
+      if (holdVote == 0 || holdVote == 1) {
+        setholdVote(2);
+        await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
+        await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
+          username: session.user.name,
+        });
+      }
     }
   };
 
   // add comment
   const sendComment = async (e) => {
     e.preventDefault();
-    if (comment != '') {
-      await addDoc(collection(db, "posts", id, "comments"), {
-        comment: comment,
-        username: session.user.name,
-        tag: session.user.tag,
-        userImg: session.user.image,
-        timestamp: serverTimestamp(),
-      });
-      toast("Comment Added");
-      setComment('');
-      router.push(`/quetion/${id}`)
+    if (!session) {
+      router.push('/login');
+    } else {
+      if (comment != '') {
+        await addDoc(collection(db, "posts", id, "comments"), {
+          comment: comment,
+          username: session.user.name,
+          tag: session.user.tag,
+          userImg: session.user.image,
+          timestamp: serverTimestamp(),
+        });
+        toast("Comment Added");
+        setComment('');
+        router.push(`/quetion/${id}`)
+      }
     }
   }
 
@@ -173,13 +189,12 @@ function Post({ id, post, postPage }) {
       </div>
 
       <ShareModalBox showModel={share} closeModel={setShare} />
-      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session.user.uid == post.id ? true : false} />
+      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
       {/* post text */}
       <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 text-[15px] sm:text-base my-3 ml-1">
         {post?.text}
-        {session.user.uid}<br />
-        {post.id}
+
       </p>
 
       <div className="flex flex-col space-y-2 w-full">
@@ -348,4 +363,7 @@ function Post({ id, post, postPage }) {
   );
 }
 
+
 export default Post;
+
+

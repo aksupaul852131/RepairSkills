@@ -17,19 +17,16 @@ export default function App({
     // Avoids flickering/session loading on first load.
     <SessionProvider session={session}>
       <RecoilRoot>
-
         <div className="bg-white">
           <Navbar />
-          <div className="h-screen mt-14">
+          <div className="mt-14 h-screen">
             <div className=" lg:flex lg:flex-row">
               {/* Left */}
               <Sidebar />
               <Component {...pageProps} />
-
             </div>
           </div>
         </div>
-
         <MobileNav />
         <ScrollButton />
       </RecoilRoot>

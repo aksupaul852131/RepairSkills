@@ -5,9 +5,7 @@ import {
 import { getProviders, getSession, useSession } from "next-auth/react";
 import { useRouter } from "next/router";
 import { useEffect, useState } from "react";
-import Sidebar from "../../components/Sidebar";
 import FullPost from "../../components/post/Full-post";
-import BackNav from "../../components/navbar/BackNav";
 import { db } from ".././api/auth/firebase-config";
 import RightBar from "../../components/RightBar";
 
@@ -26,10 +24,10 @@ function PostPage({ providers }) {
     );
 
 
-    if (!session) return <Login providers={providers} />;
+    // if (!session) return <Login providers={providers} />;
 
     return (
-        <div>
+        <>
             <div className="w-full sm:w-600 md:h-screen">
 
                 <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
@@ -42,7 +40,7 @@ function PostPage({ providers }) {
                 </div>
             </div>
             <RightBar />
-        </div>
+        </>
     );
 }
 

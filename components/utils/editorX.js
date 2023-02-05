@@ -36,7 +36,6 @@ export default class TextEditor extends Component {
                     onEditorStateChange={this.onEditorStateChange}
 
                 />
-
             </div>
         );
     }

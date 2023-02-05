@@ -1,21 +1,12 @@
 import Head from "next/head";
-import Sidebar from "../components/Sidebar";
 import Rightbar from "../components/RightBar";
 import Feed from "../components/Feed";
 import { useRouter } from "next/router";
-import Nav from "../components/navbar/Navbar";
 
-import { getProviders, getSession, useSession } from "next-auth/react";
-import Login from "../components/Login";
-import { modalState } from "../atoms/modalAtom";
-import { useRecoilState } from "recoil";
 
-export default function Home({ providers }) {
-  const { data: session } = useSession();
-  const [isOpen, setIsOpen] = useRecoilState(modalState);
+export default function Home() {
   const router = useRouter();
 
-  if (!session) return <Login providers={providers} />;
 
   return (
     <>
@@ -23,7 +14,6 @@ export default function Home({ providers }) {
         <title>Home / Twitter</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
-
 
 
       <div className="w-full sm:w-600 md:h-screen pt-2">
@@ -76,22 +66,4 @@ export default function Home({ providers }) {
   );
 }
 
-export async function getServerSideProps(context) {
-  // const trendingResults = await fetch("https://jsonkeeper.com/b/NKEV").then(
-  //   (res) => res.json()
-  // );
-  // const followResults = await fetch("https://jsonkeeper.com/b/WWMJ").then(
-  //   (res) => res.json()
-  // );
-  const providers = await getProviders();
-  const session = await getSession(context);
 
-  return {
-    props: {
-      // trendingResults,
-      // followResults,
-      providers,
-      session,
-    },
-  };
-}

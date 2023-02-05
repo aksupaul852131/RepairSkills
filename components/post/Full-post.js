@@ -26,6 +26,7 @@ import 'react-toastify/dist/ReactToastify.css';
 // modal
 import ShareModalBox from '../model/share';
 import uuid from "react-uuid";
+import Link from "next/link";
 
 
 
@@ -83,21 +84,29 @@ function Post({ id, post }) {
 
     //  voting fuctions
     const likePost = async () => {
-        if (holdVote == 0 || holdVote == 2) {
-            setholdVote(1);
-            await deleteDoc(doc(db, "posts", id, "downVote", session?.user.uid));
-            await setDoc(doc(db, "posts", id, "upVote", session?.user.uid), {
-                username: session?.user.name,
-            });
+        if (!session) {
+            router.push('/login');
+        } else {
+            if (holdVote == 0 || holdVote == 2) {
+                setholdVote(1);
+                await deleteDoc(doc(db, "posts", id, "downVote", session?.user.uid));
+                await setDoc(doc(db, "posts", id, "upVote", session?.user.uid), {
+                    username: session?.user.name,
+                });
+            }
         }
     };
     const downV = async () => {
-        if (holdVote == 0 || holdVote == 1) {
-            setholdVote(2);
-            await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
-            await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
-                username: session.user.name,
-            });
+        if (!session) {
+            router.push('/login');
+        } else {
+            if (holdVote == 0 || holdVote == 1) {
+                setholdVote(2);
+                await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
+                await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
+                    username: session.user.name,
+                });
+            }
         }
     };
 
@@ -124,23 +133,27 @@ function Post({ id, post }) {
 
     const RepsonseData = {
         comment: response,
-        username: session.user.name,
-        userid: session.user.uid,
-        tag: session.user.tag,
-        userImg: session.user.image,
-        id: `${session.user.name}-${respondId}`,
+        username: session?.user.name,
+        userid: session?.user.uid,
+        tag: session?.user.tag,
+        userImg: session?.user.image,
+        id: `${session?.user.name}-${respondId}`,
         timestamp: serverTimestamp(),
     }
 
 
     const sendComment = async (e) => {
         e.preventDefault();
-        if (response != '') {
-            await setDoc(doc(db, "posts", id, "comments", `${session.user.name}-${respondId}`), RepsonseData);
-            toast("Comment Added");
-            setRespondId(uuid());
+        if (!session) {
+            router.push('/login');
+        } else {
+            if (response != '') {
+                await setDoc(doc(db, "posts", id, "comments", `${session?.user.name}-${respondId}`), RepsonseData);
+                toast("Comment Added");
+                setRespondId(uuid());
+            }
+            setResponse('');
         }
-        setResponse('');
     }
 
 
@@ -160,7 +173,7 @@ function Post({ id, post }) {
                 />
             </div>
 
-            {/* profile */}
+
             <div className="mt-6 px-4 md:px-0 w-full flex">
                 <img
                     src={post?.userImg}
@@ -290,7 +303,13 @@ function Post({ id, post }) {
                 <div onClick={sendComment} className="bg-primary rounded text-white text-center mx-2 p-3 font-semibold">
                     Send
                 </div>
-                <p className="text-center text-xs mt-4">This Reply as <span className="text-primary">{session?.user?.name}</span></p>
+                {
+                    session?.user?.name ?
+
+                        <p className="text-center text-xs mt-4">This Reply as <span className="text-primary">{session?.user?.name}</span></p>
+                        :
+                        <p className="text-center text-xs mt-4">you can not Reply <Link href='/login' className="text-primary">please login</Link></p>
+                }
             </div>
 
             {/* commet toast */}

@@ -2,10 +2,7 @@ import { signIn } from "next-auth/react";
 
 function Login({ providers }) {
   return (
-
-
-
-    <section className="flex flex-col md:flex-row h-screen items-center font-[Urbanist]">
+    <section className="flex w-screen -mt-14 flex-col md:flex-row h-screen items-center font-[Urbanist]">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img
           src="https://source.unsplash.com/random"
