@@ -17,6 +17,8 @@ import { db } from "../../pages/api/auth/firebase-config";
 
 import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
+import ShareModalBox from "../model/share";
+import PostModelBox from "../model/post-model";
 
 function Post({ id, post, postPage }) {
   const { data: session } = useSession();
@@ -30,6 +32,8 @@ function Post({ id, post, postPage }) {
   // 
   const [holdVote, setholdVote] = useState(0);
   const router = useRouter();
+  const [share, setShare] = useState(false);
+  const [menu, setMenu] = useState(false);
 
 
   useEffect(
@@ -81,6 +85,7 @@ function Post({ id, post, postPage }) {
   //  do things
   const likePost = async () => {
     if (holdVote == 0 || holdVote == 2) {
+      setholdVote(1);
       await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
       await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
         username: session.user.name,
@@ -92,6 +97,7 @@ function Post({ id, post, postPage }) {
 
   const downV = async () => {
     if (holdVote == 0 || holdVote == 1) {
+      setholdVote(2);
       await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
       await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
         username: session.user.name,
@@ -114,9 +120,16 @@ function Post({ id, post, postPage }) {
       setComment('');
       router.push(`/quetion/${id}`)
     }
-
-
   }
+
+
+  const deletePost = async (e) => {
+    e.stopPropagation();
+    deleteDoc(doc(db, "posts", id));
+    router.push("/");
+  }
+
+
   return (
     <div
       className="py-5 px-4 border-gray-200 border shadow-md rounded-2xl my-3 font-[Urbanist]"
@@ -149,18 +162,24 @@ function Post({ id, post, postPage }) {
             <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
           </span>
         </div>
-        <div className="icon group flex-shrink-0 ml-auto">
+        {/* 3 dots */}
+        <div
+          onClick={() => menu ? setMenu(false) : setMenu(true)}
+          className="icon group flex-shrink-0 ml-auto">
           <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 stroke-gray-600 mt-2">
             <path strokeLinecap="round" strokeLinejoin="round" d="M6.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM12.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0zM18.75 12a.75.75 0 11-1.5 0 .75.75 0 011.5 0z" />
           </svg>
         </div>
       </div>
 
-
+      <ShareModalBox showModel={share} closeModel={setShare} />
+      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session.user.uid == post.id ? true : false} />
 
       {/* post text */}
       <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 text-[15px] sm:text-base my-3 ml-1">
         {post?.text}
+        {session.user.uid}<br />
+        {post.id}
       </p>
 
       <div className="flex flex-col space-y-2 w-full">
@@ -281,15 +300,12 @@ function Post({ id, post, postPage }) {
             </div>
           )} */}
 
-
-
-
-
-          <div className="icon group ">
+          <div
+            onClick={() => share ? setShare(false) : setShare(true)}
+            className="icon group px-2">
             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
               <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
             </svg>
-
           </div>
 
         </div>

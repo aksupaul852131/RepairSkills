@@ -1,7 +1,8 @@
-import { Fragment } from 'react'
+import { Fragment, useEffect } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { useRouter } from 'next/router'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -15,6 +16,9 @@ function classNames(...classes) {
 }
 
 export default function Example() {
+
+
+
     return (
         <Disclosure as="nav" className="bg-white shadow-sm font-[Urbanist] fixed top-0 z-50 w-full">
             {({ open }) => (
@@ -34,16 +38,8 @@ export default function Example() {
                             </div>
                             <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                 <div className="flex flex-shrink-0 items-center">
-                                    <img
-                                        className="block h-8 w-auto lg:hidden"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                        alt="Your Company"
-                                    />
-                                    <img
-                                        className="hidden h-8 w-auto lg:block"
-                                        src="https://tailwindui.com/img/logos/mark.svg?color=indigo&shade=500"
-                                        alt="Your Company"
-                                    />
+
+                                    <span className='text-black font-semibold'>Repair<span className='text-primary'>Skills</span></span>
                                 </div>
                                 <div className="hidden sm:ml-6 sm:block w-full">
                                     <div className="flex space-x-4 justify-center">

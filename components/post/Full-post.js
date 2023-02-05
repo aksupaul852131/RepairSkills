@@ -84,6 +84,7 @@ function Post({ id, post }) {
     //  voting fuctions
     const likePost = async () => {
         if (holdVote == 0 || holdVote == 2) {
+            setholdVote(1);
             await deleteDoc(doc(db, "posts", id, "downVote", session?.user.uid));
             await setDoc(doc(db, "posts", id, "upVote", session?.user.uid), {
                 username: session?.user.name,
@@ -92,6 +93,7 @@ function Post({ id, post }) {
     };
     const downV = async () => {
         if (holdVote == 0 || holdVote == 1) {
+            setholdVote(2);
             await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
             await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
                 username: session.user.name,
@@ -138,6 +140,7 @@ function Post({ id, post }) {
             toast("Comment Added");
             setRespondId(uuid());
         }
+        setResponse('');
     }
 
 

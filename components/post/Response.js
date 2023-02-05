@@ -7,6 +7,7 @@ import Moment from "react-moment";
 function Comment({ comment, postid, commentAuthor }) {
   return (
     <div className="p-3 flex cursor-pointer border-b border-gray-300">
+
       <img
         src={comment?.userImg}
         alt=""
@@ -17,7 +18,7 @@ function Comment({ comment, postid, commentAuthor }) {
           <div className="">
             <div className="inline-block group">
               <h4 className="font-bold text-[15px] sm:text-base inline-block group-hover:underline">
-                {comment?.id}
+                {comment?.username}
               </h4>
               <span className="ml-1.5 text-sm sm:text-[15px]">
                 @{comment?.tag}{" "}

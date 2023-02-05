@@ -3,7 +3,10 @@ import "../styles/dist.css";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 import MobileNav from "../components/navbar/mobile-nav";
+import Navbar from "../components/navbar/Navbar";
+
 import ScrollButton from "../components/utils/Scroll-btn"
+import Sidebar from "../components/Sidebar";
 
 export default function App({
   Component,
@@ -14,7 +17,19 @@ export default function App({
     // Avoids flickering/session loading on first load.
     <SessionProvider session={session}>
       <RecoilRoot>
-        <Component {...pageProps} />
+
+        <div className="bg-white">
+          <Navbar />
+          <div className="h-screen mt-14">
+            <div className=" lg:flex lg:flex-row">
+              {/* Left */}
+              <Sidebar />
+              <Component {...pageProps} />
+
+            </div>
+          </div>
+        </div>
+
         <MobileNav />
         <ScrollButton />
       </RecoilRoot>

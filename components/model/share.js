@@ -13,16 +13,18 @@ export default function ShareModalBox(props) {
                             {/*content*/}
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
                                 {/*header*/}
-                                <div className="flex items-center justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                                <div className="flex items-center justify-between p-4 border-b border-solid border-slate-200 rounded-t">
                                     <h3 className="text-lg font-semibold">
                                         Share This Post:
                                     </h3>
                                     <button
-                                        className="text-red-500 background-transparent font-bold uppercase px-6 text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
+                                        className="text-primary background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
                                         type="button"
                                         onClick={() => props.closeModel(false)}
                                     >
-                                        Close
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                            <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                        </svg>
                                     </button>
                                 </div>
                                 {/*body*/}

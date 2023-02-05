@@ -32,7 +32,9 @@ const CreatePost = () => {
 
         const docdata = {
             id: session.user.uid,
-            postId: `${input}&id=${postId}`,
+            postId: `${input.toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '')}&id=${postId}`,
             username: session.user.name,
             userImg: session.user.image,
             tag: session.user.tag,
@@ -40,7 +42,9 @@ const CreatePost = () => {
             timestamp: serverTimestamp(),
         }
 
-        const docRef = await setDoc(doc(db, "posts", `${input}&id=${postId}`), docdata);
+        const docRef = await setDoc(doc(db, "posts", `${input.toLowerCase()
+            .replace(/ /g, '-')
+            .replace(/[^\w-]+/g, '')}&id=${postId}`), docdata);
 
         console.log(docRef);
 
