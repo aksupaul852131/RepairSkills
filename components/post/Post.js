@@ -48,14 +48,12 @@ function Post({ id, post, userpage }) {
   // fetch post vote length
   useEffect(
     () => {
-
       onSnapshot(collection(db, "posts", id, "upVote"), (snapshot) =>
         setVoteUpLength(snapshot.docs)
       );
       onSnapshot(collection(db, "posts", id, "downVote"), (snapshot) =>
         setVoteDownLength(snapshot.docs)
       );
-
     },
     [db, id]
   );
@@ -122,11 +120,15 @@ function Post({ id, post, userpage }) {
     >
       {/* profile */}
       <div className="w-full flex">
-        <img
-          src={post?.userImg}
-          alt=""
-          className="h-11 w-11 rounded-full mr-4"
-        />
+        {
+          !userpage && (
+            <img
+              src={post?.userImg}
+              alt=""
+              className="h-11 w-11 rounded-full mr-4"
+            />
+          )
+        }
         <div>
           <div className="flex">
             <h4
@@ -139,7 +141,12 @@ function Post({ id, post, userpage }) {
             <span
               className={`text-sm sm:text-[15px] ml-2`}
             >
-              @{post?.tag}
+              {
+                !userpage && (
+                  ` @${post?.tag}`
+                )
+              }
+
             </span>
           </div>
           {/* post time */}
@@ -161,9 +168,8 @@ function Post({ id, post, userpage }) {
       <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
       {/* post text */}
-      <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 text-[15px] sm:text-base my-3 ml-1">
+      <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 text-[15px] sm:text-base my-3">
         {post?.text}
-
       </p>
 
       <div className="flex flex-col space-y-2 w-full">
