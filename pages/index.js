@@ -2,11 +2,55 @@ import Head from "next/head";
 import Rightbar from "../components/RightBar";
 import Feed from "../components/Feed";
 import { useRouter } from "next/router";
+import { useEffect } from 'react'
+import { doc, getDoc, setDoc } from "@firebase/firestore";
+import { db } from "./api/auth/firebase-config";
+import { useSession } from "next-auth/react";
 
 
 export default function Home() {
   const router = useRouter();
+  const { data: session } = useSession();
 
+
+  useEffect(() => {
+    (() => getResponse())();
+  });
+
+  const getResponse = async () => {
+
+    if (session) {
+      const docRef = doc(db, "users", session.user.uid);
+      const docSnap = await getDoc(docRef);
+
+      if (docSnap.exists()) {
+        console.log("Document data:", docSnap.data());
+      } else {
+        // doc.data() will be undefined in this case
+        console.log("No such document!");
+
+        const userData = {
+          name: session.user.name,
+          profileImg: session.user.image,
+          bio: '',
+          uid: session.user.uid,
+          timestamp: serverTimestamp(),
+          skills: ['AC Tech'],
+          // experince: [{
+          //   brandImg: '',
+          //   brandInfo: '',
+          //   brandLink: '',
+          //   brandName: '',
+          //   workLocation: '',
+          //   expYear: '',
+          // }]
+        }
+        setDoc(doc(db, "users", session.user.uid), userData);
+
+      }
+    }
+
+  }
 
   return (
     <>
