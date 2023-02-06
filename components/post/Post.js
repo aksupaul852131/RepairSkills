@@ -1,12 +1,10 @@
 import {
-  addDoc,
   collection,
   deleteDoc,
   doc,
   onSnapshot,
   orderBy,
   query,
-  serverTimestamp,
   setDoc,
 } from "@firebase/firestore";
 import { useSession, getProviders } from "next-auth/react";
@@ -15,17 +13,14 @@ import { useEffect, useState } from "react";
 import Moment from "react-moment";
 import { db } from "../../pages/api/auth/firebase-config";
 
-import { ToastContainer, toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 import ShareModalBox from "../model/share";
 import PostModelBox from "../model/post-model";
-import Login from "../Login";
 
 
-function Post({ id, post, postPage }) {
+function Post({ id, post, userpage }) {
   const { data: session } = useSession();
   const [comments, setComments] = useState([]);
-  const [comment, setComment] = useState("");
 
   // vote length
   const [voteUpLength, setVoteUpLength] = useState([]);
@@ -66,7 +61,6 @@ function Post({ id, post, postPage }) {
   );
 
 
-
   // only for bg color of vote btn
   useEffect(
     () => {
@@ -83,7 +77,6 @@ function Post({ id, post, postPage }) {
     [voteUpLength]
   );
 
-
   //  do things
   const likePost = async () => {
     if (!session) {
@@ -97,8 +90,6 @@ function Post({ id, post, postPage }) {
         });
       }
     }
-
-
   };
 
 
@@ -116,27 +107,6 @@ function Post({ id, post, postPage }) {
       }
     }
   };
-
-  // add comment
-  const sendComment = async (e) => {
-    e.preventDefault();
-    if (!session) {
-      router.push('/login');
-    } else {
-      if (comment != '') {
-        await addDoc(collection(db, "posts", id, "comments"), {
-          comment: comment,
-          username: session.user.name,
-          tag: session.user.tag,
-          userImg: session.user.image,
-          timestamp: serverTimestamp(),
-        });
-        toast("Comment Added");
-        setComment('');
-        router.push(`/quetion/${id}`)
-      }
-    }
-  }
 
 
   const deletePost = async (e) => {
@@ -157,7 +127,6 @@ function Post({ id, post, postPage }) {
           alt=""
           className="h-11 w-11 rounded-full mr-4"
         />
-
         <div>
           <div className="flex">
             <h4
@@ -202,12 +171,20 @@ function Post({ id, post, postPage }) {
 
         {/* post image */}
         <div>
-          <img
-            src={post?.image}
-            alt=""
-            className="rounded-2xl max-h-[250px] md:max-h-[350px] w-full object-cover my-2"
-            onClick={() => router.push(`/quetion/${id}`)}
-          />
+
+          {
+            !userpage && (
+              <img
+                src={post?.image}
+                alt=""
+                className="rounded-2xl max-h-[250px] md:max-h-[350px] w-full object-cover my-2"
+                onClick={() => router.push(`/quetion/${id}`)}
+              />
+            )
+          }
+
+
+
         </div>
 
 
@@ -216,7 +193,7 @@ function Post({ id, post, postPage }) {
 
         <div className="mt-4"></div>
         <div
-          className={`text-[#6e767d] flex items-center justify-between py-2`}
+          className={`text-[#6e767d] flex items-center justify-between py-2 gap-6`}
         >
 
 
@@ -259,61 +236,25 @@ function Post({ id, post, postPage }) {
             )}
           </div>
 
+          <div
+            className="flex items-center space-x-1 group bg-gray-100 rounded-full px-2 py-1"
+            onClick={() => router.push(`/quetion/${id}`)}
+          >
+            <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10 flex items-center gap-1">
+              <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
+              </svg>
 
-
-
-          {/* comment */}
-          {
-            !postPage && (
-              <div
-                className="flex items-center space-x-1 group bg-gray-100 rounded-full px-2 py-1"
-                onClick={() => router.push(`/quetion/${id}`)}
-              >
-                <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10 flex items-center gap-1">
-                  <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                    <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
-                  </svg>
-
-                </div>
-                {comments.length == 0 ?
-                  <span className="text-xs">Add Response</span>
-                  :
-                  <span className="group-hover:text-[#1d9bf0] text-sm">
-                    View Response {comments.length}
-                  </span>
-                }
-              </div>
-            )
-          }
-
-
-          {/* delete/retwit */}
-          {/* {session.user.uid === post?.id ? (
-            <div
-              className="flex items-center space-x-1 group"
-              onClick={(e) => {
-                e.stopPropagation();
-                deleteDoc(doc(db, "posts", id));
-                router.push("/");
-              }}
-            >
-              <div className="icon group-hover:bg-red-600/10">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M14.74 9l-.346 9m-4.788 0L9.26 9m9.968-3.21c.342.052.682.107 1.022.166m-1.022-.165L18.16 19.673a2.25 2.25 0 01-2.244 2.077H8.084a2.25 2.25 0 01-2.244-2.077L4.772 5.79m14.456 0a48.108 48.108 0 00-3.478-.397m-12 .562c.34-.059.68-.114 1.022-.165m0 0a48.11 48.11 0 013.478-.397m7.5 0v-.916c0-1.18-.91-2.164-2.09-2.201a51.964 51.964 0 00-3.32 0c-1.18.037-2.09 1.022-2.09 2.201v.916m7.5 0a48.667 48.667 0 00-7.5 0" />
-                </svg>
-
-              </div>
             </div>
-          ) : (
-            <div className="flex items-center space-x-1 group">
-              <div className="icon group-hover:bg-green-500/10">
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 21L3 16.5m0 0L7.5 12M3 16.5h13.5m0-13.5L21 7.5m0 0L16.5 12M21 7.5H7.5" />
-                </svg>
+            {comments.length == 0 ?
+              <span className={`text-xs ${userpage ? 'hidden' : 'block'}`}>Add Response</span>
+              :
+              <span className={`group-hover:text-[#1d9bf0] text-sm ${userpage ? 'hidden' : 'block'}`}>
+                View Response {comments.length}
+              </span>
+            }
+          </div>
 
-              </div>
-            </div>
-          )} */}
 
           <div
             onClick={() => share ? setShare(false) : setShare(true)}
@@ -324,41 +265,9 @@ function Post({ id, post, postPage }) {
           </div>
 
         </div>
-        {/* comment model */}
-        {
-          postPage && (
-            <div className="bg-white py-1 flex items-center w-full gap-2">
-              <img className="rounded-full w-10" src={session?.user?.image} />
-              <input
-                value={comment}
-                onChange={(e) => setComment(e.target.value)}
-                className="w-full bg-white dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-black focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-10 md:h-12 flex items-center pl-4 text-sm rounded-md border"
-                placeholder="write something here"
-              />
-              <div
-                onClick={sendComment}
-              >
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-8 h-8">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                </svg>
-              </div>
 
-            </div>
-          )
-        }
       </div>
-      <ToastContainer
-        position="bottom-center"
-        autoClose={1000}
-        hideProgressBar
-        newestOnTop={false}
-        closeOnClick
-        rtl={false}
-        pauseOnFocusLoss
-        draggable
-        pauseOnHover
-        theme="dark"
-      />
+
     </div>
   );
 }

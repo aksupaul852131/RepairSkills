@@ -10,7 +10,7 @@ function Sidebar() {
       {
         router.pathname != '/login' && (
           <div className="hidden lg:block">
-            <div className="w-0 lg:w-[14rem] h-screen font-[Urbanist]">
+            <div className="w-0 lg:w-[18rem] h-screen font-[Urbanist]">
               <div className="flex flex-col h-screen xl:pr-3 px-0 lg:px-6 border-r-2 bg-[#FCFBFF] fixed overflow-y-auto w-[16%]">
 
 
