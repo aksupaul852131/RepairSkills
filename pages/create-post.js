@@ -60,8 +60,8 @@ const CreatePost = () => {
                 postId: `${input.toLowerCase()
                     .replace(/ /g, '-')
                     .replace(/[^\w-]+/g, '')}&id=${postId}`,
-                username: session.user.name,
-                userImg: session.user.image,
+                username: user?.data()?.name,
+                userImg: user?.data()?.profileImg,
                 tag: session.user.tag,
                 text: input,
                 timestamp: serverTimestamp(),

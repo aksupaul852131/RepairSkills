@@ -16,6 +16,7 @@ import { db } from "../../pages/api/auth/firebase-config";
 import 'react-toastify/dist/ReactToastify.css';
 import ShareModalBox from "../model/share";
 import PostModelBox from "../model/post-model";
+import Link from "next/link";
 
 
 function Post({ id, post, userpage }) {
@@ -122,11 +123,18 @@ function Post({ id, post, userpage }) {
       <div className="w-full flex">
         {
           !userpage && (
-            <img
-              src={post?.userImg}
-              alt=""
-              className="h-11 w-11 rounded-full mr-4"
-            />
+            <Link
+              href={{
+                pathname: '/account/profile',
+                query: { uid: `${post?.id}` },
+              }}
+            >
+              <img
+                src={post?.userImg}
+                alt=""
+                className="h-11 w-11 rounded-full mr-4"
+              />
+            </Link>
           )
         }
         <div>

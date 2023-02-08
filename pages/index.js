@@ -70,12 +70,7 @@ export default function Home() {
             onClick={() => router.push('/create-post')}
           >
             <div className="flex items-center">
-              <img
-                className="h-8 w-8 rounded-full border-blue-400 border-2"
-                src="https://images.unsplash.com/photo-1472099645785-5658abf4ff4e?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=facearea&facepad=2&w=256&h=256&q=80"
-                alt=""
-              />
-              <span className="text-gray-600 ml-3 text-sm font-bold ">Type to add something</span>
+              <span className="text-gray-600 text-sm font-bold ">Type to add something</span>
             </div>
 
             <div className="bg-primary rounded-full py-2 px-4 text-xs text-white">
