@@ -11,49 +11,46 @@ import { useRouter } from "next/router";
 const Users = () => {
 
     const [loading, setLoading] = useState(true);
-    const router = useRouter();
     const { data: session } = useSession();
-    const [userId, setUserId] = useState('self');
 
-
-    // fetch posts
-
-    const [posts, setPosts] = useState([]);
+    const [filterposts, setFilterPosts] = useState([]);
     const [user, setUser] = useState([]);
+    const router = useRouter();
+
+    useEffect(() => { getResponse() }, []);
 
 
+    const getResponse = async () => {
+        // getting the query UID
+        const urlSearchParams = new URLSearchParams(window.location.search)
+        const data = urlSearchParams.get('uid');
 
-    useEffect(
-        () => {
-            if (router.isReady) {
-                setUserId(`${router.query.uid}`);
+
+        if (data != 'undefined') {
+            const docRef = doc(db, "users", data);
+            const docSnap = await getDoc(docRef);
+
+            if (docSnap.exists()) {
+                // set user data
+                setUser(docSnap.data());
                 // fetch user post
                 onSnapshot(
                     query(collection(db, "posts"),
                         orderBy("timestamp", "desc"),
                     ),
                     (snapshot) => {
-                        setPosts(snapshot.docs);
+                        setFilterPosts(snapshot.docs.filter(e => e.data().id == data).map((doc) => ({ ...doc.data(), id: doc.id })))
                     }
                 );
-                // fetch user details
-                onSnapshot(
-                    query(
-                        collection(db, "users"),
-                        where('uid', '==', userId)
-                    ),
-                    (snapshot) => {
-                        setUser(snapshot.docs);
-                        setLoading(false);
-                    }
-                );
-            }
-        },
-        [db][router.isReady]
-    );
 
-    // variables
-    // user[0]?.data().profileImg
+                setLoading(false);
+            } else {
+                // doc.data() will be undefined in this case
+                console.log("No such document!");
+            }
+        }
+    }
+
 
     return (
         <>
@@ -70,20 +67,28 @@ const Users = () => {
                                 <div className="h-16 absolute -top-14 left-4 md:left-12">
                                     <img
                                         className="w-24 h-24 object-cover rounded-full"
-                                        src={session?.user?.image}
+                                        src={user?.profileImg}
                                         alt="Joe Biden"
                                     />
-                                    <h3 className="mt-4 text-black font-bold">{session?.user?.name}</h3>
-                                    <p className="text-primary text-sm md:text-base">Joined <Moment fromNow>{user[0]?.data().timestamp?.toDate()}</Moment></p>
-                                    <p className="text-sm mt-2">HVAC</p>
+                                    <h3 className="mt-4 text-black font-bold">{user?.name}</h3>
+                                    <p className="text-primary text-sm md:text-base">Joined <Moment fromNow>{user?.timestamp?.toDate()}</Moment></p>
+                                    <p className="text-sm mt-2">Experience {user?.workExp} years +</p>
 
                                 </div>
 
                                 <div className="h-16 absolute top-16 right-2 md:right-10">
                                     <div className="grid justify-items-end">
-                                        <button className="bg-primary px-4 text-base py-2 rounded-lg text-white w-24 md:w-32">
-                                            Connect
-                                        </button>
+                                        {
+                                            user?.uid == session?.user?.uid ?
+                                                <button onClick={() => router.push('/account/edit-profile')} className="bg-gray-100 px-4 text-base py-2 rounded-lg text-black w-24 md:w-32 hover:bg-primary hover:text-white">
+                                                    Edit
+                                                </button>
+                                                :
+                                                <button className="bg-primary px-4 text-base py-2 rounded-lg text-white w-24 md:w-32">
+                                                    Connect
+                                                </button>
+                                        }
+
                                     </div>
                                 </div>
                                 <div className="absolute -top-9 right-2">
@@ -100,7 +105,7 @@ const Users = () => {
 
                             <div className="col-span-5 ">
                                 <div className="w-full max-w-full px-4 lg-max:mt-6 mb-4">
-                                    <div className="relative flex flex-col h-full min-w-0 break-words bg-white border shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div className="relative px-0 md:px-4 flex flex-col h-full min-w-0 break-words bg-white border shadow-soft-xl rounded-2xl bg-clip-border">
                                         <div className="p-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
                                             <div className="flex flex-wrap -mx-3">
                                                 <div className="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
@@ -109,10 +114,10 @@ const Users = () => {
                                             </div>
                                         </div>
                                         <div className="flex-auto p-4">
-                                            <p className="leading-normal text-size-sm text-gray-800 mr-0 md:mr-16">{user[0]?.data()?.bio}</p>
+                                            <p className="leading-normal text-size-sm text-gray-800 mr-0 md:mr-16">{user?.bio}</p>
                                             <h6 className="mt-6 mb-0 font-semibold text-black">Skills</h6>
                                             <ul className="mt-4 flex flex-wrap pl-0 mb-0 rounded-lg gap-2">
-                                                {user[0]?.data()?.skills.map((e, index) => (
+                                                {user?.skills?.map((e, index) => (
                                                     <li id={index} className="bg-gray-100 rounded text-sm text-black px-4 py-2">{e}</li>
                                                 ))}
                                             </ul>
@@ -121,7 +126,7 @@ const Users = () => {
                                 </div>
 
                                 <div className="col-span-3 w-full max-w-full px-4 lg-max:mt-6 mb-4">
-                                    <div className="relative flex flex-col h-full min-w-0 break-words bg-white border shadow-soft-xl rounded-2xl bg-clip-border">
+                                    <div className="relative px-0 md:px-4 flex flex-col h-full min-w-0 break-words bg-white border shadow-soft-xl rounded-2xl bg-clip-border">
                                         <div className="p-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
                                             <div className="flex flex-wrap -mx-3">
                                                 <div className="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
@@ -132,14 +137,14 @@ const Users = () => {
                                         <div className="flex-auto p-4 mt-2">
                                             <ul>
                                                 {
-                                                    user[0]?.data()?.experience.map((i, index) => (
+                                                    user?.experience?.map((i, index) => (
                                                         <li id={index} className="grid grid-cols-8">
                                                             <div className="col-span-2 md:col-span-1">
                                                                 <img className="w-14 h-14 rounded-full object-cover" src={i?.brandImg} />
                                                             </div>
                                                             <div className="col-span-6">
-                                                                <h4 className="text-lg font-bold text-black">{i?.brandname}</h4>
-                                                                <div className="flex justify-between text-xs my-1 md:my-2"><p>{i?.workLocation}</p><p>{i?.expYear}</p></div>
+                                                                <h4 className="text-lg font-bold text-black hover:text-primary"><Link href={i?.brandLink}>{i?.brandName}</Link></h4>
+                                                                <div className="flex justify-between text-xs my-1 md:my-2"><p>{i?.workLocation}</p></div>
                                                                 <p className="text-xs">{i?.brandInfo}</p>
                                                             </div>
                                                         </li>
@@ -152,8 +157,8 @@ const Users = () => {
                                 </div>
                             </div>
 
-                            <div className="col-span-3 w-full max-w-full px-4 lg-max:mt-6 mb-4 ">
-                                <div className="relative flex flex-col h-full min-w-0 break-words border shadow-soft-xl rounded-2xl bg-clip-border">
+                            <div className="col-span-3 w-full max-w-full px-4 lg-max:mt-6 mb-4">
+                                <div className="relative px-0 md:px-4 flex flex-col h-full min-w-0 break-words border shadow-soft-xl rounded-2xl bg-clip-border">
                                     <div className="p-4 pb-0 mb-0 border-b-0 rounded-t-2xl">
                                         <h6 className="font-semibold text-black">Connections</h6>
                                     </div>
@@ -196,9 +201,9 @@ const Users = () => {
                             </div>
                         </div>
 
-                        <div className="mb-4">
+                        <div className="mb-8">
                             <div className="max-w-screen-xl flex flex-col h-full min-w-0 break-words bg-white shadow-soft-xl rounded-2xl bg-clip-border">
-                                <div className="pb-0 mb-0 border-b-0 rounded-t-2xl">
+                                <div className="pb-0 mb-2 border-b-0 rounded-t-2xl">
                                     <div className="flex flex-wrap">
                                         <div className="flex items-center w-full max-w-full px-3 shrink-0 md:w-8/12 md:flex-none">
                                             <h6 className="font-semibold text-black">Latest Activity</h6>
@@ -207,8 +212,8 @@ const Users = () => {
                                 </div>
 
                                 <div className="flex overflow-x-scroll gap-4">
-                                    {posts.filter(posts => posts.data().id === userId).map((post, index) => (
-                                        <Post key={index} id={post.id} post={post.data()} userpage />
+                                    {filterposts.map((post, index) => (
+                                        <Post key={index} id={post.id} post={post} userpage />
                                     ))}
                                 </div>
                             </div>

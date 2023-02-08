@@ -2,7 +2,7 @@ import Head from "next/head";
 import Rightbar from "../components/RightBar";
 import Feed from "../components/Feed";
 import { useRouter } from "next/router";
-import { useEffect } from 'react'
+import { useEffect, useState } from 'react'
 import { doc, getDoc, setDoc } from "@firebase/firestore";
 import { db } from "./api/auth/firebase-config";
 import { useSession } from "next-auth/react";
@@ -11,6 +11,7 @@ import { useSession } from "next-auth/react";
 export default function Home() {
   const router = useRouter();
   const { data: session } = useSession();
+  const [loading, setLoading] = useState(true);
 
 
   useEffect(() => {
@@ -19,12 +20,13 @@ export default function Home() {
 
   const getResponse = async () => {
 
-    if (session) {
+    if (session && loading) {
       const docRef = doc(db, "users", session.user.uid);
       const docSnap = await getDoc(docRef);
 
       if (docSnap.exists()) {
         console.log("Document data:", docSnap.data());
+        setLoading(false);
       } else {
         // doc.data() will be undefined in this case
         console.log("No such document!");
@@ -35,7 +37,8 @@ export default function Home() {
           bio: '',
           uid: session.user.uid,
           timestamp: serverTimestamp(),
-          skills: ['AC Tech'],
+          skills: [{ pos: 128, name: 'Not Added' }],
+          workExp: 0,
           // experince: [{
           //   brandImg: '',
           //   brandInfo: '',
@@ -46,7 +49,7 @@ export default function Home() {
           // }]
         }
         setDoc(doc(db, "users", session.user.uid), userData);
-
+        setLoading(false);
       }
     }
 

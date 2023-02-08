@@ -1,10 +1,11 @@
 import Sidebar from "../components/Sidebar";
 import BackNav from "../components/navbar/BackNav";
-import { useRef, useState } from "react";
+import { useEffect, useRef, useState } from "react";
 import { db, storage } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
 import {
     doc,
+    getDoc,
     serverTimestamp,
     setDoc,
     updateDoc,
@@ -26,6 +27,27 @@ const CreatePost = () => {
 
     const [postId, setPostId] = useState(uuid());
 
+    const [loading2, setLoading2] = useState(true);
+
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        (() => getResponse())();
+    });
+
+
+    const getResponse = async () => {
+        if (session && loading2) {
+            const docRef = doc(db, "users", session.user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUser(docSnap);
+                setLoading2(false);
+            } else { setLoading2(false) }
+        }
+    }
+
+
     const sendPost = async () => {
         if (!session) {
             router.push('/login');
@@ -43,9 +65,10 @@ const CreatePost = () => {
                 tag: session.user.tag,
                 text: input,
                 timestamp: serverTimestamp(),
+                tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
             }
 
-            const docRef = await setDoc(doc(db, "posts", `${input.toLowerCase()
+            setDoc(doc(db, "posts", `${input.toLowerCase()
                 .replace(/ /g, '-')
                 .replace(/[^\w-]+/g, '')}&id=${postId}`), docdata);
 
@@ -88,13 +111,51 @@ const CreatePost = () => {
         setInput(input + emoji);
     };
 
+    const [tags, setTags] = useState([
+        {
+            name: 'HVAC',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrator',
+            pos: 'dec',
+        },
+        {
+            name: 'VRV',
+            pos: 'dec',
+        },
+        {
+            name: 'Split AC',
+            pos: 'dec',
+        },
+        {
+            name: 'Ductable',
+            pos: 'dec',
+        },
+        {
+            name: 'Electrician',
+            pos: 'dec',
+        },
+        {
+            name: 'Other',
+            pos: 'dec',
+        },
+
+    ]);
+
+    const handlechange = (index) => {
+        const newUsers = [...tags];
+
+        newUsers[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
+        setTags(newUsers);
+    };
 
     return (
         <>
 
 
             {/* Middle */}
-            <div className="w-full sm:w-600 px-0 md:px-32 md:h-screen">
+            <div className="w-full sm:w-600 px-0 md:px-32 md:h-screen font-[Urbanist]">
 
                 <div className="rounded shadow-lg w-full p-4">
                     {/* // profile */}
@@ -104,13 +165,13 @@ const CreatePost = () => {
                                 <div>
                                     <img
                                         className="inline-block h-12 w-12 rounded-full"
-                                        src={session?.user?.image}
+                                        src={user?.data()?.profileImg}
                                         alt=""
                                     />
                                 </div>
                                 <div className="ml-3">
                                     <p className="text-base leading-6 font-medium text-gray-800 dark:text-white">
-                                        {session?.user?.name}
+                                        {user?.data()?.name}
                                     </p>
                                     <span className="ml-1 text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
                                         @{session?.user?.tag}
@@ -120,7 +181,7 @@ const CreatePost = () => {
                         </Link>
                     </div>
 
-                    <p className="mt-5 mb-2 text-sm font-semibold ml-1 text-gray-600">write post</p>
+                    <p className="mt-5 mb-2 text-sm font-semibold ml-1 text-gray-600">Write post</p>
 
                     <div className="rounded-lg overflow-hidden border w-full bg-gray-100">
                         <div className="grid grid-cols-6 lg:grid-cols-8 px-4 py-2 bg-white">
@@ -202,12 +263,26 @@ const CreatePost = () => {
                             />
                         </div>
                     )}
-                    <p className="mt-5 mb-2 text-sm font-semibold ml-1 text-gray-600">select type</p>
-                    <div className="flex flex-wrap gap-2">
-                        <div onClick={(e) => setSelect('')} className="rounded border px-6 py-2 text-center w-40"><p className="text-xs">HVAC & Insustries</p></div>
-                        <div className="rounded border py-2 text-center w-28"><p className="text-xs">AirCon Brand</p></div>
-                        <div className="rounded border py-2 text-center w-16"><p className="text-xs">Jobs</p></div>
-                    </div>
+                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-600">Post Tag</p>
+                    <ul className='px-1 flex flex-wrap gap-2'>
+                        {tags.map((item, index) => {
+                            return (
+                                <li
+
+                                    onClick={() => {
+                                        handlechange(index);
+                                    }}
+                                    key={index}
+
+                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm`}
+                                >
+                                    {item.name}
+
+                                </li>
+                            );
+                        })}
+
+                    </ul>
 
                     {
 
@@ -215,7 +290,7 @@ const CreatePost = () => {
                     <button
                         disabled={!input && !selectedFile}
                         onClick={sendPost}
-                        className="mt-6 bg-primary w-full text-center hover:bg-green-500 text-white rounded-full py-3 px-4 ml-auto mr-1 disabled:hover:bg-blue-600 disabled:opacity-80 disabled:cursor-default"
+                        className="mt-12 bg-primary w-full text-center hover:bg-green-500 text-white rounded-full py-3 px-4 ml-auto mr-1 disabled:hover:bg-blue-600 disabled:opacity-80 disabled:cursor-default"
                     >
                         {
                             loading ?

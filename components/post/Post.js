@@ -151,7 +151,7 @@ function Post({ id, post, userpage }) {
           </div>
           {/* post time */}
           <span className="hover:underline text-gray-600 text-sm sm:text-[15px]">
-            <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
+            <Moment fromNow>{post?.timestamp?.toDate()}</Moment><span className="ml-1 text-blue-600">{post?.tags[0] && `#${post?.tags[0]}`}</span>
           </span>
         </div>
         {/* 3 dots */}
@@ -188,9 +188,6 @@ function Post({ id, post, userpage }) {
               />
             )
           }
-
-
-
         </div>
 
 
@@ -201,7 +198,6 @@ function Post({ id, post, userpage }) {
         <div
           className={`text-[#6e767d] flex items-center justify-between py-2 gap-6`}
         >
-
 
           {/* Voting */}
 

@@ -9,7 +9,12 @@ module.exports = {
     extend: {
       colors: {
         primary: '#0dd354'
-      }
+      },
+      variants: {
+        extend: {
+          border: ['focus'],
+        }
+      },
     },
   },
   plugins: [],

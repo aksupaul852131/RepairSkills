@@ -1,9 +1,11 @@
-import { Fragment, useEffect } from 'react'
+import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import { Bars3Icon, BellIcon, XMarkIcon } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/react'
+import { doc, getDoc } from '@firebase/firestore'
+import { db } from '../../pages/api/auth/firebase-config'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -19,6 +21,26 @@ function classNames(...classes) {
 export default function Navbar() {
     const router = useRouter();
     const { data: session } = useSession();
+    const [loading, setLoading] = useState(true);
+
+    const [userImg, setUserImg] = useState(session?.user?.image);
+
+    useEffect(() => {
+        (() => getResponse())();
+    });
+
+
+    const getResponse = async () => {
+        if (session && loading) {
+            const docRef = doc(db, "users", session.user.uid);
+            const docSnap = await getDoc(docRef);
+            if (docSnap.exists()) {
+                setUserImg(docSnap.data().profileImg);
+                setLoading(false);
+            } else { setLoading(false) }
+        }
+    }
+
 
 
     return (
@@ -79,8 +101,8 @@ export default function Navbar() {
                                                         <span className="sr-only">Open user menu</span>
                                                         {session?.user?.image ?
                                                             <img
-                                                                className="h-8 w-8 rounded-full"
-                                                                src={session?.user?.image}
+                                                                className="h-8 w-8 object-cover rounded-full"
+                                                                src={userImg}
                                                                 alt=""
                                                             />
                                                             :
@@ -105,7 +127,7 @@ export default function Navbar() {
                                                                 <Link
                                                                     href={{
                                                                         pathname: '/account/profile',
-                                                                        query: { uid: '114598827000894450855' },
+                                                                        query: { uid: `${session?.user?.uid}` },
                                                                     }}
                                                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                                 >
