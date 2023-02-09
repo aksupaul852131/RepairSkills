@@ -31,10 +31,10 @@ export default function Navbar() {
 
 
     const getResponse = async () => {
-        if (session && loading) {
+        if(session && loading) {
             const docRef = doc(db, "users", session.user.uid);
             const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 setUserImg(docSnap.data().profileImg);
                 setLoading(false);
             } else { setLoading(false) }
@@ -65,7 +65,7 @@ export default function Navbar() {
                                         </div>
                                         <div className="flex flex-1 items-center justify-center sm:items-stretch sm:justify-start">
                                             <div className="flex flex-shrink-0 items-center">
-                                                <Link href='/'><span className='text-black font-semibold'>Repair<span className='text-primary'>Skills</span></span></Link>
+                                                <Link href='/'><span className='text-black font-bold'>Repair<span className='text-primary'>Skills</span></span></Link>
                                             </div>
                                             <div className="hidden sm:ml-6 sm:block w-full">
                                                 <div className="flex space-x-4 justify-center">
@@ -165,7 +165,6 @@ export default function Navbar() {
                                                                             </div>
                                                                     }
                                                                 </>
-
                                                             )}
                                                         </Menu.Item>
                                                     </Menu.Items>

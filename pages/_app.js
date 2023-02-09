@@ -19,7 +19,7 @@ export default function App({
       <RecoilRoot>
         <div className="bg-white">
           <Navbar />
-          <div className="mt-14 h-screen">
+          <div className="mt-20 h-screen">
             <div className=" lg:flex lg:flex-row">
               {/* Left */}
               <Sidebar />
