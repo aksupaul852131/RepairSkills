@@ -63,11 +63,11 @@ function Post({ id, post, userpage }) {
   // only for bg color of vote btn
   useEffect(
     () => {
-      if (voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+      if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
         setholdVote(
           1
         )
-      } else if (voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+      } else if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
         setholdVote(
           2
         )
@@ -78,10 +78,10 @@ function Post({ id, post, userpage }) {
 
   //  do things
   const likePost = async () => {
-    if (!session) {
+    if(!session) {
       router.push('/login');
     } else {
-      if (holdVote == 0 || holdVote == 2) {
+      if(holdVote == 0 || holdVote == 2) {
         setholdVote(1);
         await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
         await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
@@ -94,10 +94,10 @@ function Post({ id, post, userpage }) {
 
 
   const downV = async () => {
-    if (!session) {
+    if(!session) {
       router.push('/login');
     } else {
-      if (holdVote == 0 || holdVote == 1) {
+      if(holdVote == 0 || holdVote == 1) {
         setholdVote(2);
         await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
         await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
@@ -117,7 +117,7 @@ function Post({ id, post, userpage }) {
 
   return (
     <div
-      className="py-5 px-4 border-gray-200 border shadow-md rounded-2xl my-3 font-[Urbanist]"
+      className="py-5 px-4 border-b shadow my-3 font-[Urbanist]"
     >
       {/* profile */}
       <div className="w-full flex">
@@ -247,20 +247,20 @@ function Post({ id, post, userpage }) {
           </div>
 
           <div
-            className="flex items-center space-x-1 group bg-gray-100 rounded-full px-2 py-1"
+            className="flex items-center space-x-1 group bg-gray-100 rounded-full px-4 py-1"
             onClick={() => router.push(`/quetion/${id}`)}
           >
-            <div className="icon group-hover:bg-[#1d9bf0] group-hover:bg-opacity-10 flex items-center gap-1">
+            <div className="icon flex items-center gap-1">
               <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                 <path strokeLinecap="round" strokeLinejoin="round" d="M12 20.25c4.97 0 9-3.694 9-8.25s-4.03-8.25-9-8.25S3 7.444 3 12c0 2.104.859 4.023 2.273 5.48.432.447.74 1.04.586 1.641a4.483 4.483 0 01-.923 1.785A5.969 5.969 0 006 21c1.282 0 2.47-.402 3.445-1.087.81.22 1.668.337 2.555.337z" />
               </svg>
 
             </div>
             {comments.length == 0 ?
-              <span className={`text-xs ${userpage ? 'hidden' : 'block'}`}>Add Response</span>
+              <span className={`text-xs ${userpage ? 'hidden' : 'block'}`}>Add</span>
               :
               <span className={`group-hover:text-[#1d9bf0] text-sm ${userpage ? 'hidden' : 'block'}`}>
-                View Response {comments.length}
+                View {comments.length}
               </span>
             }
           </div>

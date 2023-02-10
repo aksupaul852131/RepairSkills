@@ -20,11 +20,11 @@ export default function Home() {
 
   const getResponse = async () => {
 
-    if (session && loading) {
+    if(session && loading) {
       const docRef = doc(db, "users", session.user.uid);
       const docSnap = await getDoc(docRef);
 
-      if (docSnap.exists()) {
+      if(docSnap.exists()) {
         console.log("Document data:", docSnap.data());
         setLoading(false);
       } else {
@@ -65,8 +65,8 @@ export default function Home() {
 
       <div className="w-full sm:w-600 md:h-screen pt-2">
 
-        <div className="px-2 md:px-16 lg:px-48 font-[Urbanist] select-none">
-          <div className="my-2 border px-5 py-4 flex justify-between rounded-2xl"
+        <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
+          <div className="my-2 border px-5 py-4 flex justify-between"
             onClick={() => router.push('/create-post')}
           >
             <div className="flex items-center">
