@@ -26,11 +26,11 @@ const Users = () => {
         const data = urlSearchParams.get('uid');
 
 
-        if (data != 'undefined') {
+        if(data != 'undefined') {
             const docRef = doc(db, "users", data);
             const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 // set user data
                 setUser(docSnap.data());
                 // fetch user post
@@ -91,9 +91,7 @@ const Users = () => {
 
                                     </div>
                                 </div>
-                                <div className="absolute -top-9 right-2">
-                                    <p className="text-sm text-white font-semibold mt-2 mr-1 text-right">0 Followers - 0 Following</p>
-                                </div>
+
                             </div>
 
                         </div>

@@ -9,7 +9,7 @@ import { db } from '../../pages/api/auth/firebase-config'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
-    { name: 'Team', href: '#', current: false },
+    { name: 'Tools', href: '/tools/home', current: false },
     { name: 'Projects', href: '#', current: false },
     { name: 'Calendar', href: '#', current: false },
 ]
