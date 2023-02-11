@@ -154,8 +154,8 @@ export default function Tool() {
                                                     handlechange(index);
                                                 }}
                                                 key={index}
-                                                className={`${e.pos == 'act' && `border-primary border-2`} grid items-center justify-items-center border-2 p-4 md:p-6 rounded-lg`}>
-                                                <img src={e.img} className='w-12' />
+                                                className={`${e.pos == 'act' && `border-primary border-2`} grid items-center justify-items-center border-2 p-4 md:p-6 rounded-lg h-32`}>
+                                                <img src={e.img} className='w-16 h-16 object-contain' />
                                                 <p className="mt-3 text-center">{e.name}</p>
                                             </div>
                                         ))
@@ -165,7 +165,7 @@ export default function Tool() {
 
                         {
                             postType != 1 && (
-                                <div className="fixed bottom-20 md:bottom-0 md:mt-6 md:relative w-full px-3 md:px-32">
+                                <div className="fixed bottom-20 z-50 md:bottom-0 md:mt-6 md:relative w-full px-3 md:px-32">
                                     <button onClick={() => onCheckHandle()} className=" bg-primary w-full text-center hover:bg-green-500 text-white rounded-full py-3 px-4">
                                         Check My Tools
                                     </button>

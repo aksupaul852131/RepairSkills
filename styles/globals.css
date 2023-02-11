@@ -56,6 +56,80 @@
     }
 
 
+    /* article */
+
+    .single-article h1 {
+        @apply text-3xl font-bold py-2;
+    }
+
+    .single-article h2 {
+        @apply text-xl font-bold py-2;
+    }
+
+    .single-article h3 {
+        @apply text-2xl text-black dark:text-white font-bold py-2 mt-8;
+    }
+
+    .single-article pre {
+        @apply text-green-500 bg-gray-100 my-6 p-2;
+    }
+
+    .single-article p {
+        @apply text-black dark:text-white leading-7 tracking-wide mt-1 mb-4;
+    }
+
+    .single-article blockquote {
+        @apply my-4 p-4 border-l-4 bg-gray-100 text-gray-500 border-dashed;
+    }
+
+    .single-article ul {
+        @apply list-decimal mx-8;
+    }
+
+    .single-article ul li {
+        @apply mt-2;
+    }
+
+    .single-article img {
+        @apply mt-6 mb-4 w-full md:w-1/2 mx-auto;
+    }
+
+    /* order */
+
+    .single-article ol {
+        @apply list-decimal mx-8;
+    }
+
+    .single-article ol li {
+        @apply mt-2;
+    }
+
+    .uil-angle-right-b:before {
+        content: '\eb9f';
+    }
+
+    .uil-angle-right-b:before {
+        content: '\eb9f';
+    }
+
+
+      /* article edito */
+
+    .article-editor {
+        @apply font-[Urbanist];
+    }
+
+    .article-editor h2 {
+        @apply font-bold text-2xl tracking-wide;
+    }
+
+     .article-editor p {
+        @apply font-bold text-2xl tracking-wide;
+    }
+
+    .DraftEditor-editorContainer {
+@apply pb-24;
+    }
 }
 
 /* input form */
@@ -64,5 +138,5 @@
 }
 
 .input-feild input {
-    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:ring-0 focus:border-blue-500 block w-full p-2.5;
+    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5;
 }

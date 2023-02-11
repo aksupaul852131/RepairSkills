@@ -41,7 +41,7 @@ export default function AdminHome() {
         } else {
             if(name != '') {
                 const dbRef = doc(db, "tools", 'LhzKS84prEU2TjwHsup1');
-                const imageRef = ref(storage, `Admin/tools/${postId}`);
+                const imageRef = ref(storage, `Admin/tools/${uuid()}`);
 
                 if(selectedFile) {
                     setBtnLoading(true);
