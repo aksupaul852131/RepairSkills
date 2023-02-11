@@ -1,13 +1,13 @@
-import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, } from "@firebase/firestore";
+import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, arrayRemove, deleteDoc, } from "@firebase/firestore";
 import { db } from "../../api/auth/firebase-config";
-import { useEffect, useState } from "react";
+import { useEffect, useState, Fragment, useRef } from "react";
 import LoadingP from "../../../components/utils/Loading";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
-
+import { Disclosure, Menu, Transition } from '@headlessui/react'
 
 export default function Tool() {
     // sesson for user auth
@@ -18,6 +18,12 @@ export default function Tool() {
     const [article, setArticle] = useState();
     const [comentList, setComentList] = useState([]);
     const [dbKey, setDbKey] = useState('acGasRefilling');
+
+    const [user, setUser] = useState();
+
+    function classNames(...classes) {
+        return classes.filter(Boolean).join(' ')
+    }
 
     useEffect(() => {
         (() => getResponse())();
@@ -39,12 +45,21 @@ export default function Tool() {
                     (snapshot) => {
                         setComentList(snapshot.docs);
                     }
-                ),
+                );
+                if (session) {
+                    const docRef = doc(db, "users", session.user.uid);
+                    const docSnap = await getDoc(docRef);
+                    if (docSnap.exists()) {
+                        setUser(docSnap.data());
+                    }
+                }
 
-                    setLoading2(false);
+                setLoading2(false);
                 setLoading(false);
             }
         }
+
+
     }
 
 
@@ -55,9 +70,9 @@ export default function Tool() {
 
     const RepsonseData = {
         comment: comment,
-        username: session?.user.name,
-        userid: session?.user.uid,
-        userImg: session?.user.image,
+        username: user?.name,
+        uid: session?.user.uid,
+        userImg: user?.profileImg,
         timestamp: serverTimestamp(),
         reply: [],
     }
@@ -69,14 +84,44 @@ export default function Tool() {
             // router.push('/login');
         } else {
             if (comment != '') {
-                await setDoc(doc(db, "blogs", article.data().articleId, "comments", `${session?.user.name}-${uuid()}`), RepsonseData);
-                // toast("Comment Added");
-                // setRespondId(uuid());
+                await setDoc(doc(db, "blogs", article.data().articleId, "comments", `${user?.name}-${uuid()}`), RepsonseData);
+                commentbox.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
+                toast.success('Comment Added');
             }
 
         }
     }
 
+    //  const [replyId, setReplyId] = useState('');
+
+    const [reply, setReply] = useState('');
+    const [replyId, setReplyId] = useState('');
+    const commentbox = useRef(null);
+
+    const sendReply = async (e) => {
+        console.log('sssss', replyId)
+        e.preventDefault();
+        if (!session) {
+            // router.push('/login');
+        } else {
+            if (reply != '') {
+                const dbRef = doc(db, "blogs", article.data().articleId, "comments", replyId);
+                await updateDoc(dbRef, {
+                    reply: arrayUnion(
+                        {
+                            name: user?.name,
+                            text: reply,
+                            uid: session?.user.uid,
+                        }
+                    )
+                });
+                toast.success('Reply Added');
+            } else {
+                toast.error('Please Write Something')
+            }
+
+        }
+    }
 
 
     return (
@@ -88,15 +133,15 @@ export default function Tool() {
 
                 <div className="pt-6 px-3 w-full font-[Urbanist] select-none">
                     <article>
-                        <h1 className="font-bold text-2xl">{article.data().title}</h1>
-                        <p className="mt-2 text-secondry">By Author <Link href='' className="text-primary">{article.data().username} </Link>
+                        <h1 className="font-bold text-2xl dark:text-white">{article.data().title}</h1>
+                        <p className="mt-2 text-secondry dark:text-gray-100">By Author <Link href='' className="text-primary">{article.data().username} </Link>
                             - <Moment fromNow>{article?.data()?.timestamp?.toDate()}</Moment>
                         </p>
-                        <div className="mt-4 flex justify-between">
+                        <div className="mt-4 flex justify-between text-black dark:text-white">
                             <div className="flex gap-2">
                                 <button className="border px-2 py-1 rounded flex gap-1 items-center">
                                     <svg
-                                        class="w-5 h-5 text-black fill-current"
+                                        class="w-5 h-5 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 24 24">
                                         <path
@@ -108,7 +153,7 @@ export default function Tool() {
 
                                 <button className="border px-2 py-1 rounded flex gap-1 items-center">
                                     <svg
-                                        class="w-6 h-6 text-black fill-current"
+                                        class="w-6 h-6 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
                                         viewBox="0 0 448 512">
                                         <path
@@ -138,7 +183,7 @@ export default function Tool() {
                         </div>
 
                     </article>
-
+                    <Toaster />
                     <section className="pb-24">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
@@ -171,82 +216,105 @@ export default function Tool() {
                                 Post comment
                             </button>
                         </form>
+                        <div ref={commentbox}></div>
                         {
                             comentList?.map((e) => (
 
-                                <article className="mb-2  text-base bg-white rounded-lg dark:bg-gray-900">
-                                    <div className='px-3 py-3 bg-gray-200 rounded'>
+                                <article className="relative mb-2  text-base rounded-lg">
+                                    <div className='px-3 py-3 bg-gray-200 dark:bg-gray-800 rounded'>
                                         <footer className="flex justify-between items-center mb-2">
-                                            <div className="flex items-center">
-                                                <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                                                    <img
-                                                        className="mr-2 w-6 h-6 rounded-full"
-                                                        src={e?.data().userImg}
-                                                        alt="Michael Gough"
-                                                    />
-                                                    {e?.data().username}
-                                                </p>
+                                            <div className="inline-flex items-start">
+                                                <Link
+                                                    href={{
+                                                        pathname: '/account/profile',
+                                                        query: { uid: `${e?.data()?.uid}` },
+                                                    }}
+                                                >
+                                                    <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white hover:underline">
+                                                        <img
+                                                            className="mr-2 w-6 h-6 rounded-full"
+                                                            src={e?.data().userImg}
+                                                            alt="Michael Gough"
+                                                        />
+                                                        {e?.data().username}
+                                                    </p>
+                                                </Link>
                                                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                                                    {/* <time pubdate="" dateTime="2022-02-08" title="February 8th, 2022">
-                                                    Feb. 8, 2022
-                                                </time> */}
                                                     <Moment fromNow>{e?.data()?.timestamp?.toDate()}</Moment>
                                                 </p>
                                             </div>
-                                            <button
-                                                id="dropdownComment1Button"
-                                                data-dropdown-toggle="dropdownComment1"
-                                                className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                                type="button"
-                                            >
-                                                <svg
-                                                    className="w-5 h-5"
-                                                    aria-hidden="true"
-                                                    fill="currentColor"
-                                                    viewBox="0 0 20 20"
-                                                    xmlns="http://www.w3.org/2000/svg"
-                                                >
-                                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                                </svg>
-                                                <span className="sr-only">Comment settings</span>
-                                            </button>
+
                                             {/* Dropdown menu */}
-                                            <div
-                                                id="dropdownComment1"
-                                                className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                            >
-                                                <ul
-                                                    className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                                    aria-labelledby="dropdownMenuIconHorizontalButton"
+                                            <Menu as="div" className="relative ml-3">
+                                                <div onClick={() => setReplyId(`${e?.id}`)}>
+                                                    <Menu.Button className="flex rounded-2xl text-sm bg-white p-2">
+                                                        <span className="sr-only">Comment Setting</span>
+                                                        <svg
+                                                            className="w-5 h-5"
+                                                            aria-hidden="true"
+                                                            fill="currentColor"
+                                                            viewBox="0 0 20 20"
+                                                            xmlns="http://www.w3.org/2000/svg"
+                                                        >
+                                                            <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                        </svg>
+                                                    </Menu.Button>
+                                                </div>
+                                                <Transition
+                                                    as={Fragment}
+                                                    enter="transition ease-out duration-100"
+                                                    enterFrom="transform opacity-0 scale-95"
+                                                    enterTo="transform opacity-100 scale-100"
+                                                    leave="transition ease-in duration-75"
+                                                    leaveFrom="transform opacity-100 scale-100"
+                                                    leaveTo="transform opacity-0 scale-95"
                                                 >
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Edit
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Remove
-                                                        </a>
-                                                    </li>
-                                                    <li>
-                                                        <a
-                                                            href="#"
-                                                            className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                                        >
-                                                            Report
-                                                        </a>
-                                                    </li>
-                                                </ul>
-                                            </div>
+                                                    <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+                                                        {e?.data().uid != session?.user?.uid && (
+                                                            <>
+                                                                <Menu.Item>
+                                                                    <button
+                                                                        className='block px-4 py-2 text-sm text-gray-700'
+                                                                    >
+                                                                        Report
+                                                                    </button>
+                                                                </Menu.Item>
+                                                                <Menu.Item>
+                                                                    <Link
+                                                                        href={{
+                                                                            pathname: '/account/profile',
+                                                                            query: { uid: `${e?.data()?.uid}` },
+                                                                        }}
+                                                                        className='block px-4 py-2 text-sm text-gray-700'
+                                                                    >
+                                                                        View Profile
+                                                                    </Link>
+                                                                </Menu.Item>
+                                                            </>
+                                                        )}
+
+                                                        {e?.data().uid == session?.user.uid && (
+                                                            <Menu.Item>
+                                                                <button
+                                                                    onClick={async () => {
+                                                                        await deleteDoc(doc(db, "blogs", article.data().articleId, "comments", replyId)
+                                                                        );
+                                                                        toast.error('comment deleted');
+                                                                    }}
+                                                                    className='block px-4 py-2 text-sm text-red-600'
+                                                                >
+                                                                    Delete
+                                                                </button>
+                                                            </Menu.Item>
+                                                        )}
+
+                                                    </Menu.Items>
+                                                </Transition>
+                                            </Menu>
+
                                         </footer>
-                                        <p>
+                                        <p className="text-black dark:text-white">
                                             {e?.data().comment}
                                         </p>
                                         <div className="flex items-center mt-4 space-x-4">
@@ -273,103 +341,156 @@ export default function Tool() {
                                             </button>
                                             <div className="input-feild">
                                                 <input
-                                                    // value={name}
-                                                    // onChange={(e) => setName(e.target.value)}
-                                                    type="text" id="first_name" placeholder="John" />
+                                                    onClick={() => setReplyId(`${e?.id}`)}
+                                                    onChange={(e) =>
+                                                        setReply(e.target.value)
+                                                    }
+                                                    type="text" id="first_name" placeholder="write here..." />
                                             </div>
-                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
-                                            </svg>
+                                            <button
+                                                onClick={sendReply}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:stroke-white">
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 12L3.269 3.126A59.768 59.768 0 0121.485 12 59.77 59.77 0 013.27 20.876L5.999 12zm0 0h7.5" />
+                                                </svg>
+                                            </button>
 
                                         </div>
                                     </div>
 
                                     {/* reply */}
                                     {
-                                        // e?.data()?.reply?.map((r) => (
-                                        //     <div className="p-6 mb-6 ml-6 lg:ml-12 text-base bg-white border-l rounded-lg dark:bg-gray-900">
-                                        //         <footer className="flex justify-between items-center mb-2">
-                                        //             <div className="">
-                                        //                 <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white">
-                                        //                     {r.name} <i className="text-secondry mx-2">replying to</i> <span className="text-primary"> {e.data().username}</span>
-                                        //                 </p>
-                                        //                 <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        //                     <time pubdate="" dateTime="2022-02-12" title="February 12th, 2022">
-                                        //                         <Moment fromNow>{r?.timestamp?.toDate()}</Moment>
-                                        //                     </time>
-                                        //                 </p>
-                                        //             </div>
-                                        //             <button
-                                        //                 id="dropdownComment2Button"
-                                        //                 data-dropdown-toggle="dropdownComment2"
-                                        //                 className="inline-flex items-center p-2 text-sm font-medium text-center text-gray-400 bg-white rounded-lg hover:bg-gray-100 focus:ring-4 focus:outline-none focus:ring-gray-50 dark:bg-gray-900 dark:hover:bg-gray-700 dark:focus:ring-gray-600"
-                                        //                 type="button"
-                                        //             >
-                                        //                 <svg
-                                        //                     className="w-5 h-5"
-                                        //                     aria-hidden="true"
-                                        //                     fill="currentColor"
-                                        //                     viewBox="0 0 20 20"
-                                        //                     xmlns="http://www.w3.org/2000/svg"
-                                        //                 >
-                                        //                     <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
-                                        //                 </svg>
-                                        //                 <span className="sr-only">Comment settings</span>
-                                        //             </button>
-                                        //             {/* Dropdown menu */}
-                                        //             <div
-                                        //                 id="dropdownComment2"
-                                        //                 className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
-                                        //             >
-                                        //                 <ul
-                                        //                     className="py-1 text-sm text-gray-700 dark:text-gray-200"
-                                        //                     aria-labelledby="dropdownMenuIconHorizontalButton"
-                                        //                 >
-                                        //                     <li>
-                                        //                         <a
-                                        //                             href="#"
-                                        //                             className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        //                         >
-                                        //                             Edit
-                                        //                         </a>
-                                        //                     </li>
-                                        //                     <li>
-                                        //                         <a
-                                        //                             href="#"
-                                        //                             className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        //                         >
-                                        //                             Remove
-                                        //                         </a>
-                                        //                     </li>
-                                        //                     <li>
-                                        //                         <a
-                                        //                             href="#"
-                                        //                             className="block py-2 px-4 hover:bg-gray-100 dark:hover:bg-gray-600 dark:hover:text-white"
-                                        //                         >
-                                        //                             Report
-                                        //                         </a>
-                                        //                     </li>
-                                        //                 </ul>
-                                        //             </div>
-                                        //         </footer>
-                                        //         <p> {r.text}</p>
-                                        //         <div className="flex items-center mt-4 space-x-4">
+                                        e?.data()?.reply?.map((r) => (
+                                            <div className="p-2 ml-6 lg:ml-12 text-base bg-white border-l rounded-bl-sm dark:bg-gray-900">
+                                                <footer className="flex justify-between items-center mb-2">
+                                                    <div className="">
 
-                                        //         </div>
-                                        //     </div>
-                                        // ))
+                                                        <p className="inline-flex mr-3 text-sm text-gray-900 dark:text-white">
+                                                            <Link
+                                                                href={{
+                                                                    pathname: '/account/profile',
+                                                                    query: { uid: `${r.uid}` },
+                                                                }}
+                                                                className='hover:underline'
+                                                            >
+                                                                {r.name}</Link>
+                                                            <i className="text-secondry mx-2 dark:text-gray-400">replying to</i> <span className="text-primary">
+                                                                <Link
+                                                                    href={{
+                                                                        pathname: '/account/profile',
+                                                                        query: { uid: `${e?.data()?.uid}` },
+                                                                    }}
+                                                                    className='hover:underline'
+                                                                >
+                                                                    {e.data().username}</Link>
+                                                            </span>
+                                                        </p>
+                                                    </div>
+
+                                                    <Menu as="div" className="relative ml-3">
+                                                        <div
+                                                            onClick={() => setReplyId(`${e?.id}`)}
+                                                        >
+                                                            <Menu.Button className="flex rounded-2xl text-sm p-2">
+                                                                <span className="sr-only">Comment Setting</span>
+                                                                <svg
+                                                                    className="w-5 h-5 dark:fill-white"
+                                                                    aria-hidden="true"
+                                                                    fill="currentColor"
+                                                                    viewBox="0 0 20 20"
+                                                                    xmlns="http://www.w3.org/2000/svg"
+                                                                >
+                                                                    <path d="M6 10a2 2 0 11-4 0 2 2 0 014 0zM12 10a2 2 0 11-4 0 2 2 0 014 0zM16 12a2 2 0 100-4 2 2 0 000 4z"></path>
+                                                                </svg>
+                                                            </Menu.Button>
+                                                        </div>
+                                                        <Transition
+                                                            as={Fragment}
+                                                            enter="transition ease-out duration-100"
+                                                            enterFrom="transform opacity-0 scale-95"
+                                                            enterTo="transform opacity-100 scale-100"
+                                                            leave="transition ease-in duration-75"
+                                                            leaveFrom="transform opacity-100 scale-100"
+                                                            leaveTo="transform opacity-0 scale-95"
+                                                        >
+                                                            <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
+
+                                                                {r?.uid != session?.user?.uid && (
+                                                                    <>
+                                                                        <Menu.Item>
+                                                                            <button
+                                                                                className='block px-4 py-2 text-sm text-gray-700'
+                                                                            >
+                                                                                Report
+                                                                            </button>
+                                                                        </Menu.Item>
+                                                                        <Menu.Item>
+                                                                            <button
+                                                                                className='block px-4 py-2 text-sm text-gray-700'
+                                                                            >
+                                                                                View Profile
+                                                                            </button>
+                                                                        </Menu.Item>
+                                                                    </>
+                                                                )}
+
+                                                                {r?.uid == session?.user?.uid && (
+                                                                    <Menu.Item>
+                                                                        <button
+                                                                            onClick={async () => {
+                                                                                const dbRef = doc(db, "blogs", article.data().articleId, "comments", replyId);
+                                                                                await updateDoc(dbRef, {
+                                                                                    reply: arrayRemove(
+                                                                                        {
+                                                                                            name: r.name,
+                                                                                            text: r.text,
+                                                                                            uid: session?.user.uid,
+                                                                                        }
+                                                                                    )
+                                                                                });
+
+                                                                            }}
+
+                                                                            className='block px-4 py-2 text-sm text-red-600'
+                                                                        >
+                                                                            Delete
+                                                                        </button>
+                                                                    </Menu.Item>
+                                                                )}
+
+                                                            </Menu.Items>
+                                                        </Transition>
+                                                    </Menu>
+
+                                                    {/* Dropdown menu */}
+                                                    <div
+                                                        id="dropdownComment2"
+                                                        className="hidden z-10 w-36 bg-white rounded divide-y divide-gray-100 shadow dark:bg-gray-700 dark:divide-gray-600"
+                                                    >
+
+                                                    </div>
+                                                </footer>
+                                                <p className="text-black dark:text-white"> {r.text}</p>
+                                                <div className="flex items-center mt-4 space-x-4">
+
+                                                </div>
+                                            </div>
+                                        ))
                                     }
                                 </article>
                             ))
                         }
 
-
-
-
+                        <Toaster
+                            position="bottom-center"
+                            reverseOrder={false}
+                        />
 
                     </section>
+                    {/* related post */}
+                    <section>
 
-
+                    </section>
                 </div>
             }
 

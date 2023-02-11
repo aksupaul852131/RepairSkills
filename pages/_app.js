@@ -20,7 +20,7 @@ export default function App({
         <div className="bg-white">
           <Navbar />
           <div className="h-screen">
-            <div className="mt-16 lg:flex lg:flex-row">
+            <div className="mt-16 lg:flex lg:flex-row dark:bg-gray-900">
               {/* Left */}
               <Sidebar />
               <Component {...pageProps} />
