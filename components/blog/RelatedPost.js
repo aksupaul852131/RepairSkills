@@ -35,7 +35,7 @@ export default function RelatedPost() {
                         >
                             <li className="mb-3 dark:bg-gray-800 py-4 px-2 rounded">
                                 <div className="flex gap-4 w-full">
-                                    <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg} />
+                                    <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
                                     <div className="w-full">
                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">{e?.data()?.title}</h2>
                                         <h4 className="mt-3 text-secondry  dark:text-gray-400 text-sm">

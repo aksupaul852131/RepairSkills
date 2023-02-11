@@ -27,7 +27,7 @@ export default function BlogHome() {
             <div className="font-[Urbanist] h-screen">
 
 
-                <div className="pt-3">
+                <div className="pt-3 pb-24">
                     <div className="px-3">
                         <img className="w-full rounded-lg object-cover" src='https://assets.justinmind.com/wp-content/uploads/2022/06/website-template-justinmind-400x250.png' />
                     </div>
@@ -41,7 +41,7 @@ export default function BlogHome() {
                                         query: { key: `${e?.data()?.articleId}` },
                                     }}
                                 >
-                                    <li className="mb-3 dark:bg-gray-800 py-4 px-2 rounded">
+                                    <li className="mb-3 bg-gray-100 dark:bg-gray-800 py-4 px-2 rounded">
                                         <div className="flex gap-4 w-full">
                                             <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
                                             <div className="w-full">
