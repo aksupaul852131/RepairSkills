@@ -7,7 +7,7 @@ import Moment from "react-moment";
 
 export default function BlogHome() {
 
-    const [articleList, setArticleList] = useState();
+    const [articleList, setArticleList] = useState([]);
 
 
     useEffect(
