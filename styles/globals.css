@@ -57,7 +57,9 @@
 
 
     /* article */
-
+.single-article {
+@apply dark:text-white;
+}
     .single-article h1 {
         @apply text-3xl font-bold py-2;
     }
@@ -67,7 +69,7 @@
     }
 
     .single-article h3 {
-        @apply text-2xl text-black dark:text-white font-bold py-2 mt-8;
+        @apply text-2xl text-black font-bold py-2 mt-8;
     }
 
     .single-article pre {
@@ -75,7 +77,7 @@
     }
 
     .single-article p {
-        @apply text-black dark:text-white leading-7 tracking-wide mt-1 mb-4;
+        @apply text-black leading-7 dark:text-gray-100 tracking-wide mt-1 mb-4;
     }
 
     .single-article blockquote {
@@ -116,27 +118,32 @@
       /* article edito */
 
     .article-editor {
-        @apply font-[Urbanist];
+        @apply font-[Urbanist] dark:text-black;
     }
 
     .article-editor h2 {
-        @apply font-bold text-2xl tracking-wide;
+        @apply font-bold text-2xl tracking-wide dark:text-white;
+    }
+
+     .article-editor h3 {
+        @apply font-semibold text-lg tracking-wide dark:text-white;
     }
 
      .article-editor p {
-        @apply font-bold text-2xl tracking-wide;
+        @apply font-bold text-2xl tracking-wide dark:text-white;
     }
 
-    .DraftEditor-editorContainer {
-@apply pb-24;
+    .editorAK1 {
+@apply pb-24 dark:text-white p-2;
     }
-}
 
-/* input form */
+  /* input form */
 .input-feild label {
-    @apply block mb-2 text-sm font-medium text-gray-900;
+    @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;
 }
 
 .input-feild input {
-    @apply bg-gray-50 border border-gray-300 text-gray-900 text-sm rounded-lg focus:border-blue-500 block w-full p-2.5;
+    @apply bg-gray-50 border border-gray-300 text-gray-900 dark:text-white font-bold text-sm rounded-lg focus:border-blue-500 block w-full p-2.5 dark:bg-gray-800;
 }
+}
+

@@ -9,9 +9,9 @@ import {
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
 import { signOut, useSession } from "next-auth/react";
-import Picker from '@emoji-mart/react'
+import toast, { Toaster } from 'react-hot-toast';
 import uuid from 'react-uuid';
-import Link from "next/link";
+
 
 import ArticleEditor from '../../components/utils/article-editor'
 import { db, storage } from "../api/auth/firebase-config";
@@ -53,45 +53,49 @@ export default function CreatePost() {
         if(!session) {
             router.push('/login');
         } else {
-            if(loading) return;
-            setLoading(true);
+            if(title.length > 3) {
+                if(!loading) {
+                    setLoading(true);
+                    const docdata = {
+                        uid: session.user.uid,
+                        title: title,
+                        articleId: `${title.toLowerCase()
+                            .replace(/[?]/g, '-').replace(/ /g, '-')
+                            .replace(/[^\w-]+/g, '')}&id=${articleId}`,
+                        username: user?.data()?.name,
+                        userImg: user?.data()?.profileImg,
+                        body: article,
+                        timestamp: serverTimestamp(),
+                        tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
+                        postImg: '',
+                    }
 
-            const docdata = {
-                id: session.user.uid,
-                title: title,
-                articleId: `${title.toLowerCase()
-                    .replace(/[?]/g, '-').replace(/ /g, '-')
-                    .replace(/[^\w-]+/g, '')}&id=${articleId}`,
-                username: user?.data()?.name,
-                userImg: user?.data()?.profileImg,
-                body: article,
-                timestamp: serverTimestamp(),
-                tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
-                postImg: '',
-            }
-
-            setDoc(doc(db, "blogs", `${title.toLowerCase()
-                .replace(/ /g, '-').replace(/[?]/g, '-')
-                .replace(/[^\w-]+/g, '')}&id=${articleId}`), docdata);
-
-            const imageRef = ref(storage, `blogs/article/${session.user.name}/${articleId}/image`);
-
-            if(selectedFile) {
-                await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-                    const downloadURL = await getDownloadURL(imageRef);
-                    await updateDoc(doc(db, "blogs", `${title.toLowerCase()
+                    setDoc(doc(db, "blogs", `${title.toLowerCase()
                         .replace(/ /g, '-').replace(/[?]/g, '-')
-                        .replace(/[^\w-]+/g, '')}&id=${articleId}`), {
-                        postImg: downloadURL,
-                    });
-                });
+                        .replace(/[^\w-]+/g, '')}&id=${articleId}`), docdata);
+
+                    const imageRef = ref(storage, `blogs/article/${session.user.name}/${articleId}/image`);
+
+                    if(selectedFile) {
+                        await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+                            const downloadURL = await getDownloadURL(imageRef);
+                            await updateDoc(doc(db, "blogs", `${title.toLowerCase()
+                                .replace(/ /g, '-').replace(/[?]/g, '-')
+                                .replace(/[^\w-]+/g, '')}&id=${articleId}`), {
+                                postImg: downloadURL,
+                            });
+                        });
+                    }
+
+                    setSelectedFile(null);
+                    setLoading(false);
+                    router.push('/blogs/home');
+                } else {
+                    toast.loading('uploading please wait...');
+                }
+            } else {
+                toast.error('title must be unique');
             }
-
-
-
-            setSelectedFile(null);
-            setLoading(false);
-            router.push('/');
         }
     };
 
@@ -148,7 +152,7 @@ export default function CreatePost() {
 
     return (
         <>
-            <div className="font-[Urbanist] px-3 pt-8 pb-24">
+            <div className="font-[Urbanist] px-3 pt-2 pb-24">
                 <div className="input-feild">
                     <label>Article Title</label>
                     <input
@@ -158,25 +162,26 @@ export default function CreatePost() {
                 </div>
 
                 <div className="mt-6">
-                    <label>Add Post Image</label>
-                    <div className="mt-3 bg-gray-100 w-full h-48 border border-gray-500 border-dashed rounded-lg grid items-center justify-items-center">
-                        {selectedFile ?
-                            <div className="relative z-0">
-                                <div
-                                    className="mt-2 ml-2 absolute w-8 h-8 bg-white hover:bg-primary bg-opacity-90 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer"
-                                    onClick={() => setSelectedFile(null)}
-                                >
-                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                        <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
-                                    </svg>
-                                </div>
-                                <img
-                                    src={selectedFile}
-                                    alt=""
-                                    className="rounded-lg max-h-48 object-contain"
-                                />
+                    <label className="dark:text-white">Add Post Image</label>
+
+                    {selectedFile ?
+                        <div className="mt-3 relative z-0 w-full">
+                            <div
+                                className="mt-2 ml-2 absolute w-8 h-8 bg-white hover:bg-primary bg-opacity-90 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer"
+                                onClick={() => setSelectedFile(null)}
+                            >
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                    <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
+                                </svg>
                             </div>
-                            :
+                            <img
+                                src={selectedFile}
+                                alt=""
+                                className="rounded-lg max-h-48 object-cover w-full"
+                            />
+                        </div>
+                        :
+                        <div className="mt-3 bg-gray-100 w-full h-48 border border-gray-500 border-dashed rounded-lg grid items-center justify-items-center dark:bg-gray-800">
                             <div className="grid justify-items-center">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-24 h-24 stroke-gray-600">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 15.75l5.159-5.159a2.25 2.25 0 013.182 0l5.159 5.159m-1.5-1.5l1.409-1.409a2.25 2.25 0 013.182 0l2.909 2.909m-18 3.75h16.5a1.5 1.5 0 001.5-1.5V6a1.5 1.5 0 00-1.5-1.5H3.75A1.5 1.5 0 002.25 6v12a1.5 1.5 0 001.5 1.5zm10.5-11.25h.008v.008h-.008V8.25zm.375 0a.375.375 0 11-.75 0 .375.375 0 01.75 0z" />
@@ -193,8 +198,9 @@ export default function CreatePost() {
                                     />
                                 </button>
                             </div>
-                        }
-                    </div>
+                        </div>
+                    }
+
                 </div>
                 <div className="border mt-6 article-editor">
                     <ArticleEditor onChangeResponse={setArticle} />
@@ -210,7 +216,7 @@ export default function CreatePost() {
                                 }}
                                 key={index}
 
-                                className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm`}
+                                className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm dark:text-white`}
                             >
                                 {item.name}
 
@@ -237,7 +243,11 @@ export default function CreatePost() {
                             : <span className="font-bold text-sm px-4">publish</span>
                     }
                 </button>
-                <p className="mt-2 text-center text-sm">This Post Publish By <span className="text-primary">{user?.data()?.name}</span></p>
+                <p className="mt-2 text-center text-sm dark:text-white">This Post Publish By <span className="text-primary">{user?.data()?.name}</span></p>
+                <Toaster
+                    position="bottom-center"
+                    reverseOrder={false}
+                />
             </div>
 
 

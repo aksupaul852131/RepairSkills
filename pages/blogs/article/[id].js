@@ -8,6 +8,7 @@ import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
 import { Disclosure, Menu, Transition } from '@headlessui/react'
+import RelatedPost from "../../../components/blog/RelatedPost";
 
 export default function Tool() {
     // sesson for user auth
@@ -18,12 +19,9 @@ export default function Tool() {
     const [article, setArticle] = useState();
     const [comentList, setComentList] = useState([]);
     const [dbKey, setDbKey] = useState('acGasRefilling');
-
     const [user, setUser] = useState();
 
-    function classNames(...classes) {
-        return classes.filter(Boolean).join(' ')
-    }
+
 
     useEffect(() => {
         (() => getResponse())();
@@ -32,6 +30,7 @@ export default function Tool() {
     const getResponse = async () => {
         const urlSearchParams = new URLSearchParams(window.location.search)
         setDbKey(urlSearchParams.get('key'));
+
 
         if (loading2) {
             const docRef = doc(db, "blogs", dbKey);
@@ -134,12 +133,21 @@ export default function Tool() {
                 <div className="pt-6 px-3 w-full font-[Urbanist] select-none">
                     <article>
                         <h1 className="font-bold text-2xl dark:text-white">{article.data().title}</h1>
-                        <p className="mt-2 text-secondry dark:text-gray-100">By Author <Link href='' className="text-primary">{article.data().username} </Link>
-                            - <Moment fromNow>{article?.data()?.timestamp?.toDate()}</Moment>
+                        <p className="mt-2 text-secondry dark:text-gray-100">By <Link
+                            href={{
+                                pathname: '/account/profile',
+                                query: { uid: `${article?.data()?.uid}` },
+                            }}
+                            className="text-primary hover:underline">{article.data().username} </Link>
+                            at <Moment fromNow>{article?.data()?.timestamp?.toDate()}</Moment>
                         </p>
                         <div className="mt-4 flex justify-between text-black dark:text-white">
                             <div className="flex gap-2">
-                                <button className="border px-2 py-1 rounded flex gap-1 items-center">
+                                <Link
+                                    href={
+                                        `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`
+                                    }
+                                    className="border px-2 py-1 rounded flex gap-1 items-center">
                                     <svg
                                         class="w-5 h-5 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -149,9 +157,13 @@ export default function Tool() {
                                         />
                                     </svg>
                                     <span className="text-xs">share</span>
-                                </button>
+                                </Link>
 
-                                <button className="border px-2 py-1 rounded flex gap-1 items-center">
+                                <Link
+                                    href={
+                                        `whatsapp://send?text=${window.location.href}`
+                                    }
+                                    className="border px-2 py-1 rounded flex gap-1 items-center">
                                     <svg
                                         class="w-6 h-6 fill-current"
                                         xmlns="http://www.w3.org/2000/svg"
@@ -161,9 +173,19 @@ export default function Tool() {
                                         ></path>
                                     </svg>
                                     <span className="text-xs">Whatsapp</span>
-                                </button>
+                                </Link>
 
-                                <button className="border px-2 py-1 rounded flex gap-1 items-center">
+                                <button
+                                    onClick={async (e) => {
+                                        try {
+                                            await navigator.clipboard.writeText('copyMe');
+                                            toast.success('link Copied')
+                                        }
+                                        catch (err) {
+                                        }
+
+                                    }}
+                                    className="border px-2 py-1 rounded flex gap-1 items-center">
                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                         <path strokeLinecap="round" strokeLinejoin="round" d="M8.25 7.5V6.108c0-1.135.845-2.098 1.976-2.192.373-.03.748-.057 1.123-.08M15.75 18H18a2.25 2.25 0 002.25-2.25V6.108c0-1.135-.845-2.098-1.976-2.192a48.424 48.424 0 00-1.123-.08M15.75 18.75v-1.875a3.375 3.375 0 00-3.375-3.375h-1.5a1.125 1.125 0 01-1.125-1.125v-1.5A3.375 3.375 0 006.375 7.5H5.25m11.9-3.664A2.251 2.251 0 0015 2.25h-1.5a2.251 2.251 0 00-2.15 1.586m5.8 0c.065.21.1.433.1.664v.75h-6V4.5c0-.231.035-.454.1-.664M6.75 7.5H4.875c-.621 0-1.125.504-1.125 1.125v12c0 .621.504 1.125 1.125 1.125h9.75c.621 0 1.125-.504 1.125-1.125V16.5a9 9 0 00-9-9z" />
                                     </svg>
@@ -178,12 +200,12 @@ export default function Tool() {
 
 
                         <div className="single-article pb-24">
-                            <img src={article.data().postImg} className='max-h-64 object-cover' />
+                            <img src={article.data().postImg} className='max-h-64 object-cover rounded-md' />
                             <div dangerouslySetInnerHTML={{ __html: article.data().body }} />
                         </div>
 
                     </article>
-                    <Toaster />
+
                     <section className="pb-24">
                         <div className="flex justify-between items-center mb-6">
                             <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
@@ -193,14 +215,14 @@ export default function Tool() {
 
 
                         <form className="mb-6">
-                            <div className="py-2 px-4 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
+                            <div className="py-2 px-2 mb-4 bg-white rounded-lg rounded-t-lg border border-gray-200 dark:bg-gray-800 dark:border-gray-700">
                                 <label htmlFor="comment" className="sr-only">
                                     Your comment
                                 </label>
                                 <textarea
                                     id="comment"
-                                    rows={6}
-                                    className="px-0 w-full text-sm text-gray-900 border-0 focus:ring-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
+                                    rows={5}
+                                    className="p-2 w-full text-sm text-gray-900 border-0 dark:text-white dark:placeholder-gray-400 dark:bg-gray-800"
                                     placeholder="Write a comment..."
                                     required=""
                                     defaultValue={""}
@@ -488,8 +510,9 @@ export default function Tool() {
 
                     </section>
                     {/* related post */}
-                    <section>
-
+                    <section className="pb-24">
+                        <h2 className="text-black dark:text-white">Related Updates</h2>
+                        <RelatedPost />
                     </section>
                 </div>
             }

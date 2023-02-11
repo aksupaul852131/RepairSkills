@@ -25,7 +25,7 @@ function Feed() {
 
 
   return (
-    <div className="pb-72">
+    <div className="pb-24">
       {posts.map((post) => (
         <Post key={post.id} id={post.id} post={post.data()} />
       ))}

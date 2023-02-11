@@ -23,20 +23,20 @@ const RightBar = () => {
                         </svg>
                     </div>
                     <input
-                        className="w-full bg-white dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-gray-100 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
+                        className="w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-dim-400 text-gray-100 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
                         placeholder="Search Twitter"
                     />
                 </div>
                 {/* /Search */}
 
                 {/* Groups Joined */}
-                <div className="bg-white dark:bg-dim-700 rounded-2xl mt-6 mx-2 border border-gray-300 py-1">
-                    <h3 className="text-gray-900 dark:text-white text-md font-bold py-3 border-b border-gray-200 dark:border-dim-200 px-4">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl mt-6 mx-2 border border-gray-300 py-1">
+                    <h3 className="text-gray-900 dark:text-white text-md font-bold py-3 border-b border-gray-200 dark:border-gray-600 px-4">
                         Groups Joined
                     </h3>
                     {/* Group */}
                     <Link href='#'>
-                        <div className=" text-sm font-normal mx-5 py-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                        <div className=" text-sm font-normal mx-5 py-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                             <div className="flex items-center">
                                 <img className="w-14 md:w-12 rounded-md mr-3" src='https://images.unsplash.com/photo-1633332755192-727a05c4013d?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=880&q=80' />
                                 <div>
@@ -50,7 +50,7 @@ const RightBar = () => {
                     </Link>
                     {/* Group */}
                     <Link href='#'>
-                        <div className=" text-sm font-normal mx-5 py-3 border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                        <div className=" text-sm font-normal mx-5 py-3 border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                             <div className="flex items-center">
                                 <img className="w-14 h-14 md:h-12 md:w-12 rounded-md mr-3" src='https://i.pinimg.com/originals/7b/2a/86/7b2a86993b5bb7eafa019815af8a2d0c.png' />
                                 <div>
@@ -70,12 +70,12 @@ const RightBar = () => {
                 {/* /What’s happening */}
 
                 {/* What’s happening */}
-                <div className="bg-white dark:bg-dim-700 rounded-2xl mt-6 mx-2 border">
-                    <h3 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-dim-200">
+                <div className="bg-white dark:bg-gray-800 rounded-2xl mt-6 mx-2 border">
+                    <h3 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-gray-600">
                         Groups Joined
                     </h3>
                     {/* Trending Topic */}
-                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white">
                             #FreePS5Monday
                         </h2>
@@ -83,7 +83,7 @@ const RightBar = () => {
                     </div>
                     {/* /Trending Topic */}
                     {/* Trending Topic */}
-                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white">
                             #BTSonGMA
                         </h2>
@@ -91,7 +91,7 @@ const RightBar = () => {
                     </div>
                     {/* /Trending Topic */}
                     {/* Trending Topic */}
-                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white">
                             #AstraZeneca
                         </h2>
@@ -104,12 +104,12 @@ const RightBar = () => {
                 </div>
                 {/* /What’s happening */}
                 {/* Who to follow */}
-                <div className="bg-gray-50 dark:bg-dim-700 rounded-2xl m-2">
-                    <h1 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-dim-200">
+                <div className="bg-gray-50 dark:bg-gray-800 rounded-2xl m-2">
+                    <h1 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-gray-600">
                         Who to follow
                     </h1>
                     {/* Twitter Account */}
-                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <div className="flex flex-row justify-between p-2">
                             <div className="flex flex-row">
                                 <img
@@ -138,7 +138,7 @@ const RightBar = () => {
                     </div>
                     {/* /Twitter Account */}
                     {/* Twitter Account */}
-                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-dim-200 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
+                    <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <div className="flex flex-row justify-between p-2">
                             <div className="flex flex-row">
                                 <img
@@ -167,7 +167,7 @@ const RightBar = () => {
                     </div>
                     {/* /Twitter Account */}
                     {/* Loader */}
-                    <div className="border-b border-gray-200 dark:border-dim-200 p-4 max-w-sm w-full mx-auto">
+                    <div className="border-b border-gray-200 dark:border-gray-600 p-4 max-w-sm w-full mx-auto">
                         <div className="animate-pulse flex space-x-4">
                             <div className="rounded-full bg-gray-400 h-12 w-12" />
                             <div className="flex-1 space-y-4 py-1">

@@ -63,11 +63,11 @@ function Post({ id, post, userpage }) {
   // only for bg color of vote btn
   useEffect(
     () => {
-      if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+      if (voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
         setholdVote(
           1
         )
-      } else if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+      } else if (voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
         setholdVote(
           2
         )
@@ -78,10 +78,10 @@ function Post({ id, post, userpage }) {
 
   //  do things
   const likePost = async () => {
-    if(!session) {
+    if (!session) {
       router.push('/login');
     } else {
-      if(holdVote == 0 || holdVote == 2) {
+      if (holdVote == 0 || holdVote == 2) {
         setholdVote(1);
         await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
         await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
@@ -94,10 +94,10 @@ function Post({ id, post, userpage }) {
 
 
   const downV = async () => {
-    if(!session) {
+    if (!session) {
       router.push('/login');
     } else {
-      if(holdVote == 0 || holdVote == 1) {
+      if (holdVote == 0 || holdVote == 1) {
         setholdVote(2);
         await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
         await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
@@ -117,7 +117,7 @@ function Post({ id, post, userpage }) {
 
   return (
     <div
-      className="py-5 px-4 border-b shadow my-3 font-[Urbanist]"
+      className="py-5 px-4 border-b shadow dark:shadow-white my-3 font-[Urbanist] dark:text-white"
     >
       {/* profile */}
       <div className="w-full flex">
@@ -140,7 +140,7 @@ function Post({ id, post, userpage }) {
         <div>
           <div className="flex">
             <h4
-              className={`font-bold text-[15px] sm:text-base text-black group-hover:underline inline-block`}
+              className={`font-bold text-[15px] sm:text-base group-hover:underline inline-block`}
             >
               {post?.username}
             </h4>
@@ -158,7 +158,7 @@ function Post({ id, post, userpage }) {
             </span>
           </div>
           {/* post time */}
-          <span className="hover:underline text-gray-600 text-sm sm:text-[15px]">
+          <span className="hover:underline text-gray-600 dark:text-gray-400 text-sm sm:text-[15px]">
             <Moment fromNow>{post?.timestamp?.toDate()}</Moment><span className="ml-1 text-blue-600">{post?.tags[0] && `#${post?.tags[0]}`}</span>
           </span>
         </div>
@@ -176,7 +176,7 @@ function Post({ id, post, userpage }) {
       <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
       {/* post text */}
-      <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 text-[15px] sm:text-base my-3">
+      <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 dark:text-white text-[15px] sm:text-base my-3">
         {post?.text}
       </p>
 

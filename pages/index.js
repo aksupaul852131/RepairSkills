@@ -66,7 +66,7 @@ export default function Home() {
       <div className="w-full sm:w-600 md:h-screen pt-2">
 
         <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
-          <div className="my-2 border px-5 py-4 flex justify-between"
+          <div className="my-2 px-5 py-4 flex justify-between"
             onClick={() => router.push('/create-post')}
           >
             <div className="flex items-center">
@@ -80,8 +80,8 @@ export default function Home() {
           </div>
           {/* Timeline */}
           {/* New Tweets */}
-          <div className="border-b border-gray-200 dark:border-dim-200 bg-gray-50 dark:bg-dim-300 py-2 border-l border-r">
-            <div className="flex flex-shrink-0 items-center justify-center py-4 bg-white dark:bg-dim-900 border-b border-t border-gray-200 dark:border-dim-200 hover:bg-gray-50 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out text-gray-600 text-sm">
+          <div className="border-b border-gray-200 dark:border-gray-900 dark:bg-gray-00 py-2 border-l border-r">
+            <div className="flex flex-shrink-0 items-center justify-center py-4 dark:bg-dim-900 border-b border-t border-gray-200 dark:border-dim-200 hover:bg-gray-50 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out text-gray-600 text-sm">
               New 10 Quetions Posted
             </div>
           </div>

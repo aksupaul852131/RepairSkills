@@ -35,7 +35,7 @@ export default class ArticleEditor extends Component {
                     editorState={editorState}
                     toolbarClassName="toolbarClassName"
                     wrapperClassName="wrapperClassName"
-                    editorClassName="editorClassName"
+                    editorClassName="editorAK1"
 
                     onEditorStateChange={this.onEditorStateChange}
                     toolbar={
