@@ -49,7 +49,7 @@ export default function ToolHome() {
 
             <div className="pt-6 pb-24 w-full font-[Urbanist] px-3 md:px-32">
                 <div className="bg-black text-white py-4 rounded-md">
-                    <h1 className="text-center">Technician Assistant</h1>
+                    <h1 className="text-center">Advance Pocket Tools</h1>
                 </div>
 
                 <div>

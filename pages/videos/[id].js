@@ -1,15 +1,15 @@
 import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, arrayRemove, deleteDoc, } from "@firebase/firestore";
-import { db } from "../../api/auth/firebase-config";
+import { db } from "../api/auth/firebase-config";
 import { useEffect, useState, Fragment, useRef } from "react";
-import LoadingP from "../../../components/utils/Loading";
+import LoadingP from "../../components/utils/Loading";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
 import { Menu, Transition } from '@headlessui/react'
-import RelatedPost from "../../../components/utils/RelatedPost";
-import RelatedVideo from "../../../components/utils/RelateVideo";
+import RelatedPost from "../../components/utils/RelatedPost";
+import RelatedVideo from "../../components/utils/RelateVideo";
 
 export default function Video() {
     // sesson for user auth
@@ -25,6 +25,7 @@ export default function Video() {
 
     const [video, setVideo] = useState();
     const [viewLoad, setViewLoad] = useState(true);
+
 
     //
 
@@ -45,11 +46,11 @@ export default function Video() {
         setDbKey(urlSearchParams.get('key'));
 
 
-        if (loading2) {
+        if(loading2) {
             const docRef = doc(db, "videos", dbKey);
             const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 setVideo(docSnap);
 
                 onSnapshot(
@@ -58,10 +59,10 @@ export default function Video() {
                         setComentList(snapshot.docs);
                     }
                 );
-                if (session) {
+                if(session) {
                     const docRef = doc(db, "users", session.user.uid);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
+                    if(docSnap.exists()) {
                         setUser(docSnap.data());
                     }
                 }
@@ -118,10 +119,10 @@ export default function Video() {
 
     const sendComment = async (e) => {
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (comment != '') {
+            if(comment != '') {
                 await setDoc(doc(db, "videos", video?.data()?.videoId, "comments", `${user?.name}-${uuid()}`), RepsonseData);
                 commentbox.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 toast.success('Comment Added');
@@ -138,10 +139,10 @@ export default function Video() {
 
     const sendReply = async (e) => {
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (reply != '') {
+            if(reply != '') {
                 const dbRef = doc(db, "videos", video?.data()?.videoId, "comments", replyId);
                 await updateDoc(dbRef, {
                     reply: arrayUnion(
@@ -169,11 +170,11 @@ export default function Video() {
     // only for bg color of vote btn
     useEffect(
         () => {
-            if (voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+            if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
                 setholdVote(
                     1
                 )
-            } else if (voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+            } else if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
                 setholdVote(
                     2
                 )
@@ -185,10 +186,10 @@ export default function Video() {
 
     //  do things
     const likePost = async () => {
-        if (!session) {
+        if(!session) {
             router.push('/login');
         } else {
-            if (holdVote == 0 || holdVote == 2) {
+            if(holdVote == 0 || holdVote == 2) {
                 setholdVote(1);
                 await deleteDoc(doc(db, "videos", video?.data()?.videoId, "downVote", session.user.uid));
                 await setDoc(doc(db, "videos", video?.data()?.videoId, "upVote", session.user.uid), {
@@ -201,10 +202,10 @@ export default function Video() {
 
 
     const downV = async () => {
-        if (!session) {
+        if(!session) {
             router.push('/login');
         } else {
-            if (holdVote == 0 || holdVote == 1) {
+            if(holdVote == 0 || holdVote == 1) {
                 setholdVote(2);
                 await deleteDoc(doc(db, "videos", video?.data()?.videoId, "upVote", session.user.uid));
                 await setDoc(doc(db, "videos", video?.data()?.videoId, "downVote", session.user.uid), {
@@ -233,12 +234,11 @@ export default function Video() {
                                 </div>
 
                                 <div className="py-4 px-3">
-                                    <p className="flex text-gray-600 dark:text-gray-200 text-xs">
+                                    <div className="flex text-gray-600 dark:text-gray-200 text-xs">
                                         {/* time */}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 6v6h4.5m4.5 0a9 9 0 11-18 0 9 9 0 0118 0z" />
                                         </svg>
-
                                         <span className="font-light ml-1"> <Moment fromNow>{video?.data()?.timestamp?.toDate()}</Moment></span>
                                         {/* views */}
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-4 ml-3">
@@ -253,7 +253,7 @@ export default function Video() {
                                                 #{video?.data()?.tags[0]}
                                             </span>
                                         )}
-                                    </p>
+                                    </div>
                                     <h1 className="mt-2 text-md dark:text-white">{video.data().title}</h1>
                                     <div className="mt-3 flex justify-between items-center">
                                         <div
@@ -357,7 +357,7 @@ export default function Video() {
                                                     await navigator.clipboard.writeText('copyMe');
                                                     toast.success('link Copied')
                                                 }
-                                                catch (err) {
+                                                catch(err) {
                                                 }
 
                                             }}

@@ -37,10 +37,10 @@ const CreatePost = () => {
 
 
     const getResponse = async () => {
-        if (session && loading2) {
+        if(session && loading2) {
             const docRef = doc(db, "users", session.user.uid);
             const docSnap = await getDoc(docRef);
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 setUser(docSnap);
                 setLoading2(false);
             } else { setLoading2(false) }
@@ -49,10 +49,10 @@ const CreatePost = () => {
 
 
     const sendPost = async () => {
-        if (!session) {
+        if(!session) {
             router.push('/login');
         } else {
-            if (loading) return;
+            if(loading) return;
             setLoading(true);
 
             const docdata = {
@@ -74,10 +74,12 @@ const CreatePost = () => {
 
             const imageRef = ref(storage, `posts/${session.user.name}/${postId}/image`);
 
-            if (selectedFile) {
+            if(selectedFile) {
                 await uploadString(imageRef, selectedFile, "data_url").then(async () => {
                     const downloadURL = await getDownloadURL(imageRef);
-                    await updateDoc(doc(db, "posts", `${input}&id=${postId}`), {
+                    await updateDoc(doc(db, "posts", `${input.toLowerCase()
+                        .replace(/ /g, '-')
+                        .replace(/[^\w-]+/g, '')}&id=${postId}`), {
                         image: downloadURL,
                     });
                 });
@@ -94,7 +96,7 @@ const CreatePost = () => {
 
     const addImageToPost = (e) => {
         const reader = new FileReader();
-        if (e.target.files[0]) {
+        if(e.target.files[0]) {
             reader.readAsDataURL(e.target.files[0]);
         }
 
@@ -129,18 +131,41 @@ const CreatePost = () => {
             pos: 'dec',
         },
         {
+            name: 'AC Error',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrant Gas',
+            pos: 'dec',
+        },
+        {
             name: 'Ductable',
             pos: 'dec',
         },
         {
-            name: 'Electrician',
+            name: 'Wiring',
+            pos: 'dec',
+        },
+        {
+            name: 'Repair',
+            pos: 'dec',
+        },
+        {
+            name: 'Chiller',
+            pos: 'dec',
+        },
+        {
+            name: 'Installation',
+            pos: 'dec',
+        },
+        {
+            name: 'Diagnostic',
             pos: 'dec',
         },
         {
             name: 'Other',
             pos: 'dec',
         },
-
     ]);
 
     const handlechange = (index) => {
@@ -155,7 +180,7 @@ const CreatePost = () => {
 
 
             {/* Middle */}
-            <div className="w-full sm:w-600 px-0 md:px-32 md:h-screen font-[Urbanist]">
+            <div className="w-full pb-24 sm:w-600 px-0 md:px-32 md:h-screen font-[Urbanist]">
 
                 <div className="rounded shadow-lg w-full p-4">
                     {/* // profile */}
@@ -181,10 +206,10 @@ const CreatePost = () => {
                         </Link>
                     </div>
 
-                    <p className="mt-5 mb-2 text-sm font-semibold ml-1 text-gray-600">Write post</p>
+                    <p className="mt-5 mb-2 text-sm font-semibold ml-1 text-gray-600 dark:text-white">Write post</p>
 
-                    <div className="rounded-lg overflow-hidden border w-full bg-gray-100">
-                        <div className="grid grid-cols-6 lg:grid-cols-8 px-4 py-2 bg-white">
+                    <div className="rounded-lg overflow-hidden border dark:border-primary/20 w-full bg-gray-100 dark:bg-gray-800">
+                        <div className="grid grid-cols-6 lg:grid-cols-8 px-4 py-2 bg-white dark:bg-gray-700 dark:text-white">
                             <div
                                 onClick={() => filePickerRef.current.click()}
                                 className='hover:text-primary'
@@ -229,7 +254,7 @@ const CreatePost = () => {
                             onChange={(e) => setInput(e.target.value)}
                             placeholder="What's happening?"
                             rows="4"
-                            className="focus:outline-none text-black bg-transparent outline-none text-sm text-lg placeholder-gray-400 tracking-wide w-full min-h-[50px] p-4"
+                            className="focus:outline-none text-black dark:text-white bg-transparent outline-none text-lg placeholder-gray-400 tracking-wide w-full min-h-[50px] p-4"
                         />
                     </div>
                     {showEmojis && (
@@ -274,7 +299,7 @@ const CreatePost = () => {
                                     }}
                                     key={index}
 
-                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm`}
+                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
                                 >
                                     {item.name}
 
@@ -309,7 +334,7 @@ const CreatePost = () => {
                 {
                     session?.user?.name ?
 
-                        <p className="text-center text-xs mt-4">This Post Created as <span className="text-primary">{session?.user?.name}</span></p>
+                        <p className="text-center text-xs mt-4 dark:text-white">This Post Created as <span className="text-primary">{session?.user?.name}</span></p>
                         :
                         <p className="text-center text-xs mt-4">you can not post anything! <Link href='/login' className="text-primary">please login</Link></p>
                 }

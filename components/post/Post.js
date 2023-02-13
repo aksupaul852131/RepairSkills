@@ -172,7 +172,7 @@ function Post({ id, post, userpage }) {
         </div>
       </div>
 
-      <ShareModalBox showModel={share} closeModel={setShare} />
+      <ShareModalBox showModel={share} closeModel={setShare} shareLink={`${window.location.href}quetion/${id}`} />
       <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
       {/* post text */}
