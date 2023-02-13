@@ -8,7 +8,7 @@ import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
 import { Menu, Transition } from '@headlessui/react'
-import RelatedPost from "../../../components/blog/RelatedPost";
+import RelatedPost from "../../../components/utils/RelatedPost";
 
 export default function Tool() {
     // sesson for user auth
@@ -31,11 +31,11 @@ export default function Tool() {
         setDbKey(urlSearchParams.get('key'));
 
 
-        if (loading2) {
+        if(loading2) {
             const docRef = doc(db, "blogs", dbKey);
             const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 setArticle(docSnap);
 
                 onSnapshot(
@@ -44,10 +44,10 @@ export default function Tool() {
                         setComentList(snapshot.docs);
                     }
                 );
-                if (session) {
+                if(session) {
                     const docRef = doc(db, "users", session.user.uid);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
+                    if(docSnap.exists()) {
                         setUser(docSnap.data());
                     }
                 }
@@ -79,10 +79,10 @@ export default function Tool() {
 
     const sendComment = async (e) => {
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (comment != '') {
+            if(comment != '') {
                 await setDoc(doc(db, "blogs", article.data().articleId, "comments", `${user?.name}-${uuid()}`), RepsonseData);
                 commentbox.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 toast.success('Comment Added');
@@ -100,10 +100,10 @@ export default function Tool() {
     const sendReply = async (e) => {
         console.log('sssss', replyId)
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (reply != '') {
+            if(reply != '') {
                 const dbRef = doc(db, "blogs", article.data().articleId, "comments", replyId);
                 await updateDoc(dbRef, {
                     reply: arrayUnion(
@@ -181,7 +181,7 @@ export default function Tool() {
                                             await navigator.clipboard.writeText('copyMe');
                                             toast.success('link Copied')
                                         }
-                                        catch (err) {
+                                        catch(err) {
                                         }
 
                                     }}
