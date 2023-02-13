@@ -137,6 +137,10 @@
 @apply pb-24 dark:text-white p-2;
     }
 
+.responseEditor {
+     @apply dark:text-white;
+}
+
   /* input form */
 .input-feild label {
     @apply block mb-2 text-sm font-medium text-gray-900 dark:text-white;

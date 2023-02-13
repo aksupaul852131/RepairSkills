@@ -31,10 +31,43 @@ export default class TextEditor extends Component {
             <div>
                 <Editor
                     editorState={editorState}
-                    toolbarClassName="toolbarClassName"
-                    wrapperClassName="wrapperClassName"
+                    toolbarClassName="article-editor"
+                    wrapperClassName="editorAK1"
                     editorClassName="editorClassName"
                     onEditorStateChange={this.onEditorStateChange}
+
+                    toolbar={
+                        {
+                            options: ['inline', 'blockType', 'list', 'textAlign', 'link', 'embedded', 'emoji', 'image', 'colorPicker', 'remove', 'history'],
+                            inline: {
+                                inDropdown: false,
+                                className: undefined,
+                                component: undefined,
+                                dropdownClassName: undefined,
+                                options: ['bold', 'italic', 'underline', 'strikethrough'],
+                            },
+                            blockType: {
+                                inDropdown: true,
+                                options: ['Normal', 'Blockquote'],
+                                className: undefined,
+                                component: undefined,
+                                dropdownClassName: undefined,
+                            },
+                        }
+                    }
+
+                    hashtag={{
+                        separator: ' ',
+                        trigger: '#',
+                    }}
+                    mention={{
+                        separator: ' ',
+                        trigger: '@',
+                        suggestions: [
+                            { text: 'JavaScript', value: 'javascript', url: 'js' },
+                            { text: 'Golang', value: 'golang', url: 'go' },
+                        ],
+                    }}
 
                 />
             </div>

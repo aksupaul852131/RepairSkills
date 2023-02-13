@@ -17,21 +17,21 @@ function Comment({ comment, postid, commentAuthor }) {
         <div className="flex justify-between">
           <div className="">
             <div className="inline-block group">
-              <h4 className="font-bold text-[15px] sm:text-base inline-block group-hover:underline">
+              <h4 className="font-bold text-[15px] sm:text-base inline-block group-hover:underline dark:text-white">
                 {comment?.username}
               </h4>
-              <span className="ml-1.5 text-sm sm:text-[15px]">
+              <span className="ml-1.5 text-sm sm:text-[15px] dark:text-gray-400">
                 @{comment?.tag}{" "}
               </span>
               <br />
 
             </div>
             <br />
-            <span className="hover:underline text-sm sm:text-[15px] text-gray-600">
+            <span className="hover:underline text-sm sm:text-[15px] text-gray-600 dark:text-gray-200">
               <Moment fromNow>{comment?.timestamp?.toDate()}</Moment>
             </span>
             <content>
-              <div dangerouslySetInnerHTML={{ __html: comment?.comment }} />
+              <div className="responseEditor" dangerouslySetInnerHTML={{ __html: comment?.comment }} />
             </content>
           </div>
           <div className="icon group flex-shrink-0">

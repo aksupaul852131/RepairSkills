@@ -7,7 +7,7 @@ import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
-import { Disclosure, Menu, Transition } from '@headlessui/react'
+import { Menu, Transition } from '@headlessui/react'
 import RelatedPost from "../../../components/blog/RelatedPost";
 
 export default function Tool() {
@@ -20,7 +20,6 @@ export default function Tool() {
     const [comentList, setComentList] = useState([]);
     const [dbKey, setDbKey] = useState('acGasRefilling');
     const [user, setUser] = useState();
-
 
 
     useEffect(() => {
@@ -55,6 +54,7 @@ export default function Tool() {
 
                 setLoading2(false);
                 setLoading(false);
+                console.log('akkk')
             }
         }
 
@@ -130,7 +130,7 @@ export default function Tool() {
                 :
 
 
-                <div className="pt-6 px-3 w-full font-[Urbanist] select-none">
+                <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist] select-none">
                     <article>
                         <h1 className="font-bold text-2xl dark:text-white">{article.data().title}</h1>
                         <p className="mt-2 text-secondry dark:text-gray-100">By <Link
@@ -512,7 +512,7 @@ export default function Tool() {
                     {/* related post */}
                     <section className="pb-24">
                         <h2 className="text-black dark:text-white">Related Updates</h2>
-                        <RelatedPost />
+                        <RelatedPost title={article.data().title} refrehPage={setLoading2} />
                     </section>
                 </div>
             }
