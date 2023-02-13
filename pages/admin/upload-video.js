@@ -12,6 +12,7 @@ import {
 
 import { db } from "../api/auth/firebase-config";
 import uuid from "react-uuid";
+import { toast, Toaster } from "react-hot-toast";
 
 export default function UploadVideo() {
 
@@ -21,36 +22,39 @@ export default function UploadVideo() {
     const [title, setTiltle] = useState("");
     const [url, setUrl] = useState("");
     const [description, setDescription] = useState("");
-
     const [thumbnail, setThumbnail] = useState("");
-
     const [loading, setLoading] = useState(false);
 
-    const router = useRouter();
 
-
-
-
+    const [uniqueId, setUniqueId] = useState(uuid());
 
     const sendPost = async () => {
 
+        if(!thumbnail == '') {
+            setLoading(true);
+            const docdata = {
+                title: title,
+                urlId: thumbnail,
+                description: description,
+                tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
+                timestamp: serverTimestamp(),
+                views: 0,
+                videoId: `${title.toLowerCase()
+                    .replace(/ /g, '-')
+                    .replace(/[^\w-]+/g, '')}&id=${uniqueId}`,
+            }
 
+            setDoc(doc(db, "videos", `${title.toLowerCase()
+                .replace(/ /g, '-')
+                .replace(/[^\w-]+/g, '')}&id=${uniqueId}`), docdata);
 
-        setLoading(true);
-
-        const docdata = {
-            title: title,
-            thumbnail: thumbnail,
-            description: description,
-            tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
-            timestamp: serverTimestamp(),
+            setUniqueId(uuid());
+            setLoading(false);
+            toast.success('added')
+        } else {
+            toast.error('please click & fetch first');
         }
 
-        setDoc(doc(db, "videos", `${title.toLowerCase()
-            .replace(/ /g, '-')
-            .replace(/[^\w-]+/g, '')}&id=${uuid()}`), docdata);
-
-        setLoading(false);
     };
 
 
@@ -126,7 +130,7 @@ export default function UploadVideo() {
                             </div>
                             <input
                                 onChange={(e) => setUrl(e.target.value)}
-                                className="w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-dim-400 text-gray-100 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
+
                                 placeholder="url"
                             />
                         </div>
@@ -141,11 +145,11 @@ export default function UploadVideo() {
                         <textarea
 
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full border p-2"
+                            className="w-full border p-2 dark:text-white rounded-md bg-gray-800"
                             type="text" id="first_name" placeholder="description" />
                     </div>
 
-                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-600">Post Tag</p>
+                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-600 dark:text-white">Post Tag</p>
                     <ul className='px-1 flex flex-wrap gap-2'>
                         {tags.map((item, index) => {
                             return (
@@ -156,7 +160,7 @@ export default function UploadVideo() {
                                     }}
                                     key={index}
 
-                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm`}
+                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm dark:text-white`}
                                 >
                                     {item.name}
 
@@ -189,7 +193,7 @@ export default function UploadVideo() {
 
                     {/* <iframe className="w-full" src="https://www.youtube.com/embed/PE2afBp-2x4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
                 </div>
-
+                <Toaster position="bottom-center" />
             </div>
             {/* /Middle */}
 

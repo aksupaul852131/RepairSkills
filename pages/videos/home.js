@@ -78,8 +78,8 @@ export default function VideoPage(params) {
                                 <div className="flex gap-4 w-full">
 
                                     <div className="relative w-56">
-                                        <img src='https://img.youtube.com/vi/D_vOqkEgmY0/mqdefault.jpg' className="w-56 h-24 rounded-lg" />
-                                        <p className="bottom-0 rounded-tr-md absolute text-white bg-primary px-2 text-xs">200 </p>
+                                        <img src={`https://img.youtube.com/vi/${e?.data()?.urlId}/mqdefault.jpg`} className="w-56 h-24 rounded-lg" />
+                                        <p className="bottom-0 rounded-tr-md absolute text-white bg-primary px-2 text-xs">{e?.data()?.views}</p>
                                     </div>
                                     <div className="w-full">
                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">{e?.data()?.title}</h2>
