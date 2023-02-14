@@ -7,7 +7,7 @@ import { db, storage } from "../api/auth/firebase-config";
 import toast, { Toaster } from 'react-hot-toast';
 
 export default function AdminHome() {
-
+    const { data: session } = useSession();
 
     const [name, setName] = useState("");
     const [dbKey, setDbKey] = useState('acGasRefilling');
@@ -17,7 +17,6 @@ export default function AdminHome() {
     const [selectedFile, setSelectedFile] = useState(null);
     const filePickerRef = useRef(null);
 
-    const [postId, setPostId] = useState(uuid());
     const category = ['acGasRefilling', 'ACInstallationTools', 'iduInstallIdea']
     // only for add image
     const addImageToPost = (e) => {
@@ -67,7 +66,7 @@ export default function AdminHome() {
 
     }
 
-    if(session?.user.uid != '101407720271822219811' || session?.user.uid != '101790720557592011732') return (<p>you are not authrised</p>)
+    if(session?.user?.uid != '101407720271822219811' || session?.user?.uid != '101790720557592011732') return (<p>you are not authrised</p>)
 
     return (
         <>
