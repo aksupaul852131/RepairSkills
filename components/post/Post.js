@@ -172,8 +172,6 @@ function Post({ id, post, userpage }) {
         </div>
       </div>
 
-      <ShareModalBox showModel={share} closeModel={setShare} shareLink={`${window.location.href}quetion/${id}`} />
-      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
       {/* post text */}
       <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 dark:text-white text-[15px] sm:text-base my-3">
@@ -277,6 +275,8 @@ function Post({ id, post, userpage }) {
         </div>
 
       </div>
+      <ShareModalBox showModel={share} closeModel={setShare} shareLink={`${window.location.hostname}/quetion/${id}`} />
+      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
     </div>
   );

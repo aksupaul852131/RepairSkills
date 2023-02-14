@@ -28,25 +28,25 @@ export default function ToolsModal(props: any) {
                                 {/*body*/}
                                 <div
                                     className="mt-4 px-4">
-                                    <div className="relative w-full border-4 border-primary h-32">
-                                        <span className="-top-5 left-4 absolute bg-primary text-white px-4 py-1 rounded">Available {props.avail.length}</span>
+                                    <div className="relative w-full border h-24">
+                                        <span className="-top-3 left-4 absolute bg-primary text-white px-4 py-1 rounded text-xs">Available {props.avail.length}</span>
 
-                                        <ul className="mt-8 px-2 pb-2 flex flex-nowrap gap-3 overflow-x-scroll">
+                                        <ul className="mt-8 px-2 pb-7 flex flex-nowrap gap-3 overflow-x-scroll">
                                             {
                                                 props.avail.map((e: any) => (
-                                                    <li className="border border-r-primary px-2 py-1">{e}</li>
+                                                    <li className="border border-r-primary px-2 py-1 flex-none text-sm">{e}</li>
                                                 ))
                                             }
                                         </ul>
                                     </div>
                                     <hr className="mt-4 mb-7 " />
-                                    <div className="relative w-full border-4 border-red-600 h-32">
-                                        <span className="-top-5 left-4 absolute bg-red-600 text-white px-4 py-1 rounded">Missing {props.Notavail.length}</span>
+                                    <div className="relative w-full border h-24">
+                                        <span className="-top-3 left-4 absolute bg-red-600 text-white px-4 py-1 rounded text-xs">Missing {props.Notavail.length}</span>
 
-                                        <ul className="mt-8 px-2 pb-2 flex flex-nowrap gap-3 overflow-x-scroll">
+                                        <ul className="mt-8 px-2 pb-7 flex flex-nowrap gap-3 overflow-x-scroll">
                                             {
                                                 props.Notavail.map((e: any) => (
-                                                    <li className="border border-r-red-500 px-2 py-1">{e}</li>
+                                                    <li className="border border-r-red-500 px-2 py-1 flex-none text-sm">{e}</li>
                                                 ))
                                             }
                                         </ul>

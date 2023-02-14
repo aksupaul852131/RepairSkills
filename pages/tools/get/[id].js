@@ -156,7 +156,7 @@ export default function Tool() {
                                                 key={index}
                                                 className={`${e.pos == 'act' && `border-primary border-2`} grid items-center justify-items-center border-2 p-4 md:p-6 rounded-lg h-32`}>
                                                 <img src={e.img} className='w-16 h-16 object-contain' />
-                                                <p className="mt-3 text-center">{e.name}</p>
+                                                <p className="mt-3 text-center dark:text-white">{e.name}</p>
                                             </div>
                                         ))
                                     }
@@ -165,7 +165,7 @@ export default function Tool() {
 
                         {
                             postType != 1 && (
-                                <div className="fixed bottom-20 z-50 md:bottom-0 md:mt-6 md:relative w-full px-3 md:px-32">
+                                <div className="fixed bottom-16 z-50 md:bottom-0 md:mt-6 md:relative w-full px-3 md:px-32">
                                     <button onClick={() => onCheckHandle()} className=" bg-primary w-full text-center hover:bg-green-500 text-white rounded-full py-3 px-4">
                                         Check My Tools
                                     </button>
@@ -175,13 +175,13 @@ export default function Tool() {
                         <div className="px-3 md:px-32">
                             <div className="mt-8 relative w-full border border-dashed border-primary bg-primary/10">
                                 <span className="-top-3 absolute bg-secondry text-white ml-2 px-2 rounded">
-                                    {postType == 1 ? 'Information' : 'Notice'}
+                                    {postType == 1 ? 'Information' : 'Info'}
                                 </span>
                                 {postType == 1
                                     ?
-                                    <p className="text-center p-6 text-secondry text-sm">All Images From Internet, Use Here Only For Education & Training Purpose <Link href='/' className="text-primary">Know more</Link></p>
+                                    <p className="text-center p-6 text-secondry text-sm dark:text-white">All Images From Internet, Use Here Only For Education & Training Purpose <Link href='/' className="text-primary">Know more</Link></p>
                                     :
-                                    <p className="text-center p-6 text-secondry text-sm">This Tools Help For Check Your All Equipment.<br /><b>Before Going To Work.</b> </p>
+                                    <p className="text-center p-6 text-secondry text-sm dark:text-white">This Tools Help For Check Your All Equipment.<br /><b>Before Going To Work.</b> </p>
                                 }
 
                             </div>

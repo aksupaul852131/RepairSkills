@@ -53,7 +53,7 @@ export default function ToolHome() {
                 </div>
 
                 <div>
-                    <h2 className="mt-6 font-extrabold">Daily Use Tools</h2>
+                    <h2 className="mt-6 font-extrabold dark:text-white">Daily Use Tools</h2>
                     <div className="border-t mt-8 mb-8 relative">
                         <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border">Split</span>
                     </div>
@@ -67,7 +67,7 @@ export default function ToolHome() {
                                         query: { key: `${e.urlKey}` },
                                     }}
                                 >
-                                    <div className="bg-primary/30 rounded border-2 border-primary h-32 w-full grid items-center text-center">
+                                    <div className="bg-primary/30 rounded border-2 border-primary h-32 w-full grid items-center text-center dark:text-white">
                                         <h2>{e.name}</h2>
                                     </div>
                                 </Link>
@@ -115,7 +115,7 @@ export default function ToolHome() {
                                         query: { key: `${e.urlKey}` },
                                     }}
                                 >
-                                    <div className="bg-primary/30 rounded border-2 border-primary h-32 w-full grid items-center text-center">
+                                    <div className="bg-primary/30 rounded border-2 border-primary h-32 w-full grid items-center text-center dark:text-white">
                                         <h2>{e.name}</h2>
                                     </div>
                                 </Link>

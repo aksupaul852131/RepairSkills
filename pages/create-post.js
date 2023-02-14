@@ -1,5 +1,3 @@
-import Sidebar from "../components/Sidebar";
-import BackNav from "../components/navbar/BackNav";
 import { useEffect, useRef, useState } from "react";
 import { db, storage } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
@@ -11,7 +9,7 @@ import {
     updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import Picker from '@emoji-mart/react'
 import uuid from 'react-uuid';
 import Link from "next/link";
@@ -56,13 +54,12 @@ const CreatePost = () => {
             setLoading(true);
 
             const docdata = {
-                id: session.user.uid,
                 postId: `${input.toLowerCase()
                     .replace(/ /g, '-')
                     .replace(/[^\w-]+/g, '')}&id=${postId}`,
+                id: session.user.uid,
                 username: user?.data()?.name,
                 userImg: user?.data()?.profileImg,
-                tag: session.user.tag,
                 text: input,
                 timestamp: serverTimestamp(),
                 tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
@@ -132,6 +129,10 @@ const CreatePost = () => {
         },
         {
             name: 'AC Error',
+            pos: 'dec',
+        },
+        {
+            name: 'Technology',
             pos: 'dec',
         },
         {
@@ -288,30 +289,22 @@ const CreatePost = () => {
                             />
                         </div>
                     )}
-                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-600">Post Tag</p>
+                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800">Related Tags</p>
                     <ul className='px-1 flex flex-wrap gap-2'>
                         {tags.map((item, index) => {
                             return (
                                 <li
-
                                     onClick={() => {
                                         handlechange(index);
                                     }}
                                     key={index}
-
-                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
+                                    className={`${item.pos == 'act' ? `border-primary border-2 bg-primary text-white` : 'bg-gray-200'} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
                                 >
                                     {item.name}
-
                                 </li>
                             );
                         })}
-
                     </ul>
-
-                    {
-
-                    }
                     <button
                         disabled={!input && !selectedFile}
                         onClick={sendPost}

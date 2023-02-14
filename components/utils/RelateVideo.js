@@ -30,12 +30,12 @@ export default function RelatedVideo(props) {
                         <Link
                             onClick={() => { props.refrehPage(true); props.viewCounter(true) }}
                             href={{
-                                pathname: '/videos/video/m',
+                                pathname: '/videos/m',
                                 query: { key: `${e?.data()?.videoId}` },
                             }}
                         >
                             <li
-                                className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded">
+                                className="mb-1 shadow-sm bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded">
                                 <div className="flex gap-4 w-full">
 
                                     <div className="relative w-56">

@@ -1,23 +1,21 @@
-import Sidebar from "../../components/Sidebar";
-import { useEffect, useRef, useState } from "react";
-
+import { useEffect, useState } from "react";
 import { useRouter } from "next/router";
 import {
     doc,
     getDoc,
     serverTimestamp,
     setDoc,
-    updateDoc,
 } from "@firebase/firestore";
 
 import { db } from "../api/auth/firebase-config";
 import uuid from "react-uuid";
 import { toast, Toaster } from "react-hot-toast";
+import { useSession } from "next-auth/react";
 
 export default function UploadVideo() {
 
-    const [input, setInput] = useState("");
-
+    const { data: session } = useSession();
+    const router = useRouter();
     // video tags
     const [title, setTiltle] = useState("");
     const [url, setUrl] = useState("");
@@ -27,6 +25,27 @@ export default function UploadVideo() {
 
 
     const [uniqueId, setUniqueId] = useState(uuid());
+
+    const [loading2, setLoading2] = useState(true);
+
+    const [user, setUser] = useState();
+
+    useEffect(() => {
+        (() => getResponse())();
+    });
+
+
+    const getResponse = async () => {
+        if(session && loading2) {
+            const docRef = doc(db, "users", session.user.uid);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                setUser(docSnap);
+                setLoading2(false);
+            } else { setLoading2(false) }
+        }
+    }
+
 
     const sendPost = async () => {
 
@@ -42,6 +61,9 @@ export default function UploadVideo() {
                 videoId: `${title.toLowerCase()
                     .replace(/ /g, '-')
                     .replace(/[^\w-]+/g, '')}&id=${uniqueId}`,
+                id: session.user.uid,
+                username: user?.data()?.name,
+                userImg: user?.data()?.profileImg,
             }
 
             setDoc(doc(db, "videos", `${title.toLowerCase()
@@ -50,13 +72,21 @@ export default function UploadVideo() {
 
             setUniqueId(uuid());
             setLoading(false);
-            toast.success('added')
+            toast.success('added');
+            router.push('/videos/home')
         } else {
             toast.error('please click & fetch first');
         }
 
     };
 
+
+    const handlechange = (index) => {
+        const newUsers = [...tags];
+
+        newUsers[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
+        setTags(newUsers);
+    };
 
     const [tags, setTags] = useState([
         {
@@ -76,26 +106,46 @@ export default function UploadVideo() {
             pos: 'dec',
         },
         {
+            name: 'Technology',
+            pos: 'dec',
+        },
+        {
+            name: 'AC Error',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrant Gas',
+            pos: 'dec',
+        },
+        {
             name: 'Ductable',
             pos: 'dec',
         },
         {
-            name: 'Electrician',
+            name: 'Wiring',
+            pos: 'dec',
+        },
+        {
+            name: 'Repair',
+            pos: 'dec',
+        },
+        {
+            name: 'Chiller',
+            pos: 'dec',
+        },
+        {
+            name: 'Installation',
+            pos: 'dec',
+        },
+        {
+            name: 'Diagnostic',
             pos: 'dec',
         },
         {
             name: 'Other',
             pos: 'dec',
         },
-
     ]);
-
-    const handlechange = (index) => {
-        const newUsers = [...tags];
-
-        newUsers[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
-        setTags(newUsers);
-    };
 
     return (
         <>
@@ -120,8 +170,12 @@ export default function UploadVideo() {
                         <div className="relative mt-3">
                             <div
                                 onClick={() => {
-                                    const youTubeIdFromLink = (url) => url.match(/(?:https?:\/\/)?(?:www\.|m\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\/?\?v=|\/embed\/|\/)([^\s&\?\/\#]+)/)[1];
-                                    setThumbnail(youTubeIdFromLink(url));
+                                    try {
+                                        const youTubeIdFromLink = (url) => url.match(/(?:https?:\/\/)?(?:www\.|m\.)?youtu(?:be)?\.(?:com|be)(?:\/watch\/?\?v=|\/embed\/|\/)([^\s&\?\/\#]+)/)[1];
+                                        setThumbnail(youTubeIdFromLink(url));
+                                    } catch(error) {
+                                        toast.error('invalid url')
+                                    }
                                 }}
                                 className="absolute right-0 text-white bg-primary rounded-md flex items-center px-6 h-full cursor-pointer ">
                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -130,37 +184,35 @@ export default function UploadVideo() {
                             </div>
                             <input
                                 onChange={(e) => setUrl(e.target.value)}
-
-                                placeholder="url"
+                                placeholder="paste link & click right button"
                             />
                         </div>
                     </div>
                     {
                         thumbnail != '' && (
-                            <img src={`https://img.youtube.com/vi/${thumbnail}/mqdefault.jpg`} className="mt-8 w-full h-56 rounded-lg" />
+                            <img src={`https://img.youtube.com/vi/${thumbnail}/hqdefault.jpg`} className="mt-8 w-full h-56 rounded-lg" />
                         )
                     }
                     <div className="input-feild mt-6">
-                        <label for="first_name">video title</label>
+                        <label for="first_name">video description</label>
                         <textarea
 
                             onChange={(e) => setDescription(e.target.value)}
-                            className="w-full border p-2 dark:text-white rounded-md bg-gray-800"
+                            className="w-full border p-2 dark:text-white rounded-md bg-gray-100 dark:bg-gray-800"
                             type="text" id="first_name" placeholder="description" />
                     </div>
 
-                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-600 dark:text-white">Post Tag</p>
-                    <ul className='px-1 flex flex-wrap gap-2'>
+                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800">#Related Tags</p>
+                    <ul className='mt-2 px-1 flex flex-wrap gap-2'>
                         {tags.map((item, index) => {
                             return (
                                 <li
-
                                     onClick={() => {
                                         handlechange(index);
                                     }}
                                     key={index}
 
-                                    className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm dark:text-white`}
+                                    className={`${item.pos == 'act' ? `border-primary border-2 bg-primary text-white` : 'bg-gray-200'} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
                                 >
                                     {item.name}
 
@@ -187,13 +239,13 @@ export default function UploadVideo() {
                                 </center>
                                 : <span className="font-bold text-sm px-4">Post</span>
                         }
-
-
                     </button>
 
-                    {/* <iframe className="w-full" src="https://www.youtube.com/embed/PE2afBp-2x4" title="YouTube video player" frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share" allowfullscreen></iframe> */}
+
                 </div>
+                <p className="mt-6 text-center text-xs px-6 dark:text-white">we are currently support only YouTube Videos<br /> It Is Legal To Embed Youtube Videos</p>
                 <Toaster position="bottom-center" />
+
             </div>
             {/* /Middle */}
 

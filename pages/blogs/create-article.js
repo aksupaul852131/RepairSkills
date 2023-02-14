@@ -129,18 +129,45 @@ export default function CreatePost() {
             pos: 'dec',
         },
         {
+            name: 'Technology',
+            pos: 'dec',
+        },
+        {
+            name: 'AC Error',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrant Gas',
+            pos: 'dec',
+        },
+        {
             name: 'Ductable',
             pos: 'dec',
         },
         {
-            name: 'Electrician',
+            name: 'Wiring',
+            pos: 'dec',
+        },
+        {
+            name: 'Repair',
+            pos: 'dec',
+        },
+        {
+            name: 'Chiller',
+            pos: 'dec',
+        },
+        {
+            name: 'Installation',
+            pos: 'dec',
+        },
+        {
+            name: 'Diagnostic',
             pos: 'dec',
         },
         {
             name: 'Other',
             pos: 'dec',
         },
-
     ]);
 
     const handlechange = (index) => {
@@ -206,7 +233,8 @@ export default function CreatePost() {
                     <ArticleEditor onChangeResponse={setArticle} />
                 </div>
 
-                <ul className='mt-6 flex flex-wrap gap-2'>
+                <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800">#Related Tags</p>
+                <ul className='mt-2 flex flex-wrap gap-2'>
                     {tags.map((item, index) => {
                         return (
                             <li
@@ -216,7 +244,7 @@ export default function CreatePost() {
                                 }}
                                 key={index}
 
-                                className={`${item.pos == 'act' && `border-primary border-2 bg-primary text-white`} px-4 rounded py-1 border text-sm dark:text-white`}
+                                className={`${item.pos == 'act' ? `border-primary border-2 bg-primary text-white` : 'bg-gray-200'} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
                             >
                                 {item.name}
 
