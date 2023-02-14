@@ -231,7 +231,7 @@ export default function Video() {
                             <div className="col-span-3">
                                 {/* <img src='https://img.youtube.com/vi/D_vOqkEgmY0/mqdefault.jpg' className="w-full h-54 lg:h-72" /> */}
 
-                                <div className="aspect-w-16 aspect-h-9">
+                                <div className="aspect-w-16 aspect-h-9 sticky top-16">
                                     <iframe src={`https://www.youtube.com/embed/${video?.data()?.urlId}`} frameborder="0" allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" allowfullscreen></iframe>
                                 </div>
 

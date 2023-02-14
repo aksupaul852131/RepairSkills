@@ -8,18 +8,25 @@ import { db } from "../../pages/api/auth/firebase-config";
 export default function RelatedVideo(props) {
 
     const [videoList, setVideoList] = useState([]);
+    const [loading2, setLoading2] = useState(true);
+
+    useEffect(() => {
+        (() => getResponse())();
+    });
 
 
-    useEffect(
-        () =>
+    const getResponse = async () => {
+
+        if(loading2) {
             onSnapshot(
                 query(collection(db, "videos"), orderBy("timestamp", "desc")),
                 (snapshot) => {
                     setVideoList(snapshot.docs);
+                    setLoading2(false);
                 }
-            ),
-        [db]
-    );
+            );
+        }
+    }
 
     return (
         <div className="font-[Urbanist] dark:text-white">
