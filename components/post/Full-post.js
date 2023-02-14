@@ -163,7 +163,7 @@ function Post({ id, post }) {
 
     return (
         <div
-            className="font-[Urbanist] pb-8">
+            className="font-[Urbanist] h-full">
             <div>
                 <img
                     src={post?.image}
@@ -292,12 +292,27 @@ function Post({ id, post }) {
                     </div>
                 )}
 
-
-                {/* add comments */}
-                <form className="border shadow mx-2 min-h-24 pb-24" ref={commentbox}>
+                <div className="border shadow mx-2" ref={commentbox}>
                     <h4 className="text-lg font-semibold my-5 mx-4 dark:text-white">Add A Response</h4>
                     <EditorX onChangeResponse={setResponse} />
-                </form>
+                </div>
+
+
+                {/* commet toast */}
+                <ToastContainer
+                    position="bottom-center"
+                    autoClose={1000}
+                    hideProgressBar
+                    newestOnTop={false}
+                    closeOnClick
+                    rtl={false}
+                    pauseOnFocusLoss
+                    draggable
+                    pauseOnHover
+                    theme="dark"
+                />
+                {/* add comments */}
+
                 <div className="mt-16"></div>
                 <div onClick={sendComment} className="bg-primary rounded text-white text-center mx-2 p-3 font-semibold">
                     Send
@@ -311,19 +326,7 @@ function Post({ id, post }) {
                 }
             </div>
 
-            {/* commet toast */}
-            <ToastContainer
-                position="bottom-center"
-                autoClose={1000}
-                hideProgressBar
-                newestOnTop={false}
-                closeOnClick
-                rtl={false}
-                pauseOnFocusLoss
-                draggable
-                pauseOnHover
-                theme="dark"
-            />
+
         </div>
     );
 }

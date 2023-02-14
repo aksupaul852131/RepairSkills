@@ -102,11 +102,7 @@ export default function VideoPage() {
         setTags(data);
     };
 
-    const searchRecords = (e) => {
-        e.preventDefault();
 
-
-    }
     return (
 
         <>
@@ -145,7 +141,7 @@ export default function VideoPage() {
                             </h1>
 
                         </div>
-                        <hr className="my-3" />
+
                         <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
                             <div>
                                 <ul className="mt-2 flex flex-nowrap overflow-x-scroll no-scrollbar">

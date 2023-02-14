@@ -17,7 +17,7 @@ export default function App({
     // Avoids flickering/session loading on first load.
     <SessionProvider session={session}>
       <RecoilRoot>
-        <div className="bg-white dark:bg-gray-900 h-screen w-screen font-[Urbanist]">
+        <div className="bg-white dark:bg-gray-900 font-[Urbanist]">
           <Navbar />
           <div className="h-screen ">
             <div className="mt-16 lg:flex lg:flex-row dark:bg-gray-900">

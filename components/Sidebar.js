@@ -1,4 +1,3 @@
-import { useSession } from "next-auth/react";
 import Link from "next/link";
 import { useRouter } from "next/router";
 
@@ -13,25 +12,6 @@ function Sidebar() {
             <div className="w-0 lg:w-[19.5rem] h-screen font-[Urbanist]">
               <div className="flex flex-col h-screen xl:pr-3 px-0 lg:px-6 border-r-2 bg-[#FCFBFF] dark:bg-gray-800 fixed overflow-y-auto w-[16%]">
 
-
-                {/* User Menu */}
-                <div className="mt-9 w-14 xl:w-full mx-auto flex flex-row mb-5 rounded-full hover:bg-blue-50 dark:hover:bg-dim-800 cursor-pointer transition duration-350 ease-in-out">
-                  <div className="flex flex-row">
-                    <img
-                      className="w-10 h-10 rounded-full"
-                      src="https://pbs.twimg.com/profile_images/1308769664240160770/AfgzWVE7_normal.jpg"
-                      alt="Joe Biden"
-                    />
-                    <div className="hidden xl:block flex flex-col ml-2">
-                      <h1 className="text-gray-800 dark:text-white font-semibold text-sm">
-                        Joe Biden
-                      </h1>
-                      <p className="text-gray-400 text-sm">@JoeBiden</p>
-                    </div>
-                  </div>
-
-                </div>
-                {/* /User Menu */}
 
 
                 {/* Nav */}

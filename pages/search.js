@@ -5,7 +5,7 @@ import { db } from "./api/auth/firebase-config";
 
 
 
-export default function SeacrhPage(params) {
+export default function SeacrhPage() {
     const [search, setSearch] = useState('');
     const [fetchLoad, setFetchLoad] = useState(true);
     const [searchList, setSearchList] = useState([]);
@@ -18,20 +18,19 @@ export default function SeacrhPage(params) {
             const urlSearchParams = new URLSearchParams(window.location.search)
             setDbKey(urlSearchParams.get('key'));
 
-
         })();
     });
 
 
     const fetchData = async () => {
 
-        if (fetchLoad) {
+        if(fetchLoad) {
 
             onSnapshot(
                 query(collection(db, dbKey), orderBy("timestamp", "desc")),
                 (snapshot) => {
                     setSearchList(snapshot.docs);
-                    if (dbKey != 'ac') {
+                    if(dbKey != 'ac') {
                         setFetchLoad(false);
                     }
                 }
@@ -43,32 +42,35 @@ export default function SeacrhPage(params) {
 
     return (
         <>
-            <div className="font-[Urbanist]">
-                <div className="mt-6 bg-primary py-3 px-2">
-                    <div className="bg-white flex border-gray-200 rounded-md">
-                        <svg
-                            xmlns="http://www.w3.org/2000/svg"
-                            className="icon icon-tabler icon-tabler-mail text-black w-12 px-3"
-                            viewBox="0 0 24 24"
-                            strokeWidth="2"
-                            stroke="currentColor"
-                            fill="none"
-                            strokeLinecap="round"
-                            strokeLinejoin="round"
-                        >
-                            <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" />
-                        </svg>
-                        <input
-                            onChange={(e) => setSearch(e.target.value)}
-                            className="w-full bg-white border-white dark:bg-gray-800 dark:border-dim-400 text-black focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
-                            placeholder="Search"
-                        />
+            <div className="font-[Urbanist] w-full">
+                <div className="bg-primary md:py-8 rounded-b-lg">
+                    <div className="mt-6 py-3 px-2">
+                        <div className="bg-white flex border-gray-200 rounded-md">
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                className="icon icon-tabler icon-tabler-mail text-black w-12 px-3"
+                                viewBox="0 0 24 24"
+                                strokeWidth="2"
+                                stroke="currentColor"
+                                fill="none"
+                                strokeLinecap="round"
+                                strokeLinejoin="round"
+                            >
+                                <path d="M21.53 20.47l-3.66-3.66C19.195 15.24 20 13.214 20 11c0-4.97-4.03-9-9-9s-9 4.03-9 9 4.03 9 9 9c2.215 0 4.24-.804 5.808-2.13l3.66 3.66c.147.146.34.22.53.22s.385-.073.53-.22c.295-.293.295-.767.002-1.06zM3.5 11c0-4.135 3.365-7.5 7.5-7.5s7.5 3.365 7.5 7.5-3.365 7.5-7.5 7.5-7.5-3.365-7.5-7.5z" />
+                            </svg>
+                            <input
+                                onChange={(e) => setSearch(e.target.value)}
+                                className="w-full bg-white border-white dark:bg-gray-800 dark:border-dim-400 text-black focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
+                                placeholder="Search"
+                            />
+                        </div>
                     </div>
                 </div>
 
-                <ul className="bg-white w-full">
+
+                <ul className="mt-6 bg-white dark:bg-gray-900 dark:text-white w-full grid lg:grid-cols-2 gap-2">
                     {
-                        search.length > 0 &&
+
                         searchList.filter(ft => ft?.data()?.title.toLowerCase().includes(search.toLowerCase())).slice(0, 5).map((e) => (
                             <Link
                                 href={
@@ -78,7 +80,7 @@ export default function SeacrhPage(params) {
                                     }}
                             >
 
-                                <li className="px-3 py-3 border-b text-lg flex justify-between">
+                                <li className="px-3 py-3 border-b border-b-gray-700 text-base flex justify-between">
                                     {e.data().title}
                                     <span>
                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -92,7 +94,7 @@ export default function SeacrhPage(params) {
                 </ul>
 
                 {search.length === 0 && (
-                    <div className="px-2 py-4">
+                    <div className="px-2 py-4 dark:text-white">
                         <h2 className="text-lg font-bold">Explore</h2>
                         <ul className="mt-5 flex flex-nowrap gap-2">
 

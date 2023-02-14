@@ -63,24 +63,20 @@ export default function Home() {
       </Head>
 
 
-      <div className="w-full sm:w-600 md:h-screen pt-2">
+      <div className="w-full pt-2">
         <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
           <div className="my-2 px-5 py-4 flex justify-between"
             onClick={() => router.push('/create-post')}
           >
             <div className="flex items-center">
-              <span className="text-gray-600 dark:text-gray-200 text-sm font-bold ">Type to add something</span>
+              <span className="text-gray-600 dark:text-gray-200 text-sm font-semibold ">Type to add something</span>
             </div>
 
             <div className="bg-primary rounded-full py-2 px-4 text-xs text-white">
               <span>post</span>
             </div>
           </div>
-          <div className="border-b border-gray-200 dark:border-gray-900 dark:bg-gray-00 py-2 border-l border-r">
-            <div className="flex flex-shrink-0 items-center justify-center py-4 dark:bg-dim-900 border-b border-t border-gray-200 dark:border-dim-200 hover:bg-gray-50 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out text-gray-600 text-sm">
-              New 10 Quetions Posted
-            </div>
-          </div>
+
           <Feed />
         </div>
       </div>

@@ -34,7 +34,7 @@ function Feed() {
         fetchLoad ?
           <Loading />
           :
-          <div className="pb-24 ">
+          <div className="pb-24">
             {posts.map((post) => (
               <Post key={post.id} id={post.id} post={post.data()} />
             ))}

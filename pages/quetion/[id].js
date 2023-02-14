@@ -43,16 +43,8 @@ function PostPage({ providers }) {
                     <Loading />
                     :
                     <>
-                        <div className="w-full sm:w-600 md:h-screen">
-
-                            <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
-
-                                <div className="mt-14 md:mt-0">
-                                    <FullPost id={id} post={post} postPage />
-                                </div>
-
-
-                            </div>
+                        <div className="w-full px-0 md:px-16 lg:px-24 py-3 md:py-6">
+                            <FullPost id={id} post={post} postPage />
                         </div>
                         <RightBar />
                     </>

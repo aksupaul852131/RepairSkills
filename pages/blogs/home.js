@@ -30,7 +30,75 @@ export default function BlogHome() {
     }
 
 
+    const [filter, setFilter] = useState('All');
+    const [tags, setTags] = useState([
+        {
+            name: 'All',
+            pos: 'dec',
+        },
+        {
+            name: 'HVAC',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrator',
+            pos: 'dec',
+        },
+        {
+            name: 'VRV',
+            pos: 'dec',
+        },
+        {
+            name: 'Split AC',
+            pos: 'dec',
+        },
+        {
+            name: 'AC Error',
+            pos: 'dec',
+        },
+        {
+            name: 'Refrigrant Gas',
+            pos: 'dec',
+        },
+        {
+            name: 'Ductable',
+            pos: 'dec',
+        },
+        {
+            name: 'Wiring',
+            pos: 'dec',
+        },
+        {
+            name: 'Repair',
+            pos: 'dec',
+        },
+        {
+            name: 'Chiller',
+            pos: 'dec',
+        },
+        {
+            name: 'Installation',
+            pos: 'dec',
+        },
+        {
+            name: 'Diagnostic',
+            pos: 'dec',
+        },
+        {
+            name: 'Other',
+            pos: 'dec',
+        },
+    ]);
 
+    const handlechange = (index) => {
+        const data = [...tags];
+        for(var i = 0; i < tags.length; i++) {
+            tags[i].pos = 'dec';
+        }
+
+        data[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
+        setTags(data);
+    };
 
     return (
         <>
@@ -38,9 +106,9 @@ export default function BlogHome() {
                 fetchLoad ?
                     <Loading />
                     :
-                    <div className="font-[Urbanist] h-screen">
+                    <div className="font-[Urbanist] pb-24">
                         <div className="px-3 pt-3">
-                            <div className="flex justify-between items-center">
+                            <div className="flex justify-between items-center dark:text-white">
                                 <h1>
                                     <span className="text-2xl font-extrabold">Blogs</span> & News
                                 </h1>
@@ -66,17 +134,34 @@ export default function BlogHome() {
                                     </svg>
                                 </Link>
                             </div>
-
-                            <hr className="mt-3" />
-
-
                         </div>
 
-                        <div className="pt-3 pb-24">
-                            <div className="px-3">
-                                <img className="w-full rounded-lg object-cover" src='https://assets.justinmind.com/wp-content/uploads/2022/06/website-template-justinmind-400x250.png' />
+                        <div>
+                            <div className="px-3 mt-6">
+                                <img className="w-full rounded-lg object-cover" src='https://thumbs.gfycat.com/AnguishedForsakenAmericanmarten-size_restricted.gif' />
                             </div>
-                            <h2 className="mt-6 font-bold px-3 dark:text-white">Latest Update</h2>
+                            <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
+                                <div>
+                                    <ul className="mt-2 flex flex-nowrap overflow-x-scroll no-scrollbar">
+                                        {
+                                            tags.map((e, index) =>
+                                                <li
+                                                    key={index}
+                                                    onClick={() => {
+                                                        handlechange(index);
+                                                        setFilter(`${e.name}`)
+                                                    }}
+                                                    className={`${e.pos == 'act' && `border-primary border-2 bg-primary text-white`} border rounded-2xl px-3 py-1 ml-2 text-sm flex-none dark:text-white ${e.name == 'All' && 'bg-black text-white dark:bg-primary w-14 text-center'}`}>
+                                                    {e.name}
+                                                </li>
+                                            )
+                                        }
+
+                                    </ul>
+                                </div>
+
+                            </div>
+                            <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
                             <ul className="mt-4 px-3">
                                 {
                                     articleList.map((e) => (
@@ -107,7 +192,7 @@ export default function BlogHome() {
                                                         <p className={`flex text-xs mt-2 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
                                                             {e?.data()?.tags[0] && (
                                                                 <span className="bg-black rounded-full px-2 py-1 text-white mr-2">
-                                                                    ${e?.data()?.tags[0]}
+                                                                    #{e?.data()?.tags[0]}
                                                                 </span>
                                                             )}
                                                             <span className="dark:text-white mr-2">
