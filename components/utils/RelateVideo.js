@@ -30,7 +30,7 @@ export default function RelatedVideo(props) {
 
     return (
         <div className="font-[Urbanist] dark:text-white">
-            <ul className="">
+            <ul>
 
                 {
                     videoList.filter(t => t.data()?.videoId != props.videoId).map((e) => (

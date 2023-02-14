@@ -16,8 +16,8 @@ export default function ShareModalBox(props) {
                             <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white dark:bg-gray-700 outline-none focus:outline-none">
                                 {/*header*/}
                                 <div className="flex items-center justify-between p-4 border-b border-solid border-slate-200 rounded-t">
-                                    <h3 className="text-lg font-semibold">
-                                        Share This Post:
+                                    <h3 className="text-lg font-semibold dark:text-white">
+                                        Share Post:
                                     </h3>
                                     <button
                                         className="text-primary background-transparent font-bold uppercase text-sm outline-none focus:outline-none ease-linear transition-all duration-150"
@@ -97,7 +97,7 @@ export default function ShareModalBox(props) {
 
                                         }}
                                     >
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:text-white">
                                             <path strokeLinecap="round" strokeLinejoin="round" d="M12 4.5v15m7.5-7.5h-15" />
                                         </svg>
                                     </div>

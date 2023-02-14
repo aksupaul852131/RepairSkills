@@ -366,7 +366,7 @@ export default function Video() {
 
 
                             {/* related post */}
-                            <section className="pb-24 px-3 col-span-3 md:col-span-2">
+                            <section className="pb-24 px-2 col-span-3 md:col-span-2">
 
                                 <RelatedVideo videoId={video.data().videoId} refrehPage={setLoading2} viewCounter={setViewLoad} />
                             </section>
