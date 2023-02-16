@@ -176,22 +176,16 @@ export default function BlogHome() {
                                                     <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
                                                     <div className="w-full">
                                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">
-                                                            {e?.data()?.title.length != 0 ? e?.data()?.title : 'No Title'}
+                                                            {e?.data()?.title.length != 0 ? e.data().title.substring(0, 80) : 'No Title'}
                                                         </h2>
-                                                        <h4 className="mt-3 text-secondry  dark:text-gray-400 text-sm">
+                                                        <h3 className="mt-1 text-secondry  dark:text-gray-400 text-xs">
                                                             <Moment fromNow>{e?.data()?.timestamp?.toDate()}</Moment>
-                                                            - By <Link
-                                                                href={{
-                                                                    pathname: '/account/profile',
-                                                                    query: { key: `${e?.data()?.uid}` },
-                                                                }}
-                                                                className='hover:underline'
-                                                            >
-                                                                {e?.data()?.username}
-                                                            </Link></h4>
-                                                        <p className={`flex text-xs mt-2 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
+                                                            - By
+                                                            {e?.data()?.username}
+                                                        </h3>
+                                                        <p className={`flex text-xs mt-1 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
                                                             {e?.data()?.tags[0] && (
-                                                                <span className="bg-black rounded-full px-2 py-1 text-white mr-2">
+                                                                <span className="rounded-full text-blue-600 mr-2">
                                                                     #{e?.data()?.tags[0]}
                                                                 </span>
                                                             )}

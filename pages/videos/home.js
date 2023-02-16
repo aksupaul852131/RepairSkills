@@ -139,7 +139,6 @@ export default function VideoPage() {
                             <h1>
                                 <span className="text-2xl font-extrabold">Introducing</span> Orgnized <br /> Repairs <span className="text-2xl font-extrabold">Videos Content</span> only.
                             </h1>
-
                         </div>
 
                         <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
@@ -166,7 +165,7 @@ export default function VideoPage() {
 
                         <h2 className="px-3 pb-3 font-bold text-lg">Latest Videos</h2>
 
-                        <ul className="px-1 pb-24 grid md:grid-cols-2 md:gap-2">
+                        <ul className="px-1 pb-24 grid md:grid-cols-2 md:gap-2 gap-1">
 
                             {
                                 videoList.filter(filter != 'All' ? (ff => ff.data()?.tags[0] == filter) : (ff => ff.data()?.title))
@@ -178,30 +177,30 @@ export default function VideoPage() {
                                             }}
                                         >
                                             <li
-                                                className="mb-1 bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded">
-                                                <div className="flex gap-2 w-full">
+                                                className="bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded shadow-sm">
+                                                <div className="flex gap-3 w-full">
 
-                                                    <div className="relative w-64 overflow-hidden">
+                                                    <div className="w-64 overflow-hidden">
                                                         <div className="aspect-w-16 aspect-h-9">
                                                             <img className='w-full rounded' src={`https://img.youtube.com/vi/${e?.data()?.urlId}/mqdefault.jpg`} />
                                                         </div>
-                                                        <p className="bottom-0 rounded-tr-md absolute text-white bg-primary px-2 text-xs">{e?.data()?.views}</p>
                                                     </div>
                                                     <div className="w-full">
-                                                        <h2 className="text-sm text-black dark:text-white font-semibold hover:text-primary">{e?.data()?.title}</h2>
-                                                        <h4 className="mt-1 text-gray-600  dark:text-gray-400 text-sm">
-                                                            <Moment fromNow>{e?.data()?.timestamp?.toDate()}</Moment>
-                                                        </h4>
-                                                        <p className={`flex text-xs mt-2 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
+                                                        <h2 className="text-sm text-black dark:text-white font-semibold hover:text-primary">
+                                                            {e.data().title.substring(0, 80)}
+                                                        </h2>
+                                                        <h3 className="mt-1 text-xs text-gray-600  dark:text-gray-400">
+                                                            <Moment fromNow>{e?.data()?.timestamp?.toDate()}</Moment> -
+                                                            <span> {e?.data()?.views} views</span>
+                                                        </h3>
+                                                        <p className={`flex text-xs mt-1 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
                                                             {e?.data()?.tags[0] && (
                                                                 <span className="text-blue-600">
                                                                     #{e?.data()?.tags[0]}
                                                                 </span>
                                                             )}
                                                             <span className="text-gray-500 dark:text-white mr-2">
-                                                                <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" className="w-6 h-6">
-                                                                    <path fillRule="evenodd" d="M1.5 5.625c0-1.036.84-1.875 1.875-1.875h17.25c1.035 0 1.875.84 1.875 1.875v12.75c0 1.035-.84 1.875-1.875 1.875H3.375A1.875 1.875 0 011.5 18.375V5.625zm1.5 0v1.5c0 .207.168.375.375.375h1.5a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-1.5A.375.375 0 003 5.625zm16.125-.375a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h1.5A.375.375 0 0021 7.125v-1.5a.375.375 0 00-.375-.375h-1.5zM21 9.375A.375.375 0 0020.625 9h-1.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 00.375-.375v-1.5zm0 3.75a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 00.375-.375v-1.5zm0 3.75a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h1.5a.375.375 0 00.375-.375v-1.5zM4.875 18.75a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375h1.5zM3.375 15h1.5a.375.375 0 00.375-.375v-1.5a.375.375 0 00-.375-.375h-1.5a.375.375 0 00-.375.375v1.5c0 .207.168.375.375.375zm0-3.75h1.5a.375.375 0 00.375-.375v-1.5A.375.375 0 004.875 9h-1.5A.375.375 0 003 9.375v1.5c0 .207.168.375.375.375zm4.125 0a.75.75 0 000 1.5h9a.75.75 0 000-1.5h-9z" clipRule="evenodd" />
-                                                                </svg>
+
 
                                                             </span></p>
                                                     </div>

@@ -144,18 +144,6 @@ function Post({ id, post, userpage }) {
             >
               {post?.username}
             </h4>
-
-            {/* username */}
-            <span
-              className={`text-sm sm:text-[15px] ml-2`}
-            >
-              {
-                !userpage && (
-                  ` @${post?.tag}`
-                )
-              }
-
-            </span>
           </div>
           {/* post time */}
           <span className="hover:underline text-gray-600 dark:text-gray-400 text-sm sm:text-[15px]">
