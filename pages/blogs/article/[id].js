@@ -178,7 +178,7 @@ export default function Tool() {
                                 <button
                                     onClick={async (e) => {
                                         try {
-                                            await navigator.clipboard.writeText('copyMe');
+                                            await navigator.clipboard.writeText(window.location.href);
                                             toast.success('link Copied')
                                         }
                                         catch(err) {

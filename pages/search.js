@@ -76,7 +76,7 @@ export default function SeacrhPage() {
                                 href={
                                     {
                                         pathname: `${new URLSearchParams(window.location.search).get('path')}`,
-                                        query: { key: `${e.data().articleId ? e.data().articleId : e.data().videoId && e.data().videoId}` },
+                                        query: { key: `${e?.id}` },
                                     }}
                             >
 
