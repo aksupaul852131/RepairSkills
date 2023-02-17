@@ -130,15 +130,24 @@ export default function Tool() {
                 <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist] select-none">
 
                     <h1 className="font-bold text-2xl dark:text-white">{stepData?.data()?.title}</h1>
-                    <div className="mt-3 flex bg-primary p-4 gap-3 rounded-md items-center">
-                        <span className="text-2xl font-bold">
-                            90%
-                        </span>
+                    <p className="mt-1 first-letter:text-sm dark:text-white">{stepData?.data()?.description}</p>
+                    <div className="mt-5 flex bg-primary/10 border border-primary p-4 gap-3 rounded-md items-center">
+                        <div className="relative">
+                            <svg className="h-16 w-16 text-primary" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
+                                <circle className="opacity-75" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
+                                <path className="opacity-50 text-white" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
+                            </svg>
+                            <span className="top-[18.2px] left-4 absolute text-lg font-bold">
+                                90%
+                            </span>
+                        </div>
+
                         <p className="mt-1">
-                            This Is The Steps Technician Used 90% On Every Site.
+                            Accurecy, <br />
+                            Technican Use This Steps Always
                         </p>
                     </div>
-                    <hr />
+                    <hr className="my-6" />
                     {/* steps body */}
                     {stepData?.data()?.AllSteps.map((e, index) => (
                         <div key={index} className="py-3">
