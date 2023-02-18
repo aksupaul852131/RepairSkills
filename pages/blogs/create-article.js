@@ -161,6 +161,10 @@ export default function CreatePost() {
             pos: 'dec',
         },
         {
+            name: 'AC Course',
+            pos: 'dec',
+        },
+        {
             name: 'Diagnostic',
             pos: 'dec',
         },
@@ -168,6 +172,7 @@ export default function CreatePost() {
             name: 'Other',
             pos: 'dec',
         },
+
     ]);
 
     const handlechange = (index) => {

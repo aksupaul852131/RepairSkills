@@ -57,40 +57,7 @@ export default function Tool() {
         if(tools?.filter(i => i.pos == 'act').map((e) => (e)).length > 0) {
             setPopup(true);
         } else {
-            toast.custom((t) => (
-                <div
-                    className={`${t.visible ? 'animate-enter' : 'animate-leave'
-                        } max-w-md w-full bg-white shadow-lg rounded-lg pointer-events-auto flex ring-1 ring-black ring-opacity-5 mb-32`}
-                >
-                    <div className="flex-1 w-0 p-4">
-                        <div className="flex items-start">
-                            <div className="flex-shrink-0 pt-0.5">
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-10 h-10">
-                                    <path strokeLinecap="round" strokeLinejoin="round" d="M11.42 15.17L17.25 21A2.652 2.652 0 0021 17.25l-5.877-5.877M11.42 15.17l2.496-3.03c.317-.384.74-.626 1.208-.766M11.42 15.17l-4.655 5.653a2.548 2.548 0 11-3.586-3.586l6.837-5.63m5.108-.233c.55-.164 1.163-.188 1.743-.14a4.5 4.5 0 004.486-6.336l-3.276 3.277a3.004 3.004 0 01-2.25-2.25l3.276-3.276a4.5 4.5 0 00-6.336 4.486c.091 1.076-.071 2.264-.904 2.95l-.102.085m-1.745 1.437L5.909 7.5H4.5L2.25 3.75l1.5-1.5L7.5 4.5v1.409l4.26 4.26m-1.745 1.437l1.745-1.437m6.615 8.206L15.75 15.75M4.867 19.125h.008v.008h-.008v-.008z" />
-                                </svg>
-
-                            </div>
-                            <div className="ml-3 flex-1">
-                                <p className="text-sm font-medium text-gray-900">
-                                    Select tools
-                                </p>
-                                <p className="mt-1 text-sm text-gray-500">
-                                    first you need to select any tool for get results.
-                                </p>
-                            </div>
-                        </div>
-                    </div>
-                    <div className="flex border-l border-gray-200">
-                        <button
-                            onClick={() => toast.dismiss(t.id)}
-                            className="w-full border border-transparent rounded-none rounded-r-lg p-4 flex items-center justify-center text-sm font-medium text-indigo-600 hover:text-indigo-500"
-                        >
-                            Close
-                        </button>
-                    </div>
-                </div>
-            ))
-
+            toast.error('please select item')
         }
     }
 
@@ -108,7 +75,7 @@ export default function Tool() {
         <>
             {loading ? <Loading />
                 : tools ?
-                    <div className="pt-6 w-full font-[Urbanist] select-none">
+                    <div className="pt-6 pb-24 w-full font-[Urbanist] select-none">
                         {
                             postType == 1 && (
                                 <div className="relative mx-2 mb-4 ">
@@ -131,37 +98,24 @@ export default function Tool() {
                                     <input
                                         onChange={(e) => onSearch(e.target.value)}
                                         className="w-full bg-white dark:bg-dim-400 border-gray-200 dark:border-dim-400 text-gray-100 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
-                                        placeholder="Search Twitter"
+                                        placeholder="Search Spllit AC"
                                     />
                                 </div>
                             )
                         }
                         {
                             postType == 1 ?
-                                <DragDropContext droppableId='tbody'>
-                                    {
-                                        (provided) => (
-                                            <ul ref={provided.innerRef} {...provided.droppableprops} className="grid grid-cols-2 px-3 gap-3">
-                                                {tools.map((e, index) => (
-                                                    <Draggable draggableId={index}>
-                                                        {
-                                                            (provided) => (
-                                                                <li ref={provided.innerRef} {...provided.droppableprops}
-                                                                    className="relative" onClick={() => setPopup2(`${e.img}`)}>
-                                                                    <img src={e.img} className='rounded-lg h-32 w-full object-cover filter-none contrast-900' />
-                                                                    <h2 className="absolute bottom-2 left-2 text-sm">{e.name}</h2>
-                                                                </li>
-                                                            )
-                                                        }
-                                                    </Draggable>
-                                                ))}
-                                            </ul>
-                                        )
-                                    }
-                                </DragDropContext>
+                                <ul className="px-3 grid grid-cols-6 gap-2">
+                                    {tools.map((e, index) => (
+                                        <li key={index}
+                                            className={`border pb-8 rounded-lg ${index % 3 == 0 ? 'col-span-6 row-span-3' : 'col-span-3 row-span-6'}`} onClick={() => setPopup2(`${e.img}`)}>
+                                            <img src={e.img} className={`rounded-lg w-full object-cover filter-none contrast-900 h-full`} />
+                                            <h2 className="pt-2 pl-2 text-sm truncate">{e.name}</h2>
+                                        </li>
+                                    ))}
+                                </ul>
                                 :
                                 <div className="">
-
 
                                     <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3 md:px-32">
                                         {tools.map((e, index) => (
