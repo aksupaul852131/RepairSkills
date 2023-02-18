@@ -5,6 +5,7 @@ import { useRouter } from 'next/router'
 import { signOut, useSession } from 'next-auth/react'
 import { doc, getDoc } from '@firebase/firestore'
 import { db } from '../../pages/api/auth/firebase-config'
+import { useTheme } from 'next-themes'
 
 const navigation = [
     { name: 'Dashboard', href: '#', current: true },
@@ -19,6 +20,7 @@ function classNames(...classes) {
 
 export default function Navbar() {
     const router = useRouter();
+    const { theme, setTheme } = useTheme();
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
 
@@ -41,23 +43,21 @@ export default function Navbar() {
     }
 
 
-
     return (
         <>
             {
                 router.pathname != '/login' && (
-                    <Disclosure as="nav" className="bg-white dark:bg-gray-500 shadow-sm font-[Urbanist] fixed top-0 z-50 w-full select-none">
+                    <Disclosure as="nav" className="bg-white dark:bg-gray-800 shadow-sm fixed top-0 z-50 w-full select-none">
                         {({ open }) => (
                             <>
                                 <div className="mx-auto px-2 sm:px-6 lg:px-8 py-1">
                                     <div className="relative flex h-14 items-center justify-between">
 
-
-
-
                                         <div className="flex flex-1 ">
 
-                                            <div className="flex flex-shrink-0 items-center">
+                                            <div
+
+                                                className="flex flex-shrink-0 items-center">
                                                 <Link href='/'>
                                                     <img src='/RepairSkills.png' className='w-32' />
                                                 </Link>
@@ -82,6 +82,16 @@ export default function Navbar() {
                                             </div>
                                         </div>
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
+
+                                            <button
+                                                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
+                                            >
+                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${theme === 'dark' && 'fill-black'} w-6 h-6 mr-3`}>
+                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
+                                                </svg>
+
+                                            </button>
+
                                             <Link
                                                 href='/steps/home'
                                                 className="rounded-full bg-primary p-1 text-black"

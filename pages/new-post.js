@@ -3,7 +3,7 @@ import Link from "next/link";
 export default function NewPost() {
     return (
         <>
-            <div className="font-[Urbanist] pt-3 px-3">
+            <div className="pt-3 pb-12 px-3">
                 <ul className="mt-6 dark:text-white grid grid-cols-3 items-center justify-items-center gap-5 select-none">
 
                     <Link href='/create-post'>

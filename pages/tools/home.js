@@ -49,7 +49,7 @@ export default function ToolHome() {
                 <div>
                     <h2 className="mt-6 font-extrabold dark:text-white">Daily Use Tools</h2>
                     <div className="border-t mt-8 mb-8 relative">
-                        <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border">Split AC Tools</span>
+                        <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border dark:text-black">Split AC Tools</span>
                     </div>
                     <div className="mt-4 grid grid-cols-2 md:grid-cols-3 gap-3">
                         {
@@ -78,7 +78,7 @@ export default function ToolHome() {
                             pathname: '/tools/tools-list',
                             query: { key: `InstallIdea` },
                         }}>
-                        <div className="mt-4 grid justify-items-center h-32">
+                        <div className="mt-4 grid justify-items-center">
                             <Swiper
                                 spaceBetween={30}
                                 centeredSlides={true}
@@ -117,7 +117,7 @@ export default function ToolHome() {
                                 pathname: '/tools/tools-list',
                                 query: { key: `InstallIdea` },
                             }}
-                            className="-top-4 left-1/3 text-sm ml-2 absolute bg-white px-4 py-1 rounded-full border">view gallery</Link>
+                            className="-top-4 left-1/3 text-sm ml-2 absolute bg-white dark:text-black px-4 py-1 rounded-full border">view gallery</Link>
                     </div>
                 </div>
 

@@ -2,7 +2,7 @@ import Link from "next/link";
 
 const RightBar = () => {
     return (
-        <div className="w-full lg:w-[55%] font-[Urbanist]">
+        <div className="w-full lg:w-[55%]">
             <div className="relative lg:fixed pb-16">
                 {/* Search */}
                 <div className="relative mx-2 mt-9">
@@ -30,30 +30,30 @@ const RightBar = () => {
                 {/* /Search */}
 
                 <div className="bg-white dark:bg-gray-800 rounded-2xl mt-6 mx-2 border">
-                    <h3 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-gray-600">
-                        Groups Joined
-                    </h3>
+                    <h2 className="text-gray-900 dark:text-white text-md font-bold p-3 border-b border-gray-200 dark:border-gray-600">
+                        Latest #HasTag
+                    </h2>
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
-                        <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
+                        <h3 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
                             #AC Course
-                        </h2>
+                        </h3>
                         <p className="text-xs text-gray-400">29.7K Tweets</p>
                     </div>
                     {/* /Trending Topic */}
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
-                        <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
+                        <h3 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
                             #Refrigrator
-                        </h2>
+                        </h3>
                         <p className="text-xs text-gray-400">351K Tweets</p>
                     </div>
                     {/* /Trending Topic */}
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
-                        <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
+                        <h3 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
                             #NewJobAlert
-                        </h2>
+                        </h3>
                         <p className="text-xs text-gray-400">52.7K Tweets</p>
                     </div>
                     {/* /Trending Topic */}
@@ -90,7 +90,7 @@ const RightBar = () => {
                                 More
                             </a>
                         </li>
-                        <li className="inline-block mx-2">© 2020 RepairSteps, Inc.</li>
+                        <li className="inline-block mx-2">© 2020 RepairSkills, Inc.</li>
                     </ul>
                 </footer>
             </div>

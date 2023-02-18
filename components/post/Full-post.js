@@ -163,7 +163,7 @@ function Post({ id, post }) {
 
     return (
         <div
-            className="font-[Urbanist] h-full">
+            className="px-3 h-full">
             <div>
                 <img
                     src={post?.image}
@@ -174,7 +174,7 @@ function Post({ id, post }) {
             </div>
 
 
-            <div className="mt-6 px-4 md:px-0 w-full flex">
+            <div className="mt-6 md:px-0 w-full flex">
                 <img
                     src={post?.userImg}
                     alt=""
@@ -208,13 +208,13 @@ function Post({ id, post }) {
             </div>
 
             {/* post text */}
-            <p className="px-4 md:px-0 text-gray-700 dark:text-white text-lg font-semibold my-3 ml-1">
+            <h1 className="text-gray-700 dark:text-white text-lg font-semibold my-3 ml-1">
                 {post?.text}
-            </p>
+            </h1>
 
             <div className="flex flex-col space-y-2 w-full">
                 {/* buttons */}
-                <div className={`text-[#6e767d] dark:text-white flex items-center justify-between py-2 px-4 md:px-0 gap-2`}>
+                <div className={`text-[#6e767d] dark:text-white flex items-center justify-between py-2 gap-2`}>
 
                     {/* up */}
                     <div
@@ -259,24 +259,24 @@ function Post({ id, post }) {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
                         </svg>
                     </div>
-                    <ShareModalBox showModel={share} closeModel={setShare} />
+                    <ShareModalBox showModel={share} closeModel={setShare} shareLink={window.location.href} />
                 </div>
 
 
                 {/* scroll btn */}
                 <div
                     onClick={executeScroll}
-                    className="bg-black text-center rounded-full p-3 mx-4 md:mx-0 text-white dark:bg-gray-600">
+                    className="bg-black text-center rounded-full p-3 text-white dark:bg-gray-600">
                     <span>Add a Response</span>
                 </div>
 
 
                 {/* all coments */}
 
-                <h4 className="pt-8 pb-2 text-lg font-semibold mx-4 dark:text-white">Users Repsonse</h4>
+                <h2 className="pt-8 pb-2 text-lg font-semibold dark:text-white">Users Repsonse</h2>
 
                 {/*ALl Comments */}
-                {comments.length > 0 && (
+                {comments.length > 0 ?
                     <div className="pb-16">
                         {comments.map((comment) => (<>
                             <Comment
@@ -289,32 +289,21 @@ function Post({ id, post }) {
 
                         </>
                         ))}
-                    </div>
-                )}
+                    </div> :
+                    <p className="text-gray-600 pb-8 text-sm">0 Response</p>
 
-                <div className="border shadow mx-2" ref={commentbox}>
+                }
+
+                <div className="mt-8 border shadow rounded" ref={commentbox}>
                     <h4 className="text-lg font-semibold my-5 mx-4 dark:text-white">Add A Response</h4>
                     <EditorX onChangeResponse={setResponse} />
                 </div>
 
 
-                {/* commet toast */}
-                <ToastContainer
-                    position="bottom-center"
-                    autoClose={1000}
-                    hideProgressBar
-                    newestOnTop={false}
-                    closeOnClick
-                    rtl={false}
-                    pauseOnFocusLoss
-                    draggable
-                    pauseOnHover
-                    theme="dark"
-                />
                 {/* add comments */}
 
                 <div className="mt-16"></div>
-                <div onClick={sendComment} className="bg-primary rounded text-white text-center mx-2 p-3 font-semibold">
+                <div onClick={sendComment} className="bg-primary rounded text-white text-center p-3 font-semibold">
                     Send
                 </div>
                 {
@@ -326,6 +315,19 @@ function Post({ id, post }) {
                 }
             </div>
 
+            {/* commet toast */}
+            <ToastContainer
+                position="bottom-center"
+                autoClose={1000}
+                hideProgressBar
+                newestOnTop={false}
+                closeOnClick
+                rtl={false}
+                pauseOnFocusLoss
+                draggable
+                pauseOnHover
+                theme="dark"
+            />
 
         </div>
     );

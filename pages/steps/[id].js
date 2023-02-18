@@ -394,10 +394,6 @@ export default function Tool() {
                         <Discussion CommentList={comentList} setReplyId={setReplyId} session={session?.user?.uid} sendReply={sendReply} setReply={setReply} dbKey={dbKey} db={db} doc={doc} replyId={replyId} />
 
 
-
-
-
-
                         <Toaster
                             position="bottom-center"
                             reverseOrder={false}

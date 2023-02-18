@@ -106,7 +106,7 @@ export default function BlogHome() {
                 fetchLoad ?
                     <Loading />
                     :
-                    <div className="font-[Urbanist] pb-24">
+                    <div className="select-none pb-24">
                         <div className="px-3 pt-3">
                             <div className="flex justify-between items-center dark:text-white">
                                 <h1>
@@ -151,7 +151,7 @@ export default function BlogHome() {
                                                         handlechange(index);
                                                         setFilter(`${e.name}`)
                                                     }}
-                                                    className={`${e.pos == 'act' && `border-primary border-2 bg-primary text-white`} border rounded-2xl px-3 py-1 ml-2 text-sm flex-none dark:text-white ${e.name == 'All' && 'bg-black text-white dark:bg-primary w-14 text-center'}`}>
+                                                    className={`${e.pos == 'act' && `border-primary border-2 bg-primary text-white`} border rounded-2xl px-3 py-1 ml-2 text-sm flex-none dark:text-white ${e.name == 'All' && 'bg-black text-white dark:bg-primary w-14 text-center border-primary'}`}>
                                                     {e.name}
                                                 </li>
                                             )
@@ -164,7 +164,7 @@ export default function BlogHome() {
                             <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
                             <ul className="mt-4 px-3">
                                 {
-                                    articleList.map((e) => (
+                                    articleList.filter(filter != 'All' ? (j => j?.data().tags[0] == filter) : (ff => ff.data()?.title)).map((e) => (
                                         <Link
                                             href={{
                                                 pathname: '/blogs/article/m',
