@@ -1,12 +1,11 @@
 import { onSnapshot, collection, query, orderBy, doc, getDoc, } from "@firebase/firestore";
-import { db } from "../../api/auth/firebase-config";
+import { db } from "../api/auth/firebase-config";
 import { useEffect, useState } from "react";
-import Loading from "../../../components/utils/Loading";
-import ToolsModalBox from "../../../components/model/tools-model";
-import ImageView from "../../../components/model/imageView";
+import Loading from "../../components/utils/Loading";
+import ToolsModalBox from "../../components/model/tools-model";
+import ImageView from "../../components/model/imageView";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
-
 
 
 export default function Tool() {
@@ -34,7 +33,7 @@ export default function Tool() {
             if(docSnap.exists()) {
                 setTools(docSnap.data()[dbKey]);
 
-                if(dbKey == 'iduInstallIdea' || dbKey == 'oduInstallIdea') {
+                if(dbKey == 'InstallIdea') {
                     setPostType(1);
                 }
                 setLoading2(false);
@@ -51,12 +50,11 @@ export default function Tool() {
         getState[index].pos = tools[index].pos == 'act' ? 'dec' : 'act';
 
         setTools(getState);
-        console.log('pos', tools.filter(i => i.pos == 'act').map((e) => (e.name)))
     };
 
     const onCheckHandle = () => {
 
-        if(tools?.filter(i => i.pos == 'act').map((e) => (e.name)).length > 0) {
+        if(tools?.filter(i => i.pos == 'act').map((e) => (e)).length > 0) {
             setPopup(true);
         } else {
             toast.custom((t) => (
@@ -103,6 +101,9 @@ export default function Tool() {
 
         setTools(getState);
     }
+
+
+
     return (
         <>
             {loading ? <Loading />
@@ -137,19 +138,35 @@ export default function Tool() {
                         }
                         {
                             postType == 1 ?
-                                <ul className="grid grid-cols-2 px-3 gap-3">
-                                    {tools.map((e, index) => (
-                                        <li className="relative" onClick={() => setPopup2(`${e.img}`)}>
-                                            <img src={e.img} className='rounded-lg h-32 w-full object-cover filter-none contrast-900' />
-                                            <h2 className="absolute bottom-2 left-2 text-sm">{e.name}</h2>
-                                        </li>
-                                    ))}
-                                </ul>
-                                :
-                                <div className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3 md:px-32">
+                                <DragDropContext droppableId='tbody'>
                                     {
-                                        tools.map((e, index) => (
-                                            <div
+                                        (provided) => (
+                                            <ul ref={provided.innerRef} {...provided.droppableprops} className="grid grid-cols-2 px-3 gap-3">
+                                                {tools.map((e, index) => (
+                                                    <Draggable draggableId={index}>
+                                                        {
+                                                            (provided) => (
+                                                                <li ref={provided.innerRef} {...provided.droppableprops}
+                                                                    className="relative" onClick={() => setPopup2(`${e.img}`)}>
+                                                                    <img src={e.img} className='rounded-lg h-32 w-full object-cover filter-none contrast-900' />
+                                                                    <h2 className="absolute bottom-2 left-2 text-sm">{e.name}</h2>
+                                                                </li>
+                                                            )
+                                                        }
+                                                    </Draggable>
+                                                ))}
+                                            </ul>
+                                        )
+                                    }
+                                </DragDropContext>
+                                :
+                                <div className="">
+
+
+                                    <ul className="grid grid-cols-2 md:grid-cols-3 lg:grid-cols-4 gap-3 px-3 md:px-32">
+                                        {tools.map((e, index) => (
+                                            <li
+
                                                 onClick={() => {
                                                     handlechange(index);
                                                 }}
@@ -157,9 +174,10 @@ export default function Tool() {
                                                 className={`${e.pos == 'act' && `border-primary border-2`} grid items-center justify-items-center border-2 p-4 md:p-6 rounded-lg h-32`}>
                                                 <img src={e.img} className='w-16 h-16 object-contain' />
                                                 <p className="mt-3 text-center dark:text-white">{e.name}</p>
-                                            </div>
-                                        ))
-                                    }
+                                            </li>
+                                        ))}
+                                    </ul>
+
                                 </div>
                         }
 
@@ -192,7 +210,7 @@ export default function Tool() {
                             position="bottom-center"
                             reverseOrder={false}
                         />
-                        <ToolsModalBox showModel={popup} closeModel={setPopup} avail={tools.filter(i => i.pos == 'act').map((e) => (e.name))} Notavail={tools.filter(i => i.pos != 'act').map((e) => (e.name))} />
+                        <ToolsModalBox showModel={popup} closeModel={setPopup} avail={tools.filter(i => i.pos == 'act').map((e) => (e))} Notavail={tools.filter(i => i.pos != 'act').map((e) => (e))} />
 
                         <ImageView showModel={popup1} closeModel={setPopup2} />
                     </div> :

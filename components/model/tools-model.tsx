@@ -28,32 +28,37 @@ export default function ToolsModal(props: any) {
                                 {/*body*/}
                                 <div
                                     className="mt-4 px-4">
-                                    <div className="relative w-full border h-24">
+                                    <div className="relative w-full border h-36">
                                         <span className="-top-3 left-4 absolute bg-primary text-white px-4 py-1 rounded text-xs">Available {props.avail.length}</span>
 
                                         <ul className="mt-8 px-2 pb-7 flex flex-nowrap gap-3 overflow-x-scroll">
                                             {
                                                 props.avail.map((e: any) => (
-                                                    <li className="border border-r-primary px-2 py-1 flex-none text-sm">{e}</li>
+                                                    <li className="border border-r-primary px-2 py-1 flex-none text-sm">
+                                                        <img src={e.img} className='w-16 h-16 object-contain' />
+                                                        {e.name}</li>
                                                 ))
                                             }
                                         </ul>
                                     </div>
                                     <hr className="mt-4 mb-7 " />
-                                    <div className="relative w-full border h-24">
+                                    <div className="relative w-full border h-36">
                                         <span className="-top-3 left-4 absolute bg-red-600 text-white px-4 py-1 rounded text-xs">Missing {props.Notavail.length}</span>
 
                                         <ul className="mt-8 px-2 pb-7 flex flex-nowrap gap-3 overflow-x-scroll">
                                             {
                                                 props.Notavail.map((e: any) => (
-                                                    <li className="border border-r-red-500 px-2 py-1 flex-none text-sm">{e}</li>
+                                                    <li className="border border-r-red-500 px-2 py-1 flex-none text-sm">
+                                                        <img src={e.img} className='w-16 h-16 object-contain' />
+                                                        {e.name}
+                                                    </li>
                                                 ))
                                             }
                                         </ul>
                                     </div>
                                 </div>
                                 {/*footer*/}
-                                <p className="mt-4 text-center text-xs">This Is The Result Of Your <u>Availible</u> Or  <span className="text-red-600">Not Availible</span> Tools</p>
+                                <p className="mt-6 text-center text-xs">This Is The Result Of Your <u>Availible</u> Or  <span className="text-red-600">Not Availible</span> Tools</p>
                                 <div>
                                 </div>
                             </div>

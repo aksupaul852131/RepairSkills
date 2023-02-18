@@ -8,7 +8,7 @@ const MobileNav = () => {
 
             <div className="block md:hidden font-[Urbanist]">
 
-                <div className="fixed bottom-0 bg-white dark:bg-gray-800 w-full shadow-inner">
+                <div className="fixed bottom-0 bg-white dark:bg-gray-800 w-full shadow-inner z-50      ">
 
                     {
                         more && (
