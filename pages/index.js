@@ -58,7 +58,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>Home / Twitter</title>
+        <title>RepairSteps || Worlwide RepairMan Community</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

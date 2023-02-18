@@ -24,7 +24,7 @@ const RightBar = () => {
                     </div>
                     <input
                         className="w-full bg-white dark:bg-gray-800 border-gray-200 dark:border-dim-400 text-gray-100 focus:bg-gray-100 dark:focus:bg-dim-900 focus:outline-none focus:border focus:border-blue-200 font-normal h-14 md:h-16 flex items-center pl-4 py-2 text-sm rounded-md border"
-                        placeholder="Search Twitter"
+                        placeholder="Search Here"
                     />
                 </div>
                 {/* /Search */}
@@ -36,7 +36,7 @@ const RightBar = () => {
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
-                            #FreePS5Monday
+                            #AC Course
                         </h2>
                         <p className="text-xs text-gray-400">29.7K Tweets</p>
                     </div>
@@ -44,7 +44,7 @@ const RightBar = () => {
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
-                            #BTSonGMA
+                            #Refrigrator
                         </h2>
                         <p className="text-xs text-gray-400">351K Tweets</p>
                     </div>
@@ -52,7 +52,7 @@ const RightBar = () => {
                     {/* Trending Topic */}
                     <div className="text-blue-400 text-sm font-normal p-3 border-b border-gray-200 dark:border-gray-600 hover:bg-gray-100 dark:hover:bg-dim-300 cursor-pointer transition duration-350 ease-in-out">
                         <h2 className="font-bold text-md text-gray-800 dark:text-white hover:text-primary">
-                            #AstraZeneca
+                            #NewJobAlert
                         </h2>
                         <p className="text-xs text-gray-400">52.7K Tweets</p>
                     </div>
@@ -90,7 +90,7 @@ const RightBar = () => {
                                 More
                             </a>
                         </li>
-                        <li className="inline-block mx-2">© 2020 Twitter, Inc.</li>
+                        <li className="inline-block mx-2">© 2020 RepairSteps, Inc.</li>
                     </ul>
                 </footer>
             </div>

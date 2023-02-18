@@ -7,6 +7,7 @@ import "swiper/css/navigation";
 
 // import required modules
 import { Autoplay, Pagination, Navigation } from "swiper";
+import Head from "next/head";
 
 export default function ToolHome() {
 
@@ -35,6 +36,10 @@ export default function ToolHome() {
 
     return (
         <>
+            <Head>
+                <title>RepairSteps || Worlwide RepairMan Community</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
             <div className="pt-6 pb-24 w-full font-[Urbanist] px-3 md:px-32">
                 <div className="bg-black text-white py-4 rounded-md">

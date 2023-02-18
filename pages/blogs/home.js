@@ -138,7 +138,7 @@ export default function BlogHome() {
 
                         <div>
                             <div className="px-3 mt-6">
-                                <img className="w-full rounded-lg object-cover" src='https://thumbs.gfycat.com/AnguishedForsakenAmericanmarten-size_restricted.gif' />
+                                <img className="w-full rounded-lg object-cover" src='https://img.global.news.samsung.com/in/wp-content/uploads/2020/05/4.gif' />
                             </div>
                             <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
                                 <div>
