@@ -151,7 +151,7 @@ export default function Tool() {
                         <meta name="viewport"
                             content="width=device-width, initial-scale=1.0" />
 
-                        {/* og graph */}
+                        =
 
                         {/* <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
                         <meta property="og:site_name" content="RepairSkills" />

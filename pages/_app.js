@@ -6,6 +6,7 @@ import MobileNav from "../components/navbar/mobile-nav";
 import Navbar from "../components/navbar/Navbar";
 import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
+import { Suspense } from "react";
 
 import ScrollButton from "../components/utils/Scroll-btn"
 import Sidebar from "../components/Sidebar";
@@ -29,7 +30,9 @@ export default function App({
               <div className="mt-16 lg:flex lg:flex-row dark:bg-gray-900">
                 {/* Left */}
                 <Sidebar />
-                <Component {...pageProps} />
+                <Suspense fallback={<p>Loading feed...</p>}>
+                  <Component {...pageProps} />
+                </Suspense>
               </div>
             </div>
           </div>
