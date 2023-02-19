@@ -96,6 +96,25 @@
         @apply mt-6 mb-4 w-full md:w-1/2 mx-auto;
     }
 
+    .single-article table {
+        @apply mt-6 mb-4 w-full md:w-1/2 mx-auto border;
+    }
+
+     .single-article th {
+        @apply bg-gray-200 pt-2;
+    }
+
+    .single-article tr {
+        @apply border-b;
+    }
+    /* .single-article th p {
+        @apply bg-gray-200 text-primary;
+    } */
+
+    .single-article td {
+        @apply text-center border-r;
+    }
+
     /* order */
 
     .single-article ol {

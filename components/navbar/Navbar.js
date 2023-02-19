@@ -101,7 +101,7 @@ export default function Navbar() {
 
                                             <Link
                                                 href='/steps/home'
-                                                className="rounded-full bg-primary p-1 text-black"
+                                                className="rounded-full bg-gray-100 border border-primary border-dashed p-1 text-black"
                                             >
                                                 <span className="sr-only">View notifications</span>
                                                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">

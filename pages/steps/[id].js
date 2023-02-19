@@ -45,11 +45,11 @@ export default function Tool() {
         setDbKey(urlSearchParams.get('key'));
 
 
-        if (loading2) {
+        if(loading2) {
             const docRef = doc(db, "steps", dbKey);
             const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
+            if(docSnap.exists()) {
                 setStepData(docSnap);
                 onSnapshot(
                     query(collection(db, "steps", dbKey, "comments"), orderBy("timestamp", "desc")),
@@ -57,10 +57,10 @@ export default function Tool() {
                         setComentList(snapshot.docs);
                     }
                 );
-                if (session) {
+                if(session) {
                     const docRef = doc(db, "users", session.user.uid);
                     const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
+                    if(docSnap.exists()) {
                         setUser(docSnap.data());
                     }
                 }
@@ -70,7 +70,7 @@ export default function Tool() {
                     query(collection(db, "steps", dbKey, "upVote")),
                     (snapshot) => {
                         setVoteUpLength(snapshot.docs);
-                        if (voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+                        if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
                             setholdVote(
                                 1
                             )
@@ -82,7 +82,7 @@ export default function Tool() {
                     query(collection(db, "steps", dbKey, "downVote")),
                     (snapshot) => {
                         setVoteDownLength(snapshot.docs);
-                        if (voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
+                        if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
                             setholdVote(
                                 2
                             )
@@ -116,10 +116,10 @@ export default function Tool() {
 
     const sendComment = async (e) => {
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (comment != '') {
+            if(comment != '') {
                 await setDoc(doc(db, "steps", dbKey, "comments", `${user?.name}-${uuid()}`), RepsonseData);
                 commentbox.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 toast.success('Comment Added');
@@ -136,10 +136,10 @@ export default function Tool() {
     const sendReply = async (e) => {
 
         e.preventDefault();
-        if (!session) {
+        if(!session) {
             // router.push('/login');
         } else {
-            if (reply != '') {
+            if(reply != '') {
                 const dbRef = doc(db, "steps", dbKey, "comments", replyId);
                 await updateDoc(dbRef, {
                     reply: arrayUnion(
@@ -160,10 +160,10 @@ export default function Tool() {
 
     //  do things
     const likePost = async () => {
-        if (!session) {
+        if(!session) {
             router.push('/login');
         } else {
-            if (holdVote == 0 || holdVote == 2) {
+            if(holdVote == 0 || holdVote == 2) {
                 setholdVote(1);
                 await deleteDoc(doc(db, "steps", dbKey, "downVote", session.user.uid));
                 await setDoc(doc(db, "steps", dbKey, "upVote", session.user.uid), {
@@ -174,10 +174,10 @@ export default function Tool() {
     };
 
     const downV = async () => {
-        if (!session) {
+        if(!session) {
             router.push('/login');
         } else {
-            if (holdVote == 0 || holdVote == 1) {
+            if(holdVote == 0 || holdVote == 1) {
                 setholdVote(2);
                 await deleteDoc(doc(db, "steps", dbKey, "upVote", session.user.uid));
                 await setDoc(doc(db, "steps", dbKey, "downVote", session.user.uid), {
@@ -391,7 +391,7 @@ export default function Tool() {
 
 
 
-                        <Discussion CommentList={comentList} setReplyId={setReplyId} session={session?.user?.uid} sendReply={sendReply} setReply={setReply} dbKey={dbKey} db={db} doc={doc} replyId={replyId} />
+                        <Discussion CommentList={comentList} setReplyId={setReplyId} session={session?.user?.uid} sendReply={sendReply} setReply={setReply} dbKey={dbKey} db={db} doc={doc} replyId={replyId} postTypeKey='steps' />
 
 
                         <Toaster

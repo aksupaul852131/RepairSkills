@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, orderBy, } from "@firebase/firestore";
 import Moment from "react-moment";
 import { db } from "../../pages/api/auth/firebase-config";
-import Router from "next/router";
+import Image from "next/image";
 
 export default function RelatedPost(props) {
 
@@ -37,7 +37,10 @@ export default function RelatedPost(props) {
                             <li
                                 className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded">
                                 <div className="flex gap-4 w-full">
-                                    <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
+                                    <Image
+                                        width={100}
+                                        height={120}
+                                        className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
                                     <div className="w-full">
                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">{e?.data()?.title.length != 0 ? e?.data()?.title : 'No Title'}</h2>
                                         <h4 className="mt-3 text-secondry  dark:text-gray-400 text-sm">
@@ -54,7 +57,7 @@ export default function RelatedPost(props) {
                                         <p className={`flex text-xs mt-2 ${e?.data()?.tags[0] ? `justify-between` : 'justify-end'}`}>
                                             {e?.data()?.tags[0] && (
                                                 <span className="bg-black rounded-full px-2 py-1 text-white mr-2">
-                                                    ${e?.data()?.tags[0]}
+                                                    #{e?.data()?.tags[0]}
                                                 </span>
                                             )}
                                             <span className="dark:text-white mr-2">

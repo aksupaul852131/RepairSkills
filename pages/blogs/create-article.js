@@ -24,6 +24,7 @@ export default function CreatePost() {
     const [selectedFile, setSelectedFile] = useState(null);
     const filePickerRef = useRef(null);
     const [title, setTitle] = useState('');
+    const [desc, setDesc] = useState('');
     const router = useRouter();
 
     const [articleId] = useState(uuid());
@@ -59,6 +60,7 @@ export default function CreatePost() {
                     const docdata = {
                         uid: session.user.uid,
                         title: title,
+                        description: desc,
                         articleId: `${title.toLowerCase()
                             .replace(/[?]/g, '-').replace(/ /g, '-')
                             .replace(/[^\w-]+/g, '')}&id=${articleId}`,
@@ -68,6 +70,8 @@ export default function CreatePost() {
                         timestamp: serverTimestamp(),
                         tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
                         postImg: '',
+                        status: 1,
+
                     }
 
                     setDoc(doc(db, "blogs", `${title.toLowerCase()
@@ -188,9 +192,17 @@ export default function CreatePost() {
                 <div className="input-feild">
                     <label>Article Title</label>
                     <input
-                        value={title}
                         onChange={(e) => setTitle(e.target.value)}
                         type="text" id="first_name" placeholder="title" />
+                </div>
+
+                <div className="input-feild mt-3">
+                    <label>Article Description</label>
+                    <textarea
+                        rows={3}
+                        className='border w-full rounded p-2'
+                        onChange={(e) => setDesc(e.target.value)}
+                        type="text" id="first_name" placeholder="description" />
                 </div>
 
                 <div className="mt-6">

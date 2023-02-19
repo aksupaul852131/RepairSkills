@@ -1,4 +1,5 @@
 import Link from "next/link";
+import Image from "next/image";
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, orderBy, } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
@@ -162,7 +163,7 @@ export default function BlogHome() {
 
                             </div>
                             <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
-                            <ul className="mt-4 px-3">
+                            <ul className="mt-4 px-2">
                                 {
                                     articleList.filter(filter != 'All' ? (j => j?.data().tags[0] == filter) : (ff => ff.data()?.title)).map((e) => (
                                         <Link
@@ -171,9 +172,13 @@ export default function BlogHome() {
                                                 query: { key: `${e?.data()?.articleId}` },
                                             }}
                                         >
-                                            <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-2 rounded">
-                                                <div className="flex gap-4 w-full">
-                                                    <img className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
+                                            <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 rounded">
+                                                <div className="flex gap-3 w-full">
+                                                    <Image
+                                                        width={160}
+                                                        height={120}
+                                                        alt={e?.data()?.title.length != 0 ? e.data().title.substring(0, 80) : 'RepairSkills'}
+                                                        className="h-[90px] rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
                                                     <div className="w-full">
                                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">
                                                             {e?.data()?.title.length != 0 ? e.data().title.substring(0, 80) : 'No Title'}

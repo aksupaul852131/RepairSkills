@@ -95,7 +95,7 @@ export default function Discussion(props) {
                                                 <Menu.Item>
                                                     <button
                                                         onClick={async () => {
-                                                            await deleteDoc(doc(db, "steps", props.dbKey, "comments", props.replyId)
+                                                            await deleteDoc(doc(db, props.postTypeKey, props.dbKey, "comments", props.replyId)
                                                             );
                                                             toast.error('comment deleted');
                                                         }}
@@ -235,7 +235,7 @@ export default function Discussion(props) {
                                                         <Menu.Item>
                                                             <button
                                                                 onClick={async () => {
-                                                                    const dbRef = doc(db, "steps", props.dbKey, "comments", props.replyId);
+                                                                    const dbRef = doc(db, props.postTypeKey, props.dbKey, "comments", props.replyId);
                                                                     await updateDoc(dbRef, {
                                                                         reply: arrayRemove(
                                                                             {

@@ -17,6 +17,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ShareModalBox from "../model/share";
 import PostModelBox from "../model/post-model";
 import Link from "next/link";
+import Image from "next/image";
 
 
 function Post({ id, post, userpage }) {
@@ -129,9 +130,11 @@ function Post({ id, post, userpage }) {
                 query: { uid: `${post?.id}` },
               }}
             >
-              <img
+              <Image
+                width={160}
+                height={120}
                 src={post?.userImg}
-                alt=""
+                alt={`${post?.username} - RepairSkills`}
                 className="h-11 w-11 rounded-full mr-4"
               />
             </Link>
@@ -174,12 +177,16 @@ function Post({ id, post, userpage }) {
 
           {
             !userpage && (
-              <img
-                src={post?.image}
-                alt=""
-                className="rounded-2xl max-h-[250px] md:max-h-[350px] w-full object-cover my-2"
-                onClick={() => router.push(`/quetion/${id}`)}
-              />
+
+              post?.image && (
+                <Image
+                  width={200}
+                  height={200}
+                  src={post?.image}
+                  alt={`${post?.text} - RepairSkills`}
+                  className="rounded-2xl max-h-[250px] md:max-h-[350px] w-full object-cover my-2"
+                  onClick={() => router.push(`/quetion/${id}`)}
+                />)
             )
           }
         </div>
