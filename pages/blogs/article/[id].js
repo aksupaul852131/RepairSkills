@@ -129,16 +129,9 @@ export default function Tool() {
     return (
         <>
 
-
-            {!loading &&
-
-                (
-                    <>
-
-
-                        <Head>
-
-                            <title>{`${article?.data()?.title} - RepairSkills`}</title>
+            <Head>
+                <title>test</title>
+                {/* <title>{`${article?.data()?.title} - RepairSkills`}</title>
                             <link rel="icon" href="/favicon.ico" />
 
                             <meta charset="UTF-8" />
@@ -148,28 +141,28 @@ export default function Tool() {
                             <meta name="author"
                                 content={article?.data()?.username} />
                             <meta name="viewport"
-                                content="width=device-width, initial-scale=1.0" />
+                                content="width=device-width, initial-scale=1.0" /> */}
 
-                            =
 
-                            {/* <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
+
+                {/* <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
                         <meta property="og:site_name" content="RepairSkills" />
                         <meta property="og:url" content={window.location.href} />
                         <meta property="og:description" content={article?.data()?.description} />
                         <meta property="og:type" content="article" />
                         <meta property="og:image" content={article?.data()?.postImg} /> */}
-                            <meta http-equiv="etag" content="2efdc27c8967f14e2c829e601f7a1228" />
-                            <meta property="og:title" content="South Jersey Aerial Photograpahy" />
-                            <meta property="og:type" content="website" />
-                            <meta property="og:url" content={window.location.href} />
-                            <meta property="og:image" content="https://static.example.com/media/56a444_9273e80a60684dc8b38e56025059f356%7Emv2_d_3200_1800_s_2.png" />
-                            <meta property="og:site_name" content="South Jersey Aerial Photograpahy" />
-                            <meta property="og:description" content="South Jersey Aerial Photography is South Jersey's premier aerial photography and aerial videography company. Fully licensed and insured. Contact us today!" />
-                            <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
+                <meta http-equiv="etag" content="2efdc27c8967f14e2c829e601f7a1228" />
+                <meta property="og:title" content="South Jersey Aerial Photograpahy" />
+                <meta property="og:type" content="website" />
+                <meta property="og:url" content={window.location.href} />
+                <meta property="og:image" content="https://static.example.com/media/56a444_9273e80a60684dc8b38e56025059f356%7Emv2_d_3200_1800_s_2.png" />
+                <meta property="og:site_name" content="South Jersey Aerial Photograpahy" />
+                <meta property="og:description" content="South Jersey Aerial Photography is South Jersey's premier aerial photography and aerial videography company. Fully licensed and insured. Contact us today!" />
+                <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
 
-                            {/* schema */}
+                {/* schema */}
 
-                            <script
+                {/* <script
                                 key="structured-data"
                                 type="application/ld+json"
                                 dangerouslySetInnerHTML={{
@@ -201,8 +194,16 @@ export default function Tool() {
                                         }
                                     )
                                 }}
-                            />
-                        </Head>
+                            /> */}
+            </Head>
+
+            {!loading &&
+
+                (
+                    <>
+
+
+
                         <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist]">
                             <article>
                                 <h1 className="font-bold text-2xl dark:text-white">{article?.data()?.title}</h1>
