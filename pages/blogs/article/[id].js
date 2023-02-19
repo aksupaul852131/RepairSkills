@@ -130,7 +130,7 @@ export default function Tool() {
         <>
 
 
-            {loading &&
+            {!loading &&
 
                 (
                     <>
@@ -211,7 +211,7 @@ export default function Tool() {
                                         pathname: '/account/profile',
                                         query: { uid: `${article?.data()?.uid}` },
                                     }}
-                                    className="text-primary hover:underline">{article.data().username} </Link>
+                                    className="text-primary hover:underline">{article?.data()?.username} </Link>
                                     at <Moment fromNow>{article?.data()?.timestamp?.toDate()}</Moment>
                                 </p>
                                 <div className="mt-4 flex justify-between text-black dark:text-white">
@@ -282,7 +282,7 @@ export default function Tool() {
                             <section className="mt-6 pb-24">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                                        Discussion ({comentList.length})
+                                        Discussion ({comentList?.length})
                                     </h2>
                                 </div>
 
@@ -322,7 +322,7 @@ export default function Tool() {
                             {/* related post */}
                             <section className="pb-24">
                                 <h2 className="text-black dark:text-white">Related Updates</h2>
-                                <RelatedPost title={article.data().title} refrehPage={setLoading2} />
+                                <RelatedPost title={article?.data()?.title} refrehPage={setLoading2} />
                             </section>
                         </div>
 
