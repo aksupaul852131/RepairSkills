@@ -128,65 +128,7 @@ export default function Tool() {
 
     return (
         <>
-            <Head>
 
-                <title>{`${article?.data()?.title} - RepairSkills`}</title>
-                <link rel="icon" href="/favicon.ico" />
-
-                <meta charset="UTF-8" />
-                <meta name="description"
-                    content={article?.data()?.description} />
-
-                <meta name="author"
-                    content={article?.data()?.username} />
-                <meta name="viewport"
-                    content="width=device-width, initial-scale=1.0" />
-
-                {/* og graph */}
-
-                <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
-                <meta property="og:site_name" content="RepairSkills" />
-                <meta property="og:url" content="https://repair-skills.vercel.app" />
-                <meta property="og:description" content={article?.data()?.description} />
-                <meta property="og:type" content="article" />
-                <meta property="og:image" content={article?.data()?.postImg} />
-
-                {/* schema */}
-
-                <script
-                    key="structured-data"
-                    type="application/ld+json"
-                    dangerouslySetInnerHTML={{
-                        __html: JSON.stringify(
-                            {
-                                "@context": "https://schema.org",
-                                "@type": "Article",
-                                "mainEntityOfPage": {
-                                    "@type": "WebPage",
-                                    "@id": "https://repair-skills.vercel.app"
-                                },
-                                "headline": `${article?.data()?.title} - RepairSkills`,
-                                "description": article?.data()?.description,
-                                "image": article?.data()?.postImg,
-                                "author": {
-                                    "@type": "Person",
-                                    "name": article?.data()?.username,
-                                    "url": `https://repair-skills.vercel.app/account/profile?uid=${article?.data()?.uid}`
-                                },
-                                "publisher": {
-                                    "@type": "Organization",
-                                    "name": "RepairSkills",
-                                    "logo": {
-                                        "@type": "ImageObject",
-                                        "url": "https://repair-skills.vercel.app/RepairSkills.png"
-                                    }
-                                },
-
-                            }
-                        )
-                    }}
-                />
-            </Head>
 
             {loading ?
                 <LoadingP />
@@ -195,7 +137,65 @@ export default function Tool() {
                 <>
 
 
+                    <Head>
 
+                        <title>{`${article?.data()?.title} - RepairSkills`}</title>
+                        <link rel="icon" href="/favicon.ico" />
+
+                        <meta charset="UTF-8" />
+                        <meta name="description"
+                            content={article?.data()?.description} />
+
+                        <meta name="author"
+                            content={article?.data()?.username} />
+                        <meta name="viewport"
+                            content="width=device-width, initial-scale=1.0" />
+
+                        {/* og graph */}
+
+                        <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
+                        <meta property="og:site_name" content="RepairSkills" />
+                        <meta property="og:url" content={window.location.href} />
+                        <meta property="og:description" content={article?.data()?.description} />
+                        <meta property="og:type" content="article" />
+                        <meta property="og:image" content={article?.data()?.postImg} />
+
+                        {/* schema */}
+
+                        <script
+                            key="structured-data"
+                            type="application/ld+json"
+                            dangerouslySetInnerHTML={{
+                                __html: JSON.stringify(
+                                    {
+                                        "@context": "https://schema.org",
+                                        "@type": "Article",
+                                        "mainEntityOfPage": {
+                                            "@type": "WebPage",
+                                            "@id": "https://repair-skills.vercel.app"
+                                        },
+                                        "headline": `${article?.data()?.title} - RepairSkills`,
+                                        "description": article?.data()?.description,
+                                        "image": article?.data()?.postImg,
+                                        "author": {
+                                            "@type": "Person",
+                                            "name": article?.data()?.username,
+                                            "url": `https://repair-skills.vercel.app/account/profile?uid=${article?.data()?.uid}`
+                                        },
+                                        "publisher": {
+                                            "@type": "Organization",
+                                            "name": "RepairSkills",
+                                            "logo": {
+                                                "@type": "ImageObject",
+                                                "url": "https://repair-skills.vercel.app/RepairSkills.png"
+                                            }
+                                        },
+
+                                    }
+                                )
+                            }}
+                        />
+                    </Head>
                     <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist]">
                         <article>
                             <h1 className="font-bold text-2xl dark:text-white">{article?.data()?.title}</h1>
