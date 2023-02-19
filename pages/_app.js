@@ -1,12 +1,10 @@
 import "../styles/globals.css";
-import "../styles/dist.css";
 import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 import MobileNav from "../components/navbar/mobile-nav";
 import Navbar from "../components/navbar/Navbar";
 import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
-import { Suspense } from "react";
 
 import ScrollButton from "../components/utils/Scroll-btn"
 import Sidebar from "../components/Sidebar";
@@ -30,15 +28,12 @@ export default function App({
               <div className="mt-16 lg:flex lg:flex-row dark:bg-gray-900">
                 {/* Left */}
                 <Sidebar />
-                <Suspense fallback={<p>Loading feed...</p>}>
-                  <Component {...pageProps} />
-                </Suspense>
+                <Component {...pageProps} />
               </div>
             </div>
           </div>
           <MobileNav />
           <ScrollButton />
-
         </RecoilRoot>
       </SessionProvider>
     </ThemeProvider >

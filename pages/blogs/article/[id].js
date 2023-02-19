@@ -1,17 +1,16 @@
-import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, arrayRemove, deleteDoc, } from "@firebase/firestore";
+import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion } from "@firebase/firestore";
 import { db } from "../../api/auth/firebase-config";
-import { useEffect, useState, Fragment, useRef } from "react";
+import { useEffect, useState, useRef } from "react";
 import LoadingP from "../../../components/utils/Loading";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";
 import Moment from "react-moment";
 import uuid from "react-uuid";
-import { Menu, Transition } from '@headlessui/react'
 import RelatedPost from "../../../components/utils/RelatedPost";
 import ShareBtns from "../../../components/utils/shareBtns";
 import Discussion from "../../../components/post/discussion";
-import Head from "next/head";
+import { NextSeo } from "next-seo";
 
 export default function Tool() {
     // sesson for user auth
@@ -129,73 +128,40 @@ export default function Tool() {
     return (
         <>
 
-            <Head>
-                <title>test</title>
-                {/* <title>{`${article?.data()?.title} - RepairSkills`}</title>
-                            <link rel="icon" href="/favicon.ico" />
-
-                            <meta charset="UTF-8" />
-                            <meta name="description"
-                                content={article?.data()?.description} />
-
-                            <meta name="author"
-                                content={article?.data()?.username} />
-                            <meta name="viewport"
-                                content="width=device-width, initial-scale=1.0" /> */}
-
-
-
-                {/* <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
-                        <meta property="og:site_name" content="RepairSkills" />
-                        <meta property="og:url" content={window.location.href} />
-                        <meta property="og:description" content={article?.data()?.description} />
-                        <meta property="og:type" content="article" />
-                        <meta property="og:image" content={article?.data()?.postImg} /> */}
-                <meta http-equiv="etag" content="2efdc27c8967f14e2c829e601f7a1228" />
-                <meta property="og:title" content="South Jersey Aerial Photograpahy" />
-                <meta property="og:type" content="website" />
-                <meta property="og:url" content={window.location.href} />
-                <meta property="og:image" content="https://static.example.com/media/56a444_9273e80a60684dc8b38e56025059f356%7Emv2_d_3200_1800_s_2.png" />
-                <meta property="og:site_name" content="South Jersey Aerial Photograpahy" />
-                <meta property="og:description" content="South Jersey Aerial Photography is South Jersey's premier aerial photography and aerial videography company. Fully licensed and insured. Contact us today!" />
-                <meta name="SKYPE_TOOLBAR" content="SKYPE_TOOLBAR_PARSER_COMPATIBLE" />
-
-                {/* schema */}
-
-                {/* <script
-                                key="structured-data"
-                                type="application/ld+json"
-                                dangerouslySetInnerHTML={{
-                                    __html: JSON.stringify(
-                                        {
-                                            "@context": "https://schema.org",
-                                            "@type": "Article",
-                                            "mainEntityOfPage": {
-                                                "@type": "WebPage",
-                                                "@id": "https://repair-skills.vercel.app"
-                                            },
-                                            "headline": `${article?.data()?.title} - RepairSkills`,
-                                            "description": article?.data()?.description,
-                                            "image": article?.data()?.postImg,
-                                            "author": {
-                                                "@type": "Person",
-                                                "name": article?.data()?.username,
-                                                "url": `https://repair-skills.vercel.app/account/profile?uid=${article?.data()?.uid}`
-                                            },
-                                            "publisher": {
-                                                "@type": "Organization",
-                                                "name": "RepairSkills",
-                                                "logo": {
-                                                    "@type": "ImageObject",
-                                                    "url": "https://repair-skills.vercel.app/RepairSkills.png"
-                                                }
-                                            },
-
-                                        }
-                                    )
-                                }}
-                            /> */}
-            </Head>
+            <NextSeo
+                title="Using More of Config"
+                description="This example uses more of the available config options."
+                canonical="https://www.canonical.ie/"
+                openGraph={{
+                    url: 'https://www.url.ie/a',
+                    title: 'Open Graph Title',
+                    description: 'Open Graph Description',
+                    images: [
+                        {
+                            url: 'https://www.example.ie/og-image-01.jpg',
+                            width: 800,
+                            height: 600,
+                            alt: 'Og Image Alt',
+                            type: 'image/jpeg',
+                        },
+                        {
+                            url: 'https://www.example.ie/og-image-02.jpg',
+                            width: 900,
+                            height: 800,
+                            alt: 'Og Image Alt Second',
+                            type: 'image/jpeg',
+                        },
+                        { url: 'https://www.example.ie/og-image-03.jpg' },
+                        { url: 'https://www.example.ie/og-image-04.jpg' },
+                    ],
+                    siteName: 'SiteName',
+                }}
+                twitter={{
+                    handle: '@handle',
+                    site: '@site',
+                    cardType: 'summary_large_image',
+                }}
+            />
 
             {!loading &&
 
