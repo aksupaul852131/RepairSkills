@@ -128,47 +128,105 @@ export default function Tool() {
     return (
         <>
 
-            <NextSeo
-                title="Using More of Config"
-                description="This example uses more of the available config options."
-                canonical="https://www.canonical.ie/"
-                openGraph={{
-                    url: 'https://www.url.ie/a',
-                    title: 'Open Graph Title',
-                    description: 'Open Graph Description',
-                    images: [
-                        {
-                            url: 'https://www.example.ie/og-image-01.jpg',
-                            width: 800,
-                            height: 600,
-                            alt: 'Og Image Alt',
-                            type: 'image/jpeg',
-                        },
-                        {
-                            url: 'https://www.example.ie/og-image-02.jpg',
-                            width: 900,
-                            height: 800,
-                            alt: 'Og Image Alt Second',
-                            type: 'image/jpeg',
-                        },
-                        { url: 'https://www.example.ie/og-image-03.jpg' },
-                        { url: 'https://www.example.ie/og-image-04.jpg' },
-                    ],
-                    siteName: 'SiteName',
-                }}
-                twitter={{
-                    handle: '@handle',
-                    site: '@site',
-                    cardType: 'summary_large_image',
-                }}
-            />
+            {/* <title>{`${article?.data()?.title} - RepairSkills`}</title>
+                            <link rel="icon" href="/favicon.ico" />
+
+                            <meta charset="UTF-8" />
+                            <meta name="description"
+                                content={article?.data()?.description} />
+
+                            <meta name="author"
+                                content={article?.data()?.username} />
+                            <meta name="viewport"
+                                content="width=device-width, initial-scale=1.0" /> */}
+
+
+
+            {/* <meta property="og:title" content={`${article?.data()?.title} - RepairSkills`} />
+                        <meta property="og:site_name" content="RepairSkills" />
+                        <meta property="og:url" content={window.location.href} />
+                        <meta property="og:description" content={article?.data()?.description} />
+                        <meta property="og:type" content="article" />
+                        <meta property="og:image" content={article?.data()?.postImg} /> */}
+
+            {/* schema */}
+
+            {/* <script
+                                key="structured-data"
+                                type="application/ld+json"
+                                dangerouslySetInnerHTML={{
+                                    __html: JSON.stringify(
+                                        {
+                                            "@context": "https://schema.org",
+                                            "@type": "Article",
+                                            "mainEntityOfPage": {
+                                                "@type": "WebPage",
+                                                "@id": "https://repair-skills.vercel.app"
+                                            },
+                                            "headline": `${article?.data()?.title} - RepairSkills`,
+                                            "description": article?.data()?.description,
+                                            "image": article?.data()?.postImg,
+                                            "author": {
+                                                "@type": "Person",
+                                                "name": article?.data()?.username,
+                                                "url": `https://repair-skills.vercel.app/account/profile?uid=${article?.data()?.uid}`
+                                            },
+                                            "publisher": {
+                                                "@type": "Organization",
+                                                "name": "RepairSkills",
+                                                "logo": {
+                                                    "@type": "ImageObject",
+                                                    "url": "https://repair-skills.vercel.app/RepairSkills.png"
+                                                }
+                                            },
+
+                                        }
+                                    )
+                                }}
+                            /> */}
+
+
+
 
             {!loading &&
 
                 (
                     <>
 
-
+                        <NextSeo
+                            title={`${article?.data()?.title} - RepairSkills`}
+                            description={article?.data()?.description}
+                            canonical={window.location.href}
+                            openGraph={{
+                                url: window.location.href,
+                                title: `${article?.data()?.title} - RepairSkills`,
+                                description: article?.data()?.description,
+                                images: [
+                                    {
+                                        url: article?.data()?.postImg,
+                                        width: 800,
+                                        height: 600,
+                                        alt: 'Og Image Alt',
+                                        type: 'image/jpeg',
+                                    },
+                                    {
+                                        url: article?.data()?.postImg,
+                                        width: 900,
+                                        height: 800,
+                                        alt: 'Og Image Alt Second',
+                                        type: 'image/jpeg',
+                                    },
+                                    { url: article?.data()?.postImg },
+                                    { url: article?.data()?.postImg },
+                                ],
+                                siteName: 'RepairSkills',
+                            }}
+                            twitter={{
+                                handle: '@handle',
+                                site: '@site',
+                                cardType: 'summary_large_image',
+                            }}
+                        />
 
                         <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist]">
                             <article>
