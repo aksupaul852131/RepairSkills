@@ -30,7 +30,7 @@ export default class ArticleEditor extends Component {
     render() {
         const { editorState } = this.state;
         return (
-            <div>
+            <div className="dark:text-white">
                 <Editor
                     editorState={editorState}
                     toolbarClassName="toolbarClassName"

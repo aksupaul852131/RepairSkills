@@ -59,7 +59,10 @@ export default function Navbar() {
 
                                                 className="flex flex-shrink-0 items-center">
                                                 <Link href='/'>
-                                                    <img src='/RepairSkills.png' className='w-32' />
+                                                    {
+                                                        theme === 'dark' ?
+                                                            <img src='/logo2.png' className='w-32' alt='ReairSkils' />
+                                                            : <img src='/RepairSkills.png' className='w-32' alt='ReairSkils' />}
                                                 </Link>
                                             </div>
 

@@ -162,25 +162,52 @@ const Users = () => {
                                     </div>
                                     <div className="flex-auto p-4">
                                         <ul className="flex flex-col pl-0 mb-0 rounded-lg">
-                                            <li className="relative flex items-center px-0 py-2 mb-2 border-0 rounded-t-lg text-inherit">
-                                                <div className="inline-flex items-center justify-center w-12 h-12 mr-4 text-black transition-all duration-200 text-size-base ease-soft-in-out rounded-xl bg-gray-200">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
-                                                    </svg>
 
-                                                </div>
-                                                <div className="flex flex-col items-start justify-center">
-                                                    <h6 className="mb-0 leading-normal text-size-sm">Phone</h6>
-                                                    <p className="mb-0 leading-tight text-xs">+918825105520</p>
-                                                </div>
+                                            {
+                                                user?.phone && (
+                                                    <li className="relative flex items-center px-0 py-2 mb-2 border-0 rounded-t-lg text-inherit">
+                                                        <div className="inline-flex items-center justify-center w-12 h-12 mr-4 text-black transition-all duration-200 text-size-base ease-soft-in-out rounded-xl bg-gray-200">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M2.25 6.75c0 8.284 6.716 15 15 15h2.25a2.25 2.25 0 002.25-2.25v-1.372c0-.516-.351-.966-.852-1.091l-4.423-1.106c-.44-.11-.902.055-1.173.417l-.97 1.293c-.282.376-.769.542-1.21.38a12.035 12.035 0 01-7.143-7.143c-.162-.441.004-.928.38-1.21l1.293-.97c.363-.271.527-.734.417-1.173L6.963 3.102a1.125 1.125 0 00-1.091-.852H4.5A2.25 2.25 0 002.25 4.5v2.25z" />
+                                                            </svg>
 
-                                                <div className="inline-block py-3 pl-0 pr-4 mb-0 ml-auto font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-pro text-xs ease-soft-in hover:scale-102 hover:active:scale-102 active:opacity-85 text-primary hover:text-fuchsia-800 hover:shadow-none active:scale-100" >
-                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
-                                                    </svg>
+                                                        </div>
+                                                        <div className="flex flex-col items-start justify-center">
+                                                            <h6 className="mb-0 leading-normal text-size-sm">Phone</h6>
+                                                            <p className="mb-0 leading-tight text-xs">{user?.phone}</p>
+                                                        </div>
 
-                                                </div>
-                                            </li>
+
+                                                    </li>
+                                                )
+                                            }
+
+                                            {
+                                                user?.socialLink && (
+                                                    <li className="relative flex items-center px-0 py-2 mb-2 border-0 rounded-t-lg text-inherit">
+                                                        <div className="inline-flex items-center justify-center w-12 h-12 mr-4 text-black transition-all duration-200 text-size-base ease-soft-in-out rounded-xl bg-gray-200">
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M20.893 13.393l-1.135-1.135a2.252 2.252 0 01-.421-.585l-1.08-2.16a.414.414 0 00-.663-.107.827.827 0 01-.812.21l-1.273-.363a.89.89 0 00-.738 1.595l.587.39c.59.395.674 1.23.172 1.732l-.2.2c-.212.212-.33.498-.33.796v.41c0 .409-.11.809-.32 1.158l-1.315 2.191a2.11 2.11 0 01-1.81 1.025 1.055 1.055 0 01-1.055-1.055v-1.172c0-.92-.56-1.747-1.414-2.089l-.655-.261a2.25 2.25 0 01-1.383-2.46l.007-.042a2.25 2.25 0 01.29-.787l.09-.15a2.25 2.25 0 012.37-1.048l1.178.236a1.125 1.125 0 001.302-.795l.208-.73a1.125 1.125 0 00-.578-1.315l-.665-.332-.091.091a2.25 2.25 0 01-1.591.659h-.18c-.249 0-.487.1-.662.274a.931.931 0 01-1.458-1.137l1.411-2.353a2.25 2.25 0 00.286-.76m11.928 9.869A9 9 0 008.965 3.525m11.928 9.868A9 9 0 118.965 3.525" />
+                                                            </svg>
+
+                                                        </div>
+                                                        <div className="flex flex-col items-start justify-center">
+                                                            <h6 className="mb-0 leading-normal text-size-sm">Social Link</h6>
+                                                            <p className="mb-0 leading-tight text-xs">{user?.socialLink}</p>
+                                                        </div>
+
+                                                        <Link
+                                                            href={user?.socialLink}
+                                                            className="inline-block py-3 pl-0 pr-4 mb-0 ml-auto font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-pro text-xs ease-soft-in hover:scale-102 hover:active:scale-102 active:opacity-85 text-primary hover:text-fuchsia-800 hover:shadow-none active:scale-100" >
+                                                            <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                                <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
+                                                            </svg>
+
+                                                        </Link>
+                                                    </li>
+                                                )
+                                            }
+
 
                                         </ul>
                                     </div>

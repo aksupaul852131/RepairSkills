@@ -3,7 +3,7 @@ import Rightbar from "../components/RightBar";
 import Feed from "../components/Feed";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react'
-import { doc, getDoc, setDoc } from "@firebase/firestore";
+import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
 import { db } from "./api/auth/firebase-config";
 import { useSession } from "next-auth/react";
 
@@ -20,36 +20,38 @@ export default function Home() {
 
   const getResponse = async () => {
 
-    if(session && loading) {
-      const docRef = doc(db, "users", session.user.uid);
-      const docSnap = await getDoc(docRef);
 
-      if(docSnap.exists()) {
-        console.log("Document data:", docSnap.data());
-        setLoading(false);
-      } else {
-        // doc.data() will be undefined in this case
-        console.log("No such document!");
+    if(session) {
+      if(loading) {
+        const docRef = doc(db, "users", session?.user?.uid);
+        const docSnap = await getDoc(docRef);
 
-        const userData = {
-          name: session.user.name,
-          profileImg: session.user.image,
-          bio: '',
-          uid: session.user.uid,
-          timestamp: serverTimestamp(),
-          skills: [{ pos: 128, name: 'Not Added' }],
-          workExp: 0,
-          // experince: [{
-          //   brandImg: '',
-          //   brandInfo: '',
-          //   brandLink: '',
-          //   brandName: '',
-          //   workLocation: '',
-          //   expYear: '',
-          // }]
+        if(docSnap.exists()) {
+          setLoading(false);
+
+        } else {
+          // doc.data() will be undefined in this case
+
+          const userData = {
+            name: session.user.name,
+            profileImg: session.user.image,
+            bio: '',
+            uid: session.user.uid,
+            timestamp: serverTimestamp(),
+            skills: [],
+            workExp: 0,
+            // experince: [{
+            //   brandImg: '',
+            //   brandInfo: '',
+            //   brandLink: '',
+            //   brandName: '',
+            //   workLocation: '',
+            //   expYear: '',
+            // }]
+          }
+          setDoc(doc(db, "users", session.user.uid), userData);
+          setLoading(false);
         }
-        setDoc(doc(db, "users", session.user.uid), userData);
-        setLoading(false);
       }
     }
 
