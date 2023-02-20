@@ -6,7 +6,7 @@ import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
 import Loading from '../../components/utils/Loading'
 
-export default function BlogHome() {
+com BlogHome() {
 
     const [articleList, setArticleList] = useState([]);
 
@@ -18,7 +18,7 @@ export default function BlogHome() {
 
 
     const fetchData = () => {
-        if(fetchLoad) {
+        if (fetchLoad) {
             onSnapshot(
                 query(collection(db, "blogs"), orderBy("timestamp", "desc")),
                 (snapshot) => {
@@ -93,7 +93,7 @@ export default function BlogHome() {
 
     const handlechange = (index) => {
         const data = [...tags];
-        for(var i = 0; i < tags.length; i++) {
+        for (var i = 0; i < tags.length; i++) {
             tags[i].pos = 'dec';
         }
 

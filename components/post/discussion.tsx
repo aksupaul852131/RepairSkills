@@ -7,7 +7,7 @@ import { db } from "../../pages/api/auth/firebase-config";
 import { toast, Toaster } from "react-hot-toast";
 
 
-export default function Discussion(props) {
+export default function Discussion(props: any) {
 
 
     return (
