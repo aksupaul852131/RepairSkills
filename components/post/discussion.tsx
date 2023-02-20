@@ -44,7 +44,7 @@ export default function Discussion(props: any) {
                                 {/* Dropdown menu */}
                                 <Menu as="div" className="relative ml-3">
                                     <div onClick={() => props.setReplyId(`${e?.commentId}`)}>
-                                        <Menu.Button className="flex rounded-2xl text-sm bg-white p-2">
+                                        <Menu.Button className="flex rounded-2xl text-sm bg-white dark:bg-gray-700 p-2">
                                             <span className="sr-only">Comment Setting</span>
                                             <svg
                                                 className="w-5 h-5"

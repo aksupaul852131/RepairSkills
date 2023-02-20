@@ -1,4 +1,4 @@
-import { NextSeo } from "next-seo";
+import { ArticleJsonLd, NextSeo } from "next-seo";
 
 import { onSnapshot, collection, query, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, deleteDoc, getDocs } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
@@ -173,39 +173,46 @@ const Steps = ({ post, allComments, notFound }: any) => {
 
     return (
         <>
+
+            <NextSeo
+                title={post.title}
+                description={post.description}
+                canonical={`https://repair-skills.vercel.app/steps/${post.stepId}`}
+                openGraph={{
+                    url: `https://repair-skills.vercel.app/steps/${post.stepId}`,
+                    title: post.title,
+                    description: post.description,
+                    images: [
+                        {
+                            url: post.img,
+                            width: 800,
+                            height: 600,
+                            alt: `${post.title} - RepairSkills`,
+                            type: 'image/jpeg',
+                        },
+
+                        { url: post.img },
+                    ],
+                    siteName: 'RepairSkills',
+                }}
+                facebook={{
+                    appId: '1641619032945210',
+                }}
+                twitter={{
+                    handle: '@handle',
+                    site: '@site',
+                    cardType: 'summary_large_image',
+                }
+
+                }
+
+            />
+
             {
                 notFound ? <p className="mt-32 text-center">page not found</p>
                     :
 
                     <>
-                        <NextSeo
-                            title={post.title}
-                            description={post.description}
-                            canonical={`https://repair-skills.vercel.app/blogs/article/${post.stepId}`}
-                            openGraph={{
-                                url: `https://repair-skills.vercel.app/blogs/article/${post.stepId}`,
-                                title: post.title,
-                                description: post.description,
-                                images: [
-                                    {
-                                        url: post.img,
-                                        width: 800,
-                                        height: 600,
-                                        alt: `${post.title} - RepairSkills`,
-                                        type: 'image/jpeg',
-                                    },
-
-                                    { url: post.img },
-                                ],
-                                siteName: 'RepairSkills',
-                            }}
-                            twitter={{
-                                handle: '@repairskills',
-                                site: '@RepairSkills',
-                                cardType: 'summary_large_image',
-                            }}
-                        />
-
 
                         {loading ?
                             <LoadingP />
