@@ -1,4 +1,4 @@
-import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion } from "@firebase/firestore";
+import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, getDocs } from "@firebase/firestore";
 import { db } from "../../api/auth/firebase-config";
 import { useEffect, useState, useRef } from "react";
 import LoadingP from "../../../components/utils/Loading";
@@ -11,17 +11,17 @@ import RelatedPost from "../../../components/utils/RelatedPost";
 import ShareBtns from "../../../components/utils/shareBtns";
 import Discussion from "../../../components/post/discussion";
 import { NextSeo } from "next-seo";
+import 'next';
+import { GetServerSidePropsContext } from "next";
 
-export default function Tool() {
+const Post = ({ title, time, author, description, thumbnail, body, blogId, allComments }: any) => {
     // sesson for user auth
     const { data: session } = useSession();
-
     const [loading, setLoading] = useState(true);
     const [loading2, setLoading2] = useState(true);
-    const [article, setArticle] = useState();
-    const [comentList, setComentList] = useState([]);
-    const [dbKey, setDbKey] = useState('acGasRefilling');
     const [user, setUser] = useState();
+    const [comment, setComment] = useState('');
+    const [commentId] = useState(uuid());
 
 
     useEffect(() => {
@@ -29,84 +29,60 @@ export default function Tool() {
     });
 
     const getResponse = async () => {
-        const urlSearchParams = new URLSearchParams(window.location.search)
-        setDbKey(urlSearchParams.get('key'));
-
-
         if (loading2) {
-            const docRef = doc(db, "blogs", dbKey);
-            const docSnap = await getDoc(docRef);
 
-            if (docSnap.exists()) {
-                setArticle(docSnap);
-
-                onSnapshot(
-                    query(collection(db, "blogs", dbKey, "comments"), orderBy("timestamp", "desc")),
-                    (snapshot) => {
-                        setComentList(snapshot.docs);
-                    }
-                );
-                if (session) {
-                    const docRef = doc(db, "users", session.user.uid);
-                    const docSnap = await getDoc(docRef);
-                    if (docSnap.exists()) {
-                        setUser(docSnap.data());
-                    }
+            if (session) {
+                const docRef = doc(db, "users", session?.user?.uid);
+                const docSnap = await getDoc(docRef);
+                if (docSnap.exists()) {
+                    setUser(docSnap.data());
+                    setLoading2(false);
                 }
-
-                setLoading2(false);
-                setLoading(false);
-                console.log('akkk')
             }
+
+            setLoading(false);
         }
 
 
     }
 
-
-
-    // add Response    
-    const [comment, setComment] = useState('');
-
-
-    const RepsonseData = {
-        comment: comment,
-        username: user?.name,
-        uid: session?.user.uid,
-        userImg: user?.profileImg,
-        timestamp: serverTimestamp(),
-        reply: [],
-    }
 
 
     const sendComment = async (e) => {
         e.preventDefault();
+        const RepsonseData = {
+            comment: comment,
+            commentId: commentId,
+            username: user?.name,
+            uid: session?.user.uid,
+            userImg: user?.profileImg,
+            timestamp: serverTimestamp(),
+            reply: [],
+        }
+
         if (!session) {
             // router.push('/login');
         } else {
             if (comment != '') {
-                await setDoc(doc(db, "blogs", article.data().articleId, "comments", `${user?.name}-${uuid()}`), RepsonseData);
+                await setDoc(doc(db, "blogs", blogId, "comments", commentId), RepsonseData);
+                setComment(uuid())
                 commentbox.current.scrollIntoView({ behavior: 'smooth', block: 'start' });
                 toast.success('Comment Added');
+                window.location.reload()
             }
-
         }
     }
-
-    //  const [replyId, setReplyId] = useState('');
-
     const [reply, setReply] = useState('');
     const [replyId, setReplyId] = useState('');
     const commentbox = useRef(null);
 
-    const sendReply = async (e) => {
-        console.log('sssss', replyId)
+    const sendReply = async (e: any) => {
         e.preventDefault();
         if (!session) {
             // router.push('/login');
         } else {
             if (reply != '') {
-                const dbRef = doc(db, "blogs", article.data().articleId, "comments", replyId);
+                const dbRef = doc(db, "blogs", blogId, "comments", replyId);
                 await updateDoc(dbRef, {
                     reply: arrayUnion(
                         {
@@ -117,6 +93,7 @@ export default function Tool() {
                     )
                 });
                 toast.success('Reply Added');
+                window.location.reload()
             } else {
                 toast.error('Please Write Something')
             }
@@ -128,135 +105,59 @@ export default function Tool() {
     return (
         <>
 
+            <NextSeo
+                title={title}
+                description={description}
+                canonical={`https://repair-skills.vercel.app/blogs/article/${blogId}`}
+                openGraph={{
+                    url: `https://repair-skills.vercel.app/blogs/article/${blogId}`,
+                    title: title,
+                    description: description,
+                    images: [
+                        {
+                            url: thumbnail,
+                            width: 800,
+                            height: 600,
+                            alt: `${title} - RepairSkills`,
+                            type: 'image/jpeg',
+                        },
+
+                        { url: thumbnail },
+                    ],
+                    siteName: 'RepairSkills',
+                }}
+                twitter={{
+                    handle: '@handle',
+                    site: '@site',
+                    cardType: 'summary_large_image',
+                }}
+            />
+
             {!loading &&
 
                 (
                     <>
-                        <NextSeo
-                            title="Using More of Config"
-                            description="This example uses more of the available config options."
-                            canonical="https://www.canonical.ie/"
-                            openGraph={{
-                                url: 'https://www.url.ie/a',
-                                title: 'Open Graph Title',
-                                description: 'Open Graph Description',
-                                images: [
-                                    {
-                                        url: 'https://www.example.ie/og-image-01.jpg',
-                                        width: 800,
-                                        height: 600,
-                                        alt: 'Og Image Alt',
-                                        type: 'image/jpeg',
-                                    },
-                                    {
-                                        url: 'https://www.example.ie/og-image-02.jpg',
-                                        width: 900,
-                                        height: 800,
-                                        alt: 'Og Image Alt Second',
-                                        type: 'image/jpeg',
-                                    },
-                                    { url: 'https://www.example.ie/og-image-03.jpg' },
-                                    { url: 'https://www.example.ie/og-image-04.jpg' },
-                                ],
-                                siteName: 'SiteName',
-                            }}
-                            twitter={{
-                                handle: '@handle',
-                                site: '@site',
-                                cardType: 'summary_large_image',
-                            }}
-                        />
-
-                        {/* <NextSeo
-                        title={`${article?.data()?.title} - RepairSkills`}
-                        description={article?.data()?.description}
-                        canonical={'window.location.href'}
-                        openGraph={{
-                            url: 'window.location.href',
-                            title: `${article?.data()?.title} - RepairSkills`,
-                            description: article?.data()?.description,
-                            images: [
-                                {
-                                    url: article?.data()?.postImg,
-                                    width: 800,
-                                    height: 600,
-                                    alt: 'Og Image Alt',
-                                    type: 'image/jpeg',
-                                },
-                                {
-                                    url: article?.data()?.postImg,
-                                    width: 900,
-                                    height: 800,
-                                    alt: 'Og Image Alt Second',
-                                    type: 'image/jpeg',
-                                },
-                                { url: article?.data()?.postImg },
-                                { url: article?.data()?.postImg },
-                            ],
-                            siteName: 'RepairSkills',
-                        }}
-                        twitter={{
-                            handle: '@handle',
-                            site: '@site',
-                            cardType: 'summary_large_image',
-                        }}
-                    /> */}
-
-                        <NextSeo
-                            title={`${article?.data()?.title} - RepairSkills`}
-                            description={article?.data()?.description}
-                            canonical={window.location.href}
-                            openGraph={{
-                                url: window.location.href,
-                                title: `${article?.data()?.title} - RepairSkills`,
-                                description: article?.data()?.description,
-                                images: [
-                                    {
-                                        url: article?.data()?.postImg,
-                                        width: 800,
-                                        height: 600,
-                                        alt: 'Og Image Alt',
-                                        type: 'image/jpeg',
-                                    },
-                                    {
-                                        url: article?.data()?.postImg,
-                                        width: 900,
-                                        height: 800,
-                                        alt: 'Og Image Alt Second',
-                                        type: 'image/jpeg',
-                                    },
-                                    { url: article?.data()?.postImg },
-                                    { url: article?.data()?.postImg },
-                                ],
-                                siteName: 'RepairSkills',
-                            }}
-                            twitter={{
-                                handle: '@handle',
-                                site: '@site',
-                                cardType: 'summary_large_image',
-                            }}
-                        />
 
                         <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist]">
                             <article>
-                                <h1 className="font-bold text-2xl dark:text-white">{article?.data()?.title}</h1>
+                                <h1 className="font-bold text-2xl dark:text-white">{title}</h1>
                                 <p className="mt-2 text-secondry dark:text-gray-100">By <Link
                                     href={{
                                         pathname: '/account/profile',
-                                        query: { uid: `${article?.data()?.uid}` },
+                                        query: { uid: `uid` },
                                     }}
-                                    className="text-primary hover:underline">{article?.data()?.username} </Link>
-                                    at <Moment fromNow>{article?.data()?.timestamp?.toDate()}</Moment>
+                                    className="text-primary hover:underline">{author} </Link>
+                                    at <Moment fromNow>{time}</Moment>
                                 </p>
                                 <div className="mt-4 flex justify-between text-black dark:text-white">
                                     <div className="flex gap-2">
                                         <Link
                                             href={
-                                                `https://www.facebook.com/sharer/sharer.php?u=${window.location.href}`
+                                                `https://www.facebook.com/sharer/sharer.php?u=${`https://repair-skills.vercel.app/blogs/article/${blogId}`}`
                                             }
                                             className="border px-2 py-1 rounded flex gap-1 items-center">
                                             <svg
-                                                class="w-5 h-5 fill-current"
+                                                className="w-5 h-5 fill-current"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 24 24">
                                                 <path
@@ -268,11 +169,11 @@ export default function Tool() {
 
                                         <Link
                                             href={
-                                                `whatsapp://send?text=${window.location.href}`
+                                                `whatsapp://send?text=${`https://repair-skills.vercel.app/blogs/article/${blogId}`}`
                                             }
                                             className="border px-2 py-1 rounded flex gap-1 items-center">
                                             <svg
-                                                class="w-6 h-6 fill-current"
+                                                className="w-6 h-6 fill-current"
                                                 xmlns="http://www.w3.org/2000/svg"
                                                 viewBox="0 0 448 512">
                                                 <path
@@ -285,7 +186,7 @@ export default function Tool() {
                                         <button
                                             onClick={async (e) => {
                                                 try {
-                                                    await navigator.clipboard.writeText(window.location.href);
+                                                    await navigator.clipboard.writeText(`https://repair-skills.vercel.app/blogs/article/${blogId}`);
                                                     toast.success('link Copied')
                                                 }
                                                 catch (err) {
@@ -305,18 +206,17 @@ export default function Tool() {
                                 </div>
                                 <hr className="mt-6" />
 
-
                                 <div className="single-article pb-24">
-                                    <img src={article.data().postImg} className='max-h-64 object-cover rounded-md' />
-                                    <div dangerouslySetInnerHTML={{ __html: article.data().body }} />
+                                    <img src={thumbnail} className='max-h-64 object-cover rounded-md' />
+                                    <div dangerouslySetInnerHTML={{ __html: body }} />
                                 </div>
-                                <ShareBtns windowLoc={window.location.href} />
+                                <ShareBtns windowLoc={`https://repair-skills.vercel.app/blogs/article/${blogId}`} />
                             </article>
 
-                            <section className="mt-6 pb-24">
+                            <section className="mt-6 pb-12">
                                 <div className="flex justify-between items-center mb-6">
                                     <h2 className="text-lg lg:text-2xl font-bold text-gray-900 dark:text-white">
-                                        Discussion ({comentList?.length})
+                                        Discussion ({allComments?.length})
                                     </h2>
                                 </div>
 
@@ -345,7 +245,7 @@ export default function Tool() {
                                 </form>
                                 <div ref={commentbox}></div>
 
-                                <Discussion CommentList={comentList} setReplyId={setReplyId} session={session?.user?.uid} sendReply={sendReply} setReply={setReply} dbKey={dbKey} db={db} doc={doc} replyId={replyId} postTypeKey='blogs' />
+                                <Discussion CommentList={allComments} setReplyId={setReplyId} session={session?.user?.uid} sendReply={sendReply} setReply={setReply} dbKey={blogId} db={db} doc={doc} replyId={replyId} postTypeKey='blogs' />
 
                                 <Toaster
                                     position="bottom-center"
@@ -353,10 +253,10 @@ export default function Tool() {
                                 />
 
                             </section>
-                            {/* related post */}
+
                             <section className="pb-24">
                                 <h2 className="text-black dark:text-white">Related Updates</h2>
-                                <RelatedPost title={article?.data()?.title} refrehPage={setLoading2} />
+                                <RelatedPost title={title} refrehPage={setLoading2} />
                             </section>
                         </div>
 
@@ -370,3 +270,48 @@ export default function Tool() {
         </>
     )
 }
+
+
+export async function getServerSideProps(context: GetServerSidePropsContext) {
+
+    try {
+        const blog = doc(db, 'blogs', context.query.id as string)
+        const getBlog = await getDoc(blog);
+
+        const q = query(collection(db, "blogs", context.query.id as string, 'comments'));
+        const querySnapshot = await getDocs(q);
+
+        const allComment = querySnapshot.docs.map(docSnap => {
+            return {
+                ...docSnap.data(),
+                timestamp: docSnap.data().timestamp.toMillis(),
+            }
+        })
+
+
+        return {
+            props: {
+                title: getBlog.data().title,
+                description: getBlog.data().description,
+                body: getBlog.data().body,
+                thumbnail: getBlog.data().postImg,
+                userUID: getBlog.data().uid,
+                author: getBlog.data().username,
+                blogId: getBlog.id,
+                allComments: allComment,
+            },
+        };
+    } catch (error) {
+        return {
+            props: {
+                notFound: true,
+            },
+        };
+    }
+
+
+}
+
+
+
+export default Post;

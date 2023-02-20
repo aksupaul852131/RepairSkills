@@ -24,26 +24,26 @@ export default function Discussion(props) {
                                     <Link
                                         href={{
                                             pathname: '/account/profile',
-                                            query: { uid: `${e?.data()?.uid}` },
+                                            query: { uid: `${e.uid}` },
                                         }}
                                     >
                                         <p className="inline-flex items-center mr-3 text-sm text-gray-900 dark:text-white hover:underline">
                                             <img
                                                 className="mr-2 w-6 h-6 rounded-full"
-                                                src={e?.data().userImg}
+                                                src={e.userImg}
                                                 alt="Michael Gough"
                                             />
-                                            {e?.data().username}
+                                            {e.username}
                                         </p>
                                     </Link>
                                     <p className="text-sm text-gray-600 dark:text-gray-400">
-                                        <Moment fromNow>{e?.data()?.timestamp?.toDate()}</Moment>
+                                        <Moment fromNow>{e.timestamp}</Moment>
                                     </p>
                                 </div>
 
                                 {/* Dropdown menu */}
                                 <Menu as="div" className="relative ml-3">
-                                    <div onClick={() => props.setReplyId(`${e?.id}`)}>
+                                    <div onClick={() => props.setReplyId(`${e?.commentId}`)}>
                                         <Menu.Button className="flex rounded-2xl text-sm bg-white p-2">
                                             <span className="sr-only">Comment Setting</span>
                                             <svg
@@ -68,7 +68,7 @@ export default function Discussion(props) {
                                     >
                                         <Menu.Items className="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-white py-1 shadow-lg ring-1 ring-black ring-opacity-5 focus:outline-none">
 
-                                            {e?.data().uid != props.session && (
+                                            {e.uid != props.session && (
                                                 <>
                                                     <Menu.Item>
                                                         <button
@@ -81,7 +81,7 @@ export default function Discussion(props) {
                                                         <Link
                                                             href={{
                                                                 pathname: '/account/profile',
-                                                                query: { uid: `${e?.data()?.uid}` },
+                                                                query: { uid: `${e.uid}` },
                                                             }}
                                                             className='block px-4 py-2 text-sm text-gray-700'
                                                         >
@@ -91,13 +91,14 @@ export default function Discussion(props) {
                                                 </>
                                             )}
 
-                                            {e?.data().uid == props.session && (
+                                            {e.uid == props.session && (
                                                 <Menu.Item>
                                                     <button
                                                         onClick={async () => {
                                                             await deleteDoc(doc(db, props.postTypeKey, props.dbKey, "comments", props.replyId)
                                                             );
                                                             toast.error('comment deleted');
+                                                            window.location.reload()
                                                         }}
                                                         className='block px-4 py-2 text-sm text-red-600'
                                                     >
@@ -112,7 +113,7 @@ export default function Discussion(props) {
 
                             </footer>
                             <p className="text-black dark:text-white">
-                                {e?.data().comment}
+                                {e.comment}
                             </p>
                             <div className="flex items-center mt-4 space-x-4">
                                 <button
@@ -138,7 +139,7 @@ export default function Discussion(props) {
                                 </button>
                                 <div className="input-feild">
                                     <input
-                                        onClick={() => props.setReplyId(`${e?.id}`)}
+                                        onClick={() => props.setReplyId(`${e?.commentId}`)}
                                         onChange={(e) =>
                                             props.setReply(e.target.value)
                                         }
@@ -157,7 +158,7 @@ export default function Discussion(props) {
 
                         {/* reply */}
                         {
-                            e?.data()?.reply?.map((r) => (
+                            e.reply?.map((r) => (
                                 <div className="p-2 ml-6 lg:ml-12 text-base bg-white border-l rounded-bl-sm dark:bg-gray-900">
                                     <footer className="flex justify-between items-center mb-2">
                                         <div className="">
@@ -175,18 +176,18 @@ export default function Discussion(props) {
                                                     <Link
                                                         href={{
                                                             pathname: '/account/profile',
-                                                            query: { uid: `${e?.data()?.uid}` },
+                                                            query: { uid: `${e.uid}` },
                                                         }}
                                                         className='hover:underline'
                                                     >
-                                                        {e.data().username}</Link>
+                                                        {e.username}</Link>
                                                 </span>
                                             </p>
                                         </div>
 
                                         <Menu as="div" className="relative ml-3">
                                             <div
-                                                onClick={() => props.setReplyId(`${e?.id}`)}
+                                                onClick={() => props.setReplyId(`${e?.commentId}`)}
                                             >
                                                 <Menu.Button className="flex rounded-2xl text-sm p-2">
                                                     <span className="sr-only">Comment Setting</span>
@@ -245,7 +246,7 @@ export default function Discussion(props) {
                                                                             }
                                                                         )
                                                                     });
-
+                                                                    window.location.reload();
                                                                 }}
 
                                                                 className='block px-4 py-2 text-sm text-red-600'

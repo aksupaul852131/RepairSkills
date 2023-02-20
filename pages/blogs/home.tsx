@@ -167,10 +167,7 @@ export default function BlogHome() {
                                 {
                                     articleList.filter(filter != 'All' ? (j => j?.data().tags[0] == filter) : (ff => ff.data()?.title)).map((e) => (
                                         <Link
-                                            href={{
-                                                pathname: '/blogs/article/m',
-                                                query: { key: `${e?.data()?.articleId}` },
-                                            }}
+                                            href={`/blogs/article/${e?.data()?.articleId}`}
                                         >
                                             <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 rounded">
                                                 <div className="flex gap-3 w-full">

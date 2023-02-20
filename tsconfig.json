@@ -28,7 +28,7 @@
     "pages/login.js",
     "components/post/Full-post.js",
     "pages/blogs/create-article.js",
-    "pages/blogs/home.js"
+    "pages/blogs/home.tsx"
   ],
   "exclude": [
     "node_modules"
