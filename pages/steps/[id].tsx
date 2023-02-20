@@ -43,7 +43,7 @@ const Steps = ({ post, allComments, notFound }: any) => {
             if (loading2) {
 
                 if (session) {
-                    const docRef = doc(db, "users", session?.user?.uid);
+                    const docRef = doc(db, "users", session?.user?.uid as string);
                     const docSnap = await getDoc(docRef);
                     if (docSnap.exists()) {
                         setUser(docSnap.data());

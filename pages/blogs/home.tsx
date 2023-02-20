@@ -6,7 +6,7 @@ import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
 import Loading from '../../components/utils/Loading'
 
-com BlogHome() {
+const BlogHome = () => {
 
     const [articleList, setArticleList] = useState([]);
 
@@ -211,3 +211,5 @@ com BlogHome() {
         </>
     )
 }
+
+export default BlogHome;
