@@ -8,13 +8,14 @@ import {
     updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import { signOut, useSession } from "next-auth/react";
+import { useSession } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 import uuid from 'react-uuid';
 
 
 import ArticleEditor from '../../components/utils/article-editor'
 import { db, storage } from "../api/auth/firebase-config";
+import Head from "next/head";
 
 export default function CreatePost() {
 
