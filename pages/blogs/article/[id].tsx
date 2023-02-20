@@ -1,7 +1,6 @@
-import { onSnapshot, collection, query, orderBy, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, getDocs } from "@firebase/firestore";
+import { collection, query, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, getDocs } from "@firebase/firestore";
 import { db } from "../../api/auth/firebase-config";
 import { useEffect, useState, useRef } from "react";
-import LoadingP from "../../../components/utils/Loading";
 import { useSession } from "next-auth/react";
 import toast, { Toaster } from 'react-hot-toast';
 import Link from "next/link";

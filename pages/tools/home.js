@@ -37,7 +37,7 @@ export default function ToolHome() {
     return (
         <>
             <Head>
-                <title>RepairSteps || Worlwide RepairMan Community</title>
+                <title>Tools Home</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 

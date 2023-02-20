@@ -5,6 +5,7 @@ import { onSnapshot, collection, query, orderBy, } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
 import Loading from '../../components/utils/Loading'
+import Head from "next/head";
 
 const BlogHome = () => {
 
@@ -103,6 +104,10 @@ const BlogHome = () => {
 
     return (
         <>
+            <Head>
+                <title>All Blogs & News</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
             {
                 fetchLoad ?
                     <Loading />

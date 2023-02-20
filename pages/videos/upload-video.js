@@ -150,6 +150,10 @@ export default function UploadVideo() {
     return (
         <>
 
+            <Head>
+                <title>Upload Video - RepairSkills</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
             {/* Middle */}
             <div className="w-full sm:w-600 px-0 md:px-32 md:h-screen font-[Urbanist] pb-24">

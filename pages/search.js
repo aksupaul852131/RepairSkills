@@ -2,6 +2,7 @@ import Link from "next/link";
 import { useEffect, useState } from "react";
 import { onSnapshot, collection, query, orderBy, where, } from "@firebase/firestore";
 import { db } from "./api/auth/firebase-config";
+import Head from "next/head";
 
 
 
@@ -42,6 +43,11 @@ export default function SeacrhPage() {
 
     return (
         <>
+            <Head>
+                <title>Search here</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
             <div className="font-[Urbanist] w-full">
                 <div className="bg-primary md:py-8 rounded-b-lg">
                     <div className="mt-6 py-3 px-2">

@@ -141,10 +141,7 @@ export default function Navbar() {
                                                         <Menu.Item>
                                                             {({ active }) => (
                                                                 <Link
-                                                                    href={{
-                                                                        pathname: '/account/profile',
-                                                                        query: { uid: `${session?.user?.uid}` },
-                                                                    }}
+                                                                    href={`/account/${session?.user?.uid}`}
                                                                     className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700')}
                                                                 >
                                                                     Your Profile

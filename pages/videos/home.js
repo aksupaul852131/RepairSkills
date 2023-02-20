@@ -106,6 +106,12 @@ export default function VideoPage() {
     return (
 
         <>
+            <Head>
+                <title>Videos</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+
             {
                 fetchLoad ?
                     <Loading />

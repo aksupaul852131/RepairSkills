@@ -1,8 +1,15 @@
+import Head from "next/head";
 import Link from "next/link";
 
 export default function NewPost() {
     return (
         <>
+            <Head>
+                <title>Add a new post</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
+
             <div className="pt-3 pb-12 px-3">
                 <ul className="mt-6 dark:text-white grid grid-cols-3 items-center justify-items-center gap-5 select-none">
 

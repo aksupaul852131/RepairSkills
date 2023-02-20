@@ -150,7 +150,7 @@ function Post({ id, post, userpage }) {
           </div>
           {/* post time */}
           <span className="hover:underline text-gray-600 dark:text-gray-400 text-sm sm:text-[15px]">
-            <Moment fromNow>{post?.timestamp?.toDate()}</Moment><span className="ml-1 text-blue-600">{post?.tags[0] && `#${post?.tags[0]}`}</span>
+            <Moment fromNow>{userpage ? post?.timestamp : post?.timestamp?.toDate()}</Moment><span className="ml-1 text-blue-600">{post?.tags[0] && `#${post?.tags[0]}`}</span>
           </span>
         </div>
         {/* 3 dots */}
@@ -276,7 +276,7 @@ function Post({ id, post, userpage }) {
 
 
       </div>
-      <ShareModalBox showModel={share} closeModel={setShare} shareLink={`${window.location.hostname}/quetion/${id}`} />
+      <ShareModalBox showModel={share} closeModel={setShare} shareLink={`https://repair-skills.vercel.app/quetion/${id}`} />
       <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
     </div>

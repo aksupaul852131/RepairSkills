@@ -60,7 +60,7 @@ export default function Home() {
   return (
     <>
       <Head>
-        <title>RepairSteps || Worlwide RepairMan Community</title>
+        <title>RepairSkills || Worlwide RepairMan Community</title>
         <link rel="icon" href="/favicon.ico" />
       </Head>
 

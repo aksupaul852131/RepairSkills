@@ -13,6 +13,7 @@ import { useSession } from "next-auth/react";
 import Picker from '@emoji-mart/react'
 import uuid from 'react-uuid';
 import Link from "next/link";
+import Head from "next/head";
 
 const CreatePost = () => {
     const { data: session } = useSession();
@@ -178,6 +179,10 @@ const CreatePost = () => {
 
     return (
         <>
+            <Head>
+                <title>Create Post - RepairSkills</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
 
             {/* Middle */}

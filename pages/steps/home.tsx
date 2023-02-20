@@ -5,6 +5,7 @@ import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
 import Loading from '../../components/utils/Loading'
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 
 const BlogHome = ({ allPosts }: any) => {
 
@@ -83,6 +84,10 @@ const BlogHome = ({ allPosts }: any) => {
     return (
         <>
 
+            <Head>
+                <title>Repair Steps</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
 
             <div className="font-[Urbanist] pb-24">
                 <div className="px-3 pt-3">

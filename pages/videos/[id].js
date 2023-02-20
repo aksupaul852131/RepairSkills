@@ -11,6 +11,7 @@ import { Menu, Transition } from '@headlessui/react'
 import RelatedVideo from "../../components/utils/RelateVideo";
 import { useRouter } from "next/router";
 import ShareModalBox from '../../components/model/share'
+import Head from "next/head";
 
 export default function Video() {
     // sesson for user auth
@@ -220,6 +221,11 @@ export default function Video() {
 
     return (
         <>
+            <Head>
+                <title>RepairSkills - Videos</title>
+                <link rel="icon" href="/favicon.ico" />
+            </Head>
+
             {loading ?
                 <LoadingP />
                 :
