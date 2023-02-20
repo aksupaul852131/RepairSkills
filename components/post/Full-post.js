@@ -31,7 +31,7 @@ import Link from "next/link";
 
 
 
-function Post({ id, post }) {
+function Post({ id, post, postId }) {
 
     // sesson for user auth
     const { data: session } = useSession();
@@ -197,7 +197,7 @@ function Post({ id, post }) {
                     </div>
                     {/* post time */}
                     <span className="hover:underline text-gray-600 dark:text-gray-200 text-sm sm:text-[15px]">
-                        <Moment fromNow>{post?.timestamp?.toDate()}</Moment>
+                        <Moment fromNow>{post?.timestamp}</Moment>
                     </span>
                 </div>
                 <div className="icon group flex-shrink-0 ml-auto">
@@ -259,7 +259,7 @@ function Post({ id, post }) {
                             <path strokeLinecap="round" strokeLinejoin="round" d="M7.217 10.907a2.25 2.25 0 100 2.186m0-2.186c.18.324.283.696.283 1.093s-.103.77-.283 1.093m0-2.186l9.566-5.314m-9.566 7.5l9.566 5.314m0 0a2.25 2.25 0 103.935 2.186 2.25 2.25 0 00-3.935-2.186zm0-12.814a2.25 2.25 0 103.933-2.185 2.25 2.25 0 00-3.933 2.185z" />
                         </svg>
                     </div>
-                    <ShareModalBox showModel={share} closeModel={setShare} shareLink={window.location.href} />
+                    <ShareModalBox showModel={share} closeModel={setShare} shareLink={`https://repair-skills.vercel.app/quetion/${postId}`} />
                 </div>
 
 

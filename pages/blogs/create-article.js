@@ -63,7 +63,7 @@ export default function CreatePost() {
                         description: desc,
                         articleId: `${title.toLowerCase()
                             .replace(/[?]/g, '-').replace(/ /g, '-')
-                            .replace(/[^\w-]+/g, '')}&id=${articleId}`,
+                            .replace(/[^\w-]+/g, '')}-${articleId}`,
                         username: user?.data()?.name,
                         userImg: user?.data()?.profileImg,
                         body: article,
@@ -71,12 +71,11 @@ export default function CreatePost() {
                         tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
                         postImg: '',
                         status: 1,
-
                     }
 
                     setDoc(doc(db, "blogs", `${title.toLowerCase()
                         .replace(/ /g, '-').replace(/[?]/g, '-')
-                        .replace(/[^\w-]+/g, '')}&id=${articleId}`), docdata);
+                        .replace(/[^\w-]+/g, '')}-${articleId}`), docdata);
 
                     const imageRef = ref(storage, `blogs/article/${session.user.name}/${articleId}/image`);
 
@@ -85,7 +84,7 @@ export default function CreatePost() {
                             const downloadURL = await getDownloadURL(imageRef);
                             await updateDoc(doc(db, "blogs", `${title.toLowerCase()
                                 .replace(/ /g, '-').replace(/[?]/g, '-')
-                                .replace(/[^\w-]+/g, '')}&id=${articleId}`), {
+                                .replace(/[^\w-]+/g, '')}-${articleId}`), {
                                 postImg: downloadURL,
                             });
                         });
@@ -188,6 +187,10 @@ export default function CreatePost() {
 
     return (
         <>
+            <Head>
+                <title> Create a Post - RepairSkills</title>
+                <meta name="description" content="Create Your Repair Skills Post" />
+            </Head>
             <div className="font-[Urbanist] px-3 pt-2 pb-24">
                 <div className="input-feild">
                     <label>Article Title</label>

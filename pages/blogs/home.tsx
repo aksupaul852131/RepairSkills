@@ -175,7 +175,7 @@ const BlogHome = () => {
                                                         width={160}
                                                         height={120}
                                                         alt={e?.data()?.title.length != 0 ? e.data().title.substring(0, 80) : 'RepairSkills'}
-                                                        className="h-[90px] rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
+                                                        className="h-[90px] rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : '/no-image.png'} />
                                                     <div className="w-full">
                                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">
                                                             {e?.data()?.title.length != 0 ? e.data().title.substring(0, 80) : 'No Title'}

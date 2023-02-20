@@ -101,7 +101,7 @@
     }
 
      .single-article th {
-        @apply bg-gray-200 pt-2;
+        @apply bg-gray-200 dark:bg-gray-600 pt-2;
     }
 
     .single-article tr {

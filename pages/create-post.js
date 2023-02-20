@@ -56,7 +56,7 @@ const CreatePost = () => {
             const docdata = {
                 postId: `${input.toLowerCase()
                     .replace(/ /g, '-')
-                    .replace(/[^\w-]+/g, '')}&id=${postId}`,
+                    .replace(/[^\w-]+/g, '')}-${postId}`,
                 id: session.user.uid,
                 username: user?.data()?.name,
                 userImg: user?.data()?.profileImg,
@@ -67,7 +67,7 @@ const CreatePost = () => {
 
             setDoc(doc(db, "posts", `${input.toLowerCase()
                 .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')}&id=${postId}`), docdata);
+                .replace(/[^\w-]+/g, '')}-${postId}`), docdata);
 
             const imageRef = ref(storage, `posts/${session.user.name}/${postId}/image`);
 
@@ -76,7 +76,7 @@ const CreatePost = () => {
                     const downloadURL = await getDownloadURL(imageRef);
                     await updateDoc(doc(db, "posts", `${input.toLowerCase()
                         .replace(/ /g, '-')
-                        .replace(/[^\w-]+/g, '')}&id=${postId}`), {
+                        .replace(/[^\w-]+/g, '')}-${postId}`), {
                         image: downloadURL,
                     });
                 });

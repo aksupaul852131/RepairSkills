@@ -60,7 +60,7 @@ export default function UploadVideo() {
                 views: 0,
                 videoId: `${title.toLowerCase()
                     .replace(/ /g, '-')
-                    .replace(/[^\w-]+/g, '')}&id=${uniqueId}`,
+                    .replace(/[^\w-]+/g, '')}-${uniqueId}`,
                 id: session.user.uid,
                 username: user?.data()?.name,
                 userImg: user?.data()?.profileImg,
@@ -68,7 +68,7 @@ export default function UploadVideo() {
 
             setDoc(doc(db, "videos", `${title.toLowerCase()
                 .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')}&id=${uniqueId}`), docdata);
+                .replace(/[^\w-]+/g, '')}-${uniqueId}`), docdata);
 
             setUniqueId(uuid());
             setLoading(false);

@@ -1,4 +1,4 @@
-import { ArticleJsonLd, NextSeo } from "next-seo";
+import { ArticleJsonLd, HowToJsonLd, NextSeo } from "next-seo";
 
 import { onSnapshot, collection, query, doc, getDoc, setDoc, serverTimestamp, updateDoc, arrayUnion, deleteDoc, getDocs } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
@@ -11,6 +11,7 @@ import { useRouter } from "next/router";
 import ShareBtns from "../../components/utils/shareBtns";
 import Discussion from "../../components/post/discussion";
 import { GetServerSidePropsContext } from "next";
+import Head from "next/head";
 
 
 const Steps = ({ post, allComments, notFound }: any) => {
@@ -203,10 +204,18 @@ const Steps = ({ post, allComments, notFound }: any) => {
                     site: '@site',
                     cardType: 'summary_large_image',
                 }
-
                 }
-
             />
+
+            <Head>
+                <script
+                    key="structured-data"
+                    type="application/ld+json"
+                    dangerouslySetInnerHTML={{
+                        __html: post.schema,
+                    }}
+                />
+            </Head>
 
             {
                 notFound ? <p className="mt-32 text-center">page not found</p>

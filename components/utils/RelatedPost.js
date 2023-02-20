@@ -36,7 +36,7 @@ export default function RelatedPost(props) {
                                     <Image
                                         width={100}
                                         height={120}
-                                        className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : 'https://propertywiselaunceston.com.au/wp-content/themes/property-wise/images/no-image.png'} />
+                                        className="w-28 h-28 rounded-lg object-cover" src={e?.data()?.postImg ? e?.data()?.postImg : '/no-image.png'} />
                                     <div className="w-full">
                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">{e?.data()?.title.length != 0 ? e?.data()?.title : 'No Title'}</h2>
                                         <h4 className="mt-3 text-secondry  dark:text-gray-400 text-sm">
