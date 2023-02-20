@@ -4,6 +4,7 @@ import { onSnapshot, collection, query, orderBy, where, } from "@firebase/firest
 import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
 import Loading from '../../components/utils/Loading'
+import Head from "next/head";
 
 export default function VideoPage() {
 

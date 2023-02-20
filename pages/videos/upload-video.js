@@ -11,6 +11,7 @@ import { db } from "../api/auth/firebase-config";
 import uuid from "react-uuid";
 import { toast, Toaster } from "react-hot-toast";
 import { useSession } from "next-auth/react";
+import Head from "next/head";
 
 export default function UploadVideo() {
 

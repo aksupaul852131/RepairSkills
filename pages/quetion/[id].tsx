@@ -29,9 +29,7 @@ function PostPage({ quetionPost }: any) {
 
             <div className="w-full px-0 md:px-16 lg:px-24 py-3 md:py-6">
                 <FullPost id={id} post={quetionPost} postId={quetionPost.id} />
-                {
-                    <p>saad {quetionPost.text}</p>
-                }
+
             </div>
             <RightBar />
         </>
