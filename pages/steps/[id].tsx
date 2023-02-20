@@ -232,7 +232,7 @@ const Steps = ({ post, allComments, notFound }: any) => {
                                 </div>
                                 <hr className="my-3" />
                                 {/* steps body */}
-                                {post.AllSteps.map((e, index) => (
+                                {post.AllSteps.map((e: any, index: number) => (
                                     <div key={index} className="py-3">
                                         <div
                                             onClick={() => showStep != e.heading ? setShowStep(e.heading) : setShowStep('')}
@@ -249,7 +249,7 @@ const Steps = ({ post, allComments, notFound }: any) => {
                                         <div className={`${showStep != e.heading && 'hidden'}`}>
                                             <ul className="pl-6">
                                                 {
-                                                    e?.flow?.map((j, i) => (
+                                                    e?.flow?.map((j: any, i: number) => (
                                                         <li
                                                             key={i}
                                                             className='pt-4 -pt-4 border-l px-2'

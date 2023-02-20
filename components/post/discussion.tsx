@@ -15,7 +15,7 @@ export default function Discussion(props: any) {
 
 
             {
-                props.CommentList?.map((e) => (
+                props.CommentList?.map((e: any) => (
 
                     <article className="relative mb-2  text-base rounded-lg">
                         <div className='px-3 py-3 bg-gray-200/50 dark:bg-gray-800 rounded'>
@@ -158,7 +158,7 @@ export default function Discussion(props: any) {
 
                         {/* reply */}
                         {
-                            e.reply?.map((r) => (
+                            e.reply?.map((r: any) => (
                                 <div className="p-2 ml-6 lg:ml-12 text-base bg-white border-l rounded-bl-sm dark:bg-gray-900">
                                     <footer className="flex justify-between items-center mb-2">
                                         <div className="">
