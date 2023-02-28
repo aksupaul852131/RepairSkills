@@ -8,10 +8,10 @@ import { db } from '../../pages/api/auth/firebase-config'
 import { useTheme } from 'next-themes'
 
 const navigation = [
-    { name: 'Dashboard', href: '#', current: true },
+    { name: 'ask', href: '/Ask', current: true },
     { name: 'Tools', href: '/tools/home', current: false },
-    { name: 'Projects', href: '#', current: false },
-    { name: 'Calendar', href: '#', current: false },
+    { name: 'Blogs', href: '/vlogs/home', current: false },
+    { name: 'Videos', href: '/videos/home', current: false },
 ]
 
 function classNames(...classes) {
@@ -65,8 +65,8 @@ export default function Navbar() {
                                                 <Link href='/'>
                                                     {
                                                         theme === 'dark' ?
-                                                            <img src='/logo2.png' className='w-32' alt='ReairSkils' />
-                                                            : <img src='/RepairSkills.png' className='w-32' alt='ReairSkils' />}
+                                                            <img src='/logo2.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                                            : <img src='/RepairSkills.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />}
                                                 </Link>
                                             </div>
 
@@ -119,7 +119,9 @@ export default function Navbar() {
                                                             <img
                                                                 className="h-8 w-8 object-cover rounded-full"
                                                                 src={userImg}
-                                                                alt=""
+                                                                alt={session?.user?.name}
+                                                                width={100} height={100}
+                                                                title='User'
                                                             />
                                                             :
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="stroke-primary w-9">

@@ -152,7 +152,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
 
                 <ArticleJsonLd
                     type="BlogPosting"
-                    url={`https://repair-skills.vercel.app/blogs/article/${blogId}`}
+                    url={`https://repair-skills.com/blogs/article/${blogId}`}
                     title={title}
                     images={[
                         thumbnail
@@ -167,7 +167,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                     (
                         <>
 
-                            <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist]">
+                            <div className="pt-6 px-3 md:px-24 w-full mx-auto lg:w-1/2 font-[Urbanist]">
                                 <article>
                                     <h1 className="font-bold text-2xl dark:text-white">{title}</h1>
                                     <p className="mt-2 text-secondry dark:text-gray-100">By <Link
@@ -229,14 +229,12 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                                                 <span className="text-xs">CopyLink</span>
                                             </button>
                                         </div>
-                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.1} stroke="currentColor" className="w-8 h-8 stroke-gray-500">
-                                            <path strokeLinecap="round" strokeLinejoin="round" d="M17.593 3.322c1.1.128 1.907 1.077 1.907 2.185V21L12 17.25 4.5 21V5.507c0-1.108.806-2.057 1.907-2.185a48.507 48.507 0 0111.186 0z" />
-                                        </svg>
+                                        <img src='/fav-logo.png' className="h-8 md:h-10" />
                                     </div>
                                     <hr className="mt-6" />
 
                                     <div className="single-article pb-24">
-                                        <img src={thumbnail} className='max-h-64 object-cover rounded-md' />
+                                        <img src={thumbnail} className='max-h-64 object-cover rounded-md' title={title} alt={`${title} - RepairSkills`} width={100} height={100} />
                                         <div dangerouslySetInnerHTML={{ __html: body }} />
                                     </div>
                                     <ShareBtns windowLoc={window.location.href} />

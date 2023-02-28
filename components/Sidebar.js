@@ -7,7 +7,7 @@ function Sidebar() {
 
     <>
       {
-        router.pathname != '/login' && (
+        router.pathname != '/login' || router.pathname != '/' && (
           <div className="hidden lg:block">
             <div className="w-0 lg:w-[19.5rem] h-screen font-[Urbanist]">
               <div className="flex flex-col h-screen xl:pr-3 px-0 lg:px-6 border-r-2 bg-[#FCFBFF] dark:bg-gray-800 fixed overflow-y-auto w-[16%]">

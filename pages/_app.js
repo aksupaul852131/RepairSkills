@@ -7,7 +7,6 @@ import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
 
 import ScrollButton from "../components/utils/Scroll-btn"
-import Sidebar from "../components/Sidebar";
 
 export default function App({
   Component,
@@ -24,12 +23,8 @@ export default function App({
             <Navbar />
             <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
 
-            <div className="h-screen ">
-              <div className="mt-16 lg:flex lg:flex-row dark:bg-gray-900">
-                {/* Left */}
-                <Sidebar />
-                <Component {...pageProps} />
-              </div>
+            <div className="pt-16 dark:bg-gray-900">
+              <Component {...pageProps} />
             </div>
           </div>
           <MobileNav />

@@ -105,14 +105,18 @@ const BlogHome = () => {
     return (
         <>
             <Head>
-                <title>All Blogs & News</title>
+                <title>Blogs - The Ultimate Destination for Repair Knowledge</title>
                 <link rel="icon" href="/favicon.ico" />
+                <link rel="canonical" href="https://repair-skills.com/tools/home" />
+
+                <meta name="keywords" content="repair, DIY, maintenance, home repairs, machinery, appliance, car, tutorials, guides, product reviews" />
+                <meta name="description" content="Gain the knowledge and skills necessary to tackle any repair project, big or small. From basic home repairs to complex machinery maintenance, RepairSkills covers a wide range of topics to help you become an expert in your field." />
             </Head>
             {
                 fetchLoad ?
                     <Loading />
                     :
-                    <div className="select-none pb-24">
+                    <div className="mx-auto w-full lg:w-1/2 select-none pb-24">
                         <div className="px-3 pt-3">
                             <div className="flex justify-between items-center dark:text-white">
                                 <h1>
@@ -148,7 +152,7 @@ const BlogHome = () => {
                             </div>
                             <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
                                 <div>
-                                    <ul className="mt-2 flex flex-nowrap overflow-x-scroll no-scrollbar">
+                                    <ul className="mt-4 flex flex-nowrap overflow-x-scroll no-scrollbar">
                                         {
                                             tags.map((e, index) =>
                                                 <li
@@ -174,7 +178,7 @@ const BlogHome = () => {
                                         <Link
                                             href={`/blogs/article/${e?.data()?.articleId}`}
                                         >
-                                            <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 rounded">
+                                            <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 lg:px-3 rounded">
                                                 <div className="flex gap-3 w-full">
                                                     <Image
                                                         width={160}

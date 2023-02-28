@@ -118,7 +118,7 @@ function Post({ id, post, userpage }) {
 
   return (
     <div
-      className="py-5 px-4 border-b shadow my-3 font-[Urbanist] dark:text-white dark:bg-gray-900"
+      className="py-5 px-4 border-b shadow my-3 font-[Urbanist] dark:text-white dark:bg-gray-800"
     >
       {/* profile */}
       <div className="w-full flex">
@@ -135,6 +135,7 @@ function Post({ id, post, userpage }) {
                 height={120}
                 src={post?.userImg}
                 alt={`${post?.username} - RepairSkills`}
+                title={post?.username}
                 className="h-11 w-11 rounded-full mr-4"
               />
             </Link>
@@ -142,11 +143,11 @@ function Post({ id, post, userpage }) {
         }
         <div>
           <div className="flex">
-            <h4
+            <h2
               className={`font-bold text-[15px] sm:text-base group-hover:underline inline-block`}
             >
               {post?.username}
-            </h4>
+            </h2>
           </div>
           {/* post time */}
           <span className="hover:underline text-gray-600 dark:text-gray-400 text-sm sm:text-[15px]">

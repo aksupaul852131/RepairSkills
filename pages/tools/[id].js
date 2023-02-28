@@ -77,12 +77,15 @@ export default function Tool() {
             <Head>
                 <title>Daily Use Tools</title>
                 <link rel="icon" href="/favicon.ico" />
+                <meta name="keywords" content="HVAC Tools, Tools List, Technician Tools, Tool App, Tool Website" />
+                <meta name="description" content="Split AC Tools Check List Tools For Technicians - Manage Tools" />
             </Head>
 
 
             {loading ? <Loading />
                 : tools ?
                     <div className="pt-6 pb-24 w-full font-[Urbanist] select-none">
+                        <h1 className="text-center pb-6 text-lg">Tools Check List - RepairSkills</h1>
                         {
                             postType == 1 && (
                                 <div className="relative mx-2 mb-4 ">
@@ -145,14 +148,16 @@ export default function Tool() {
                         {
                             postType != 1 && (
                                 <div className="fixed bottom-16 z-50 md:bottom-0 md:mt-6 md:relative w-full px-3 md:px-32">
-                                    <button onClick={() => onCheckHandle()} className=" bg-primary w-full text-center hover:bg-green-500 text-white rounded-full py-3 px-4">
-                                        Check My Tools
-                                    </button>
+                                    <center>
+                                        <button onClick={() => onCheckHandle()} className="bg-primary w-full md:w-1/2 text-center hover:bg-green-500 text-white rounded-full py-3 px-4">
+                                            Check My Tools
+                                        </button>
+                                    </center>
                                 </div>)
                         }
                         {/* notice */}
                         <div className="px-3 md:px-32">
-                            <div className="mt-8 relative w-full border border-dashed border-primary bg-primary/10">
+                            <div className="mx-auto mt-8 relative w-full md:w-1/2 border border-dashed border-primary bg-primary/10">
                                 <span className="-top-3 absolute bg-secondry text-white ml-2 px-2 rounded">
                                     {postType == 1 ? 'Information' : 'Info'}
                                 </span>
