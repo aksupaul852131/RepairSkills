@@ -13,24 +13,40 @@ export default function App({
   pageProps: { session, ...pageProps },
 }) {
   return (
-    // `session` comes from `getServerSideProps` or `getInitialProps`.
-    // Avoids flickering/session loading on first load.
-    <ThemeProvider attribute="class">
-      <SessionProvider session={session}>
-        <RecoilRoot>
+    <>
 
-          <div className="font-[Urbanist]">
-            <Navbar />
-            <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+      <Script
+        src="https://www.googletagmanager.com/gtag/js?id=G-SBR01K67B9"
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+          window.dataLayer = window.dataLayer || [];
+          function gtag(){window.dataLayer.push(arguments);}
+          gtag('js', new Date());
 
-            <div className="pt-16 dark:bg-gray-900">
-              <Component {...pageProps} />
+          gtag('config', 'G-SBR01K67B9');
+        `}
+      </Script>
+
+      <ThemeProvider attribute="class">
+        <SessionProvider session={session}>
+          <RecoilRoot>
+
+            <div className="font-[Urbanist]">
+              <Navbar />
+              <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+
+              <div className="pt-16 dark:bg-gray-900">
+                <Component {...pageProps} />
+              </div>
             </div>
-          </div>
-          <MobileNav />
-          <ScrollButton />
-        </RecoilRoot>
-      </SessionProvider>
-    </ThemeProvider >
+            <MobileNav />
+            <ScrollButton />
+          </RecoilRoot>
+        </SessionProvider>
+      </ThemeProvider >
+    </>
+
   );
 }

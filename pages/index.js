@@ -34,15 +34,6 @@ export default function Home() {
         <meta name="keywords" content="repair skills, home repair, maintenance, DIY, tutorials, articles, videos, troubleshooting, community forum, professional technicians" />
         <meta name="description" content="RepairSkills is the ultimate online destination for anyone looking to improve their repair and maintenance skills. Our website is packed with informative articles, videos, tutorials, and other resources to help you tackle any home repair project with confidence" />
 
-
-        <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBR01K67B9"></script>
-        <script>
-          window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments)}
-          gtag('js', new Date());
-
-          gtag('config', 'G-SBR01K67B9');
-        </script>
       </Head>
 
       <div className="w-full pb-24">
