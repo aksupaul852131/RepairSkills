@@ -30,6 +30,7 @@ export default function Home() {
         <title>RepairSkills - Worlwide RepairMan Community</title>
         <link rel="icon" href="/favicon.ico" />
         <link rel="canonical" href="https://repair-skills.com" />
+        <meta name="ahrefs-site-verification" content="71828f375ee433f62e3adfe3fd7437a06468f17e250ad50976527cc50de6600b" />
 
         <meta name="keywords" content="repair skills, home repair, maintenance, DIY, tutorials, articles, videos, troubleshooting, community forum, professional technicians" />
         <meta name="description" content="RepairSkills is the ultimate online destination for anyone looking to improve their repair and maintenance skills. Our website is packed with informative articles, videos, tutorials, and other resources to help you tackle any home repair project with confidence" />
