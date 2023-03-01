@@ -5,8 +5,8 @@ import MobileNav from "../components/navbar/mobile-nav";
 import Navbar from "../components/navbar/Navbar";
 import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
-
 import ScrollButton from "../components/utils/Scroll-btn"
+import Script from "next/script";
 
 export default function App({
   Component,
