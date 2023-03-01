@@ -336,13 +336,7 @@ export default function Video() {
                                                 }}
                                                 className="flex-shrink-0 group block">
                                                 <div className="flex items-top">
-                                                    <div>
-                                                        <img
-                                                            className="inline-block h-8 w-8 rounded-full"
-                                                            src={video.data()?.userImg}
-                                                            alt=""
-                                                        />
-                                                    </div>
+
                                                     <div className="ml-3">
                                                         <p className="text-base leading-6 font-medium text-gray-800 dark:text-white">
                                                             {video?.data()?.username}

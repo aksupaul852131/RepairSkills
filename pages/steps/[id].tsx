@@ -22,7 +22,6 @@ const Steps = ({ post, allComments, notFound }: any) => {
     const [loading, setLoading] = useState(true);
     const [loading2, setLoading2] = useState(true);
 
-    const [comentList, setComentList] = useState([]);
     const [dbKey, setDbKey] = useState('qnyvPj9savn1ybpPcame');
     const [user, setUser] = useState();
     const [showStep, setShowStep] = useState('');

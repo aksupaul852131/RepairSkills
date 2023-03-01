@@ -10,7 +10,7 @@ import { useTheme } from 'next-themes'
 const navigation = [
     { name: 'Ask', href: '/ask', current: true },
     { name: 'Tools', href: '/tools/home', current: false },
-    { name: 'Blogs', href: '/vlogs/home', current: false },
+    { name: 'Blogs', href: '/blogs/home', current: false },
     { name: 'Videos', href: '/videos/home', current: false },
 ]
 

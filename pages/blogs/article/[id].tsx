@@ -229,7 +229,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                                                 <span className="text-xs">CopyLink</span>
                                             </button>
                                         </div>
-                                        <img src='/fav-logo.png' className="h-8 md:h-10" />
+                                        <img src='/fav-logo.png' className="h-8 md:h-10" alt="brand-logo" width={50} height={50} />
                                     </div>
                                     <hr className="mt-6" />
 

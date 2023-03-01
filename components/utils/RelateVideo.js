@@ -46,7 +46,11 @@ export default function RelatedVideo(props) {
                                 <div className="flex gap-4 w-full">
 
                                     <div className="w-56">
-                                        <img src={`https://img.youtube.com/vi/${e?.data()?.urlId}/mqdefault.jpg`} className="w-56 h-24 rounded-lg" />
+                                        <img
+                                            alt={`${e.data().title.substring(0, 80)} - RepairSkills`}
+                                            width={100}
+                                            height={100}
+                                            src={`https://img.youtube.com/vi/${e?.data()?.urlId}/mqdefault.jpg`} className="w-56 h-24 rounded-lg" />
                                     </div>
                                     <div className="w-full">
                                         <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">

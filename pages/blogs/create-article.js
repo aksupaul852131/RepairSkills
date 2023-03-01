@@ -192,7 +192,7 @@ export default function CreatePost() {
                 <title> Create a Post - RepairSkills</title>
                 <meta name="description" content="Create Your Repair Skills Post" />
             </Head>
-            <div className="font-[Urbanist] px-3 pt-2 pb-24">
+            <div className="mx-auto md:w-1/2 font-[Urbanist] px-3 pt-2 pb-24">
                 <div className="input-feild">
                     <label>Article Title</label>
                     <input
