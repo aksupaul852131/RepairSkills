@@ -38,7 +38,7 @@ export default function Home() {
         <script async src="https://www.googletagmanager.com/gtag/js?id=G-SBR01K67B9"></script>
         <script>
           window.dataLayer = window.dataLayer || [];
-          function gtag(){dataLayer.push(arguments);}
+          function gtag(){dataLayer.push(arguments)}
           gtag('js', new Date());
 
           gtag('config', 'G-SBR01K67B9');
