@@ -229,7 +229,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                                                 <span className="text-xs">CopyLink</span>
                                             </button>
                                         </div>
-                                        <img src='/fav-logo.png' className="h-8 md:h-10" alt="brand-logo" width={50} height={50} />
+                                        <img src='/fav-logo.png' className="h-8 md:h-10" alt="brand-logo" width={35} height={50} />
                                     </div>
                                     <hr className="mt-6" />
 
@@ -282,7 +282,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                                 </section>
 
                                 <section className="pb-24">
-                                    <h2 className="text-black dark:text-white">Related Updates</h2>
+                                    <h2 className="text-black dark:text-white mb-3">Related Updates</h2>
                                     <RelatedPost title={title} />
                                 </section>
                             </div>

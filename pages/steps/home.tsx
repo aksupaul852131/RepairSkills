@@ -1,9 +1,8 @@
 import Link from "next/link";
-import { useEffect, useState } from "react";
-import { onSnapshot, collection, query, orderBy, doc, getDocs, } from "@firebase/firestore";
+import { useState } from "react";
+import { collection, query, getDocs, } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
-import Moment from "react-moment";
-import Loading from '../../components/utils/Loading'
+
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
 
@@ -207,8 +206,6 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
                 timestamp: docSnap.data().timestamp.toMillis(),
             }
         })
-
-        console.log('dhhhdhdhdhd', querySnapshot)
 
         return {
             props: {

@@ -17,7 +17,7 @@ function Feed() {
 
   const fetchData = () => {
 
-    if(fetchData) {
+    if (fetchData) {
       onSnapshot(
         query(collection(db, "posts"), orderBy("timestamp", "desc")),
         (snapshot) => {

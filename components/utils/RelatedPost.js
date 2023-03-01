@@ -1,6 +1,6 @@
 import Link from "next/link";
 import { useEffect, useState } from "react";
-import { onSnapshot, collection, query, orderBy, } from "@firebase/firestore";
+import { onSnapshot, collection, query, orderBy, limit, } from "@firebase/firestore";
 import Moment from "react-moment";
 import { db } from "../../pages/api/auth/firebase-config";
 import Image from "next/image";
@@ -12,7 +12,7 @@ export default function RelatedPost(props) {
     useEffect(
         () =>
             onSnapshot(
-                query(collection(db, "blogs"), orderBy("timestamp", "desc")),
+                query(collection(db, "blogs"), orderBy("timestamp", "desc"), limit(4)),
                 (snapshot) => {
                     setArticleList(snapshot.docs);
                 }
