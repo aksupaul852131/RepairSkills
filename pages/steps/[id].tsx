@@ -12,6 +12,7 @@ import ShareBtns from "../../components/utils/shareBtns";
 import Discussion from "../../components/post/discussion";
 import { GetServerSidePropsContext } from "next";
 import Head from "next/head";
+import Link from "next/link";
 
 
 const Steps = ({ post, allComments, notFound }: any) => {
@@ -226,7 +227,7 @@ const Steps = ({ post, allComments, notFound }: any) => {
                         {loading ?
                             <LoadingP />
                             :
-                            <div className="pt-6 px-3 md:px-24 w-full font-[Urbanist] select-none">
+                            <div className="mx-auto md:w-1/2 pt-6 px-3 md:px-24 w-full font-[Urbanist] select-none">
 
                                 <h1 className="font-bold text-2xl dark:text-white">{post.title}</h1>
                                 <p className="mt-1 first-letter:text-lg text-gray-800 dark:text-white">{post.description}</p>
@@ -252,8 +253,8 @@ const Steps = ({ post, allComments, notFound }: any) => {
                                     <div key={index} className="py-3">
                                         <div
                                             onClick={() => showStep != e.heading ? setShowStep(e.heading) : setShowStep('')}
-                                            className="bg-gray-100/50 w-full px-3 py-6 rounded border flex gap-3 items-center hover:bg-primary/10">
-                                            <h3 className="bg-primary rounded-full w-8 h-8 text-center pt-1 text-white">{index + 1}</h3>
+                                            className="bg-gray-100/50 dark:bg-gray-800 w-full px-3 py-6 rounded border flex gap-3 items-center hover:bg-primary/10">
+                                            <span className="bg-primary rounded-full w-8 h-8 text-center pt-1 text-white">{index + 1}</span>
                                             <h2 className="font-semibold">{e.heading}</h2>
                                             <div
                                                 className="ml-auto">
@@ -273,12 +274,16 @@ const Steps = ({ post, allComments, notFound }: any) => {
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 text-gray-400">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.25 8.25L21 12m0 0l-3.75 3.75M21 12H3" />
                                                             </svg>
-                                                            <h4>{j?.step}</h4>
+                                                            <h3>{j?.step}</h3>
                                                             <ul className="mt-3 flex flex-nowrap gap-3">
                                                                 {
                                                                     j?.resources?.map((r) => (
-                                                                        <li className={`${r.name == 'watch video' ? 'bg-red-300' : 'bg-gray-200'} px-3 py-1 rounded-2xl text-sm`}>
-                                                                            {r?.name}
+                                                                        <li className={`${r.name == 'watch video' ? 'bg-red-300' : 'bg-gray-200'} px-3 py-1 rounded-2xl text-sm dark:bg-gray-800 select-none`}>
+                                                                            <Link
+                                                                                href={r?.link}
+                                                                            >
+                                                                                {r?.name}
+                                                                            </Link>
                                                                         </li>
                                                                     ))
                                                                 }

@@ -8,7 +8,7 @@ import { db } from '../../pages/api/auth/firebase-config'
 import { useTheme } from 'next-themes'
 
 const navigation = [
-    { name: 'ask', href: '/Ask', current: true },
+    { name: 'Ask', href: '/ask', current: true },
     { name: 'Tools', href: '/tools/home', current: false },
     { name: 'Blogs', href: '/vlogs/home', current: false },
     { name: 'Videos', href: '/videos/home', current: false },

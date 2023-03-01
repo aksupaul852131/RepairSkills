@@ -89,7 +89,7 @@ const BlogHome = ({ allPosts }: any) => {
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
-            <div className="font-[Urbanist] pb-24">
+            <div className="mx-auto md:w-1/2 font-[Urbanist] pb-24">
                 <div className="px-3 pt-3">
                     <div className="flex justify-between items-center dark:text-white">
                         <h1>

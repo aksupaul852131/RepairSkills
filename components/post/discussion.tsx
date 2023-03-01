@@ -31,7 +31,9 @@ export default function Discussion(props: any) {
                                             <img
                                                 className="mr-2 w-6 h-6 rounded-full"
                                                 src={e.userImg}
-                                                alt="Michael Gough"
+                                                alt={e.username}
+                                                width={50}
+                                                height={50}
                                             />
                                             {e.username}
                                         </p>
