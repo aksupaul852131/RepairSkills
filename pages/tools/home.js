@@ -53,27 +53,36 @@ export default function ToolHome() {
                         <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border dark:text-black">Split AC Tools</span>
                     </div>
 
-
-                    <div className="mt-4 grid grid-cols-1 md:grid-cols-3 lg:grid-cols-4 gap-3">
+                    <div className="mt-4 grid grid-cols-3 lg:grid-cols-4 gap-3">
                         <Link
                             href={{
                                 pathname: '/tools/tools-list',
                                 query: { key: `ACInstallationTools` },
                             }}
                         >
-                            <div className="bg-gradient-to-r from-cyan-500 to-blue-500 rounded-2xl h-48 w-full grid items-center text-center text-white">
-                                <h2 className="text-lg">AC Installation</h2>
+                            <div>
+                                <div className="border rounded-full p-6">
+
+
+                                    <img src='/check.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+
+                                <h4 className="text-xs text-center mt-3">Installation</h4>
                             </div>
                         </Link>
 
                         <Link
                             href={{
                                 pathname: '/tools/tools-list',
-                                query: { key: `ff` },
+                                query: { key: `acDismantle` },
                             }}
                         >
-                            <div className="bg-gradient-to-r from-pink-400 to-pink-500 rounded-2xl h-48 w-full grid items-center text-center text-white">
-                                <h2 className="text-lg">AC Installation</h2>
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/repair.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+
+                                <h4 className="text-xs text-center mt-3">Dismantle</h4>
                             </div>
                         </Link>
 
@@ -83,11 +92,109 @@ export default function ToolHome() {
                                 query: { key: `acGasRefilling` },
                             }}
                         >
-                            <div className="bg-gradient-to-r from-green-300 to-green-600 rounded-2xl h-48 w-full grid items-center text-center text-white">
-                                <h2 className="text-lg">AC Installation</h2>
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/ac-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+                                <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
                             </div>
                         </Link>
 
+                    </div>
+
+
+                    <div className="border-t mt-12 mb-8 relative">
+                        <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border dark:text-black">Window AC Tools</span>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-3 lg:grid-cols-4 gap-3">
+                        <Link
+                            href={{
+                                pathname: '/tools/tools-list',
+                                query: { key: `WindowAcInstallation` },
+                            }}
+                        >
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/window-ac.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+
+                                <h4 className="text-xs text-center mt-3">Installation</h4>
+                            </div>
+                        </Link>
+
+                        <Link
+                            href={{
+                                pathname: '/tools/tools-list',
+                                query: { key: `WindowAcDismantle` },
+                            }}
+                        >
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/window-dis.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+
+                                <h4 className="text-xs text-center mt-3">Dismantle</h4>
+                            </div>
+                        </Link>
+
+                        <Link
+                            href={{
+                                pathname: '/tools/tools-list',
+                                query: { key: `WindowAcGas` },
+                            }}
+                        >
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/window-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+                                <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
+                            </div>
+                        </Link>
+
+                    </div>
+
+                    <div className="border-t mt-20 mb-8 relative">
+                        <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border dark:text-black">Refrigrator Tools</span>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-3 lg:grid-cols-4 gap-3">
+
+                        <Link
+                            href={{
+                                pathname: '/tools/tools-list',
+                                query: { key: `Fridge-Gas-Refilling` },
+                            }}
+                        >
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/fridge-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+                                <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
+                            </div>
+                        </Link>
+
+                    </div>
+
+                    <div className="border-t mt-20 mb-8 relative">
+                        <span className="-top-4 left-2 text-sm absolute bg-white px-4 py-1 rounded-full border dark:text-black">Washing Machine Tools</span>
+                    </div>
+
+                    <div className="mt-4 grid grid-cols-3 lg:grid-cols-4 gap-3">
+
+                        <Link
+                            href={{
+                                pathname: '/tools/tools-list',
+                                query: { key: `Washing-Machine-Inspection-Tools` },
+                            }}
+                        >
+                            <div>
+                                <div className="border rounded-full p-6">
+                                    <img src='/washing-machine.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                </div>
+                                <h4 className="text-xs text-center mt-3">Inspection</h4>
+                            </div>
+                        </Link>
 
                     </div>
                 </div>
