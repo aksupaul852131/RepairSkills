@@ -156,7 +156,7 @@ export default function Tool() {
                                 </div>)
                         }
                         {/* notice */}
-                        <div className="px-3 md:px-32">
+                        <div className="px-3 md:px-32 mb-12">
                             <div className="mx-auto mt-8 relative w-full md:w-1/2 border border-dashed border-primary bg-primary/10">
                                 <span className="-top-3 absolute bg-secondry text-white ml-2 px-2 rounded">
                                     {postType == 1 ? 'Information' : 'Info'}

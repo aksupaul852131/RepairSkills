@@ -65,8 +65,8 @@ export default function Navbar() {
                                                 <Link href='/'>
                                                     {
                                                         theme === 'dark' ?
-                                                            <img src='/logo2.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
-                                                            : <img src='/RepairSkills.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />}
+                                                            <img src='/logo2.png' className='w-32' alt='ReairSkils' width={100} height={60} title='Home' />
+                                                            : <img src='/RepairSkills.png' className='w-32' alt='ReairSkils' width={100} height={60} title='Home' />}
                                                 </Link>
                                             </div>
 

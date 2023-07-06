@@ -72,7 +72,7 @@ const BlogHome = ({ allPosts }: any) => {
         },
     ]);
 
-    const handlechange = (index) => {
+    const handlechange = (index: number) => {
         const data = [...tags];
         for (var i = 0; i < tags.length; i++) {
             tags[i].pos = 'dec';
@@ -124,7 +124,7 @@ const BlogHome = ({ allPosts }: any) => {
 
                 <div>
                     <div className="px-3 mt-6">
-                        <img className="w-full rounded-lg object-cover" src='https://img.global.news.samsung.com/in/wp-content/uploads/2020/05/4.gif' />
+                        <img className="w-full rounded-lg object-cover" src='https://irp-cdn.multiscreensite.com/20edf843/dms3rep/multi/cc-12.gif' />
                     </div>
                     <div className="sticky top-16 bg-white dark:bg-gray-900 z-50 mb-2 pt-1 pb-3">
                         <div>
@@ -150,7 +150,7 @@ const BlogHome = ({ allPosts }: any) => {
                     <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
                     <ul className="mt-4 px-2">
                         {
-                            allPosts.filter(filter != 'All' ? (j => j?.data().tags[0] == filter) : (ff => ff.title)).map((e) => (
+                            allPosts.filter(filter != 'All' ? ((j: { data: () => { (): any; new(): any; tags: string[]; }; }) => j?.data().tags[0] == filter) : ((ff: { title: any; }) => ff.title)).map((e) => (
                                 <Link
                                     href={`/blogs/article/${e?.articleId}`}
                                 >
