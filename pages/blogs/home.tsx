@@ -150,7 +150,7 @@ const BlogHome = ({ allPosts }: any) => {
                     <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
                     <ul className="mt-4 px-2">
                         {
-                            allPosts.filter(filter != 'All' ? ((j: { data: () => { (): any; new(): any; tags: string[]; }; }) => j?.data().tags[0] == filter) : ((ff: { title: any; }) => ff.title)).map((e) => (
+                            allPosts.filter(filter != 'All' ? ((ff: any) => ff.tags[0] == filter) : ((ff: { title: any; }) => ff.title)).map((e) => (
                                 <Link
                                     href={`/blogs/article/${e?.articleId}`}
                                 >

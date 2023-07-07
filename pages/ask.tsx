@@ -71,13 +71,9 @@ export default function Home() {
 
             <div className="mx-auto w-full lg:w-1/2 pt-2">
 
-
-
-
-                <div className="px-0 md:px-16 lg:px-48 font-[Urbanist] select-none">
-                    <div className="my-2 px-5 py-4 flex justify-between"
-                        onClick={() => router.push('/create-post')}
-                    >
+                <div className="px-0 md:px-16 lg:px-12 font-[Urbanist] select-none">
+                    <div className="my-2 px-5 py-4 flex justify-between bg-gray-800 rounded-md"
+                        onClick={() => router.push('/create-post')}>
                         <div className="flex items-center">
                             <span className="text-gray-600 dark:text-gray-200 text-sm font-semibold ">Type to add something</span>
                         </div>
@@ -89,6 +85,7 @@ export default function Home() {
 
                     <Feed />
                 </div>
+
             </div>
 
 

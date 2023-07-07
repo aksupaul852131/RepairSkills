@@ -118,17 +118,14 @@ function Post({ id, post, userpage }) {
 
   return (
     <div
-      className="py-5 px-4 border-b shadow my-3 font-[Urbanist] dark:text-white dark:bg-gray-800"
+      className="py-5 rounded-md px-4 border-b shadow my-3 font-[Urbanist] dark:text-white dark:bg-gray-800"
     >
       {/* profile */}
       <div className="w-full flex">
         {
           !userpage && (
             <Link
-              href={{
-                pathname: '/account/profile',
-                query: { uid: `${post?.id}` },
-              }}
+              href={`/account/${post?.id}`}
             >
               <Image
                 width={160}
@@ -146,7 +143,10 @@ function Post({ id, post, userpage }) {
             <h2
               className={`font-bold text-[15px] sm:text-base group-hover:underline inline-block`}
             >
-              {post?.username}
+              <Link
+                href={`/account/${post?.id}`}
+              >{post?.username}</Link>
+
             </h2>
           </div>
           {/* post time */}
@@ -185,7 +185,7 @@ function Post({ id, post, userpage }) {
                   height={200}
                   src={post?.image}
                   alt={`${post?.text} - RepairSkills`}
-                  className="rounded-2xl max-h-[250px] md:max-h-[350px] w-full object-cover my-2"
+                  className="rounded-2xl md:max-h-[350px] w-full object-cover my-2"
                   onClick={() => router.push(`/quetion/${id}`)}
                 />)
             )

@@ -186,7 +186,7 @@ const CreatePost = () => {
 
 
             {/* Middle */}
-            <div className="w-full pb-24 sm:w-600 px-0 md:px-32 md:h-screen font-[Urbanist]">
+            <div className="w-full pb-24 sm:w-600 max-w-4xl px-0 md:px-32 md:h-screen font-[Urbanist]">
 
                 <div className="rounded shadow-lg w-full p-4">
                     {/* // profile */}
@@ -283,7 +283,7 @@ const CreatePost = () => {
                                 className="mt-2 ml-2 absolute w-8 h-8 bg-white hover:bg-primary bg-opacity-75 rounded-full flex items-center justify-center top-1 left-1 cursor-pointer"
                                 onClick={() => setSelectedFile(null)}
                             >
-                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:text-black">
                                     <path strokeLinecap="round" strokeLinejoin="round" d="M6 18L18 6M6 6l12 12" />
                                 </svg>
                             </div>
@@ -294,7 +294,7 @@ const CreatePost = () => {
                             />
                         </div>
                     )}
-                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800">Related Tags</p>
+                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800 dark:text-white">Related Tags</p>
                     <ul className='px-1 flex flex-wrap gap-2'>
                         {tags.map((item, index) => {
                             return (

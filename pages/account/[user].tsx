@@ -15,7 +15,7 @@ const Users = ({ userData, allposts }: any) => {
     return (
         <>
             <Head>
-                <title>{userData.name} - RepairSkills</title>
+                <title>{userData?.name} - RepairSkills</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -29,19 +29,19 @@ const Users = ({ userData, allposts }: any) => {
                             <div className="h-16 absolute -top-14 left-4 md:left-12">
                                 <img
                                     className="w-24 h-24 object-cover rounded-full"
-                                    src={userData.profileImg}
+                                    src={userData?.profileImg}
                                     alt="Joe Biden"
                                 />
-                                <h3 className="mt-4 text-black font-bold dark:text-white">{userData.name}</h3>
-                                <p className="text-primary text-sm md:text-base">Joined <Moment fromNow>{userData.timestamp}</Moment></p>
-                                <p className="text-sm mt-2">Experience {userData.workExp} years +</p>
+                                <h3 className="mt-4 text-black font-bold dark:text-white">{userData?.name}</h3>
+                                <p className="text-primary text-sm md:text-base">Joined <Moment fromNow>{userData?.timestamp}</Moment></p>
+                                <p className="text-sm mt-2">Experience {userData?.workExp} years +</p>
 
                             </div>
 
                             <div className="h-16 absolute top-16 right-2 md:right-10">
                                 <div className="grid justify-items-end">
                                     {
-                                        userData.uid == session?.user?.uid ?
+                                        userData?.uid == session?.user?.uid ?
                                             <button onClick={() => router.push('/account/edit-profile')} className="bg-gray-100 px-4 text-base py-2 rounded-lg text-black w-24 md:w-32 hover:bg-primary hover:text-white">
                                                 Edit
                                             </button>
@@ -74,10 +74,10 @@ const Users = ({ userData, allposts }: any) => {
                                         </div>
                                     </div>
                                     <div className="flex-auto p-4">
-                                        <p className="leading-normal text-sm text-gray-800 mr-0 md:mr-16 dark:text-white">{userData.bio}</p>
+                                        <p className="leading-normal text-sm text-gray-800 mr-0 md:mr-16 dark:text-white">{userData?.bio}</p>
                                         <h6 className="mt-6 mb-0 font-semibold text-black dark:text-white">Skills</h6>
                                         <ul className="mt-4 flex flex-wrap pl-0 mb-0 rounded-lg gap-2">
-                                            {userData.skills?.map((e: any, index: number) => (
+                                            {userData?.skills?.map((e: any, index: number) => (
                                                 <li id={index} className="bg-gray-100 rounded text-sm text-black px-4 py-2">{e}</li>
                                             ))}
                                         </ul>
@@ -97,7 +97,7 @@ const Users = ({ userData, allposts }: any) => {
                                     <div className="flex-auto p-4 mt-2">
                                         <ul>
                                             {
-                                                userData.experience?.map((i: any, index: number) => (
+                                                userData?.experience?.map((i: any, index: number) => (
                                                     <li id={index} className="grid grid-cols-8">
                                                         <div className="col-span-2 md:col-span-1">
                                                             <img className="w-14 h-14 rounded-full object-cover" src={i?.brandImg} />
@@ -125,7 +125,7 @@ const Users = ({ userData, allposts }: any) => {
                                     <ul className="flex flex-col pl-0 mb-0 rounded-lg">
 
                                         {
-                                            userData.phone && (
+                                            userData?.phone && (
                                                 <li className="relative flex items-center px-0 py-2 mb-2 border-0 rounded-t-lg text-inherit">
                                                     <div className="inline-flex items-center justify-center w-12 h-12 mr-4 text-black transition-all duration-200 text-size-base ease-soft-in-out rounded-xl bg-gray-200">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -135,7 +135,7 @@ const Users = ({ userData, allposts }: any) => {
                                                     </div>
                                                     <div className="flex flex-col items-start justify-center">
                                                         <h6 className="mb-0 leading-normal text-size-sm">Phone</h6>
-                                                        <p className="mb-0 leading-tight text-xs">{userData.phone}</p>
+                                                        <p className="mb-0 leading-tight text-xs">{userData?.phone}</p>
                                                     </div>
 
 
@@ -144,7 +144,7 @@ const Users = ({ userData, allposts }: any) => {
                                         }
 
                                         {
-                                            userData.socialLink && (
+                                            userData?.socialLink && (
                                                 <li className="relative flex items-center px-0 py-2 mb-2 border-0 rounded-t-lg text-inherit">
                                                     <div className="inline-flex items-center justify-center w-12 h-12 mr-4 text-black transition-all duration-200 text-size-base ease-soft-in-out rounded-xl bg-gray-200">
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
@@ -154,11 +154,11 @@ const Users = ({ userData, allposts }: any) => {
                                                     </div>
                                                     <div className="flex flex-col items-start justify-center">
                                                         <h6 className="mb-0 leading-normal text-size-sm">Social Link</h6>
-                                                        <p className="mb-0 leading-tight text-xs">{userData.socialLink}</p>
+                                                        <p className="mb-0 leading-tight text-xs">{userData?.socialLink}</p>
                                                     </div>
 
                                                     <Link
-                                                        href={userData.socialLink}
+                                                        href={userData?.socialLink}
                                                         className="inline-block py-3 pl-0 pr-4 mb-0 ml-auto font-bold text-center uppercase align-middle transition-all bg-transparent border-0 rounded-lg shadow-none cursor-pointer leading-pro text-xs ease-soft-in hover:scale-102 hover:active:scale-102 active:opacity-85 text-primary hover:text-fuchsia-800 hover:shadow-none active:scale-100" >
                                                         <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
                                                             <path strokeLinecap="round" strokeLinejoin="round" d="M15 15l6-6m0 0l-6-6m6 6H9a6 6 0 000 12h3" />
@@ -184,11 +184,11 @@ const Users = ({ userData, allposts }: any) => {
                                 </div>
                             </div>
 
-                            <div className="flex overflow-x-scroll gap-4 px-2">
+                            {/* <div className="flex overflow-x-scroll gap-4 px-2">
                                 {allposts.map((post, index) => (
                                     <Post key={index} id={post.id} post={post} userpage />
                                 ))}
-                            </div>
+                            </div> */}
                         </div>
                     </div>
                 </div>

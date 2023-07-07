@@ -2,7 +2,7 @@ import { signIn } from "next-auth/react";
 
 function Login({ providers }) {
   return (
-    <section className="flex w-screen -mt-14 flex-col md:flex-row h-screen items-center font-[Urbanist]">
+    <section className="flex w-screen -mt-16 flex-col md:flex-row h-screen items-center font-[Urbanist]">
       <div className="bg-indigo-600 hidden lg:block w-full md:w-1/2 xl:w-2/3 h-screen">
         <img
           src="https://source.unsplash.com/random"
@@ -15,8 +15,8 @@ function Login({ providers }) {
   flex items-center justify-center"
       >
         <div className="w-full h-100">
-          <h2 className="text-3xl font-semibold text-primary mt-12 text-center">wire360</h2>
-          <h1 className="text-4xl md:text-2xl font-bold leading-tight mt-2 text-center text-white md:text-black">
+          <center> <img src='/RepairSkills.png' className='w-40' alt='ReairSkils' width={100} height={100} title='Home' /></center>
+          <h1 className="mt-16 text-4xl md:text-2xl font-bold leading-tight text-center text-white md:text-black">
             Log in to your account
           </h1>
 
@@ -28,7 +28,7 @@ function Login({ providers }) {
                 <button
                   onClick={() => signIn(provider.id, { callbackUrl: "/" })}
                   type="button"
-                  className="mt-24 w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
+                  className="mt-6 w-full block bg-white hover:bg-gray-100 focus:bg-gray-100 text-gray-900 font-semibold rounded-lg px-4 py-3 border border-gray-300"
                 >
                   <div className="flex items-center justify-center">
                     <svg
