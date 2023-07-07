@@ -75,7 +75,7 @@ export default function Home() {
                     <div className="my-2 px-5 py-4 flex justify-between bg-gray-800 rounded-md"
                         onClick={() => router.push('/create-post')}>
                         <div className="flex items-center">
-                            <span className="text-gray-600 dark:text-gray-200 text-sm font-semibold ">Type to add something</span>
+                            <span className="text-white text-sm font-semibold ">Type to add something</span>
                         </div>
 
                         <div className="bg-primary rounded-full py-2 px-4 text-xs text-white">

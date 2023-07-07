@@ -233,9 +233,12 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
                                     </div>
                                     <hr className="mt-6" />
 
-                                    <div className="single-article pb-24">
-                                        <img src={thumbnail} className='max-h-64 object-cover rounded-md' title={title} alt={`${title} - RepairSkills`} width={100} height={100} />
-                                        <div dangerouslySetInnerHTML={{ __html: body }} />
+                                    <div className="pb-24">
+                                        {thumbnail ?
+                                            <img src={thumbnail} className='w-full my-8 rounded-md' title={title} alt={`${title} - RepairSkills`} width={100} height={100} />
+                                            : <div></div>
+                                        }
+                                        <div className="single-article" dangerouslySetInnerHTML={{ __html: body }} />
                                     </div>
                                     <ShareBtns windowLoc={window.location.href} />
                                 </article>

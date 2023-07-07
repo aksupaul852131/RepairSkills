@@ -181,8 +181,8 @@ function Post({ id, post, userpage }) {
 
               post?.image && (
                 <Image
-                  width={200}
-                  height={200}
+                  width={500}
+                  height={500}
                   src={post?.image}
                   alt={`${post?.text} - RepairSkills`}
                   className="rounded-2xl md:max-h-[350px] w-full object-cover my-2"

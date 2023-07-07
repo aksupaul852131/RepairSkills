@@ -61,10 +61,10 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
 
 
-                                    <img src='/check.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                    <img src='/check.png' className='w-32 h-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
 
                                 <h4 className="text-xs text-center mt-3">Installation</h4>
@@ -78,7 +78,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/repair.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
 
@@ -93,7 +93,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/ac-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
                                 <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
@@ -115,7 +115,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/window-ac.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
 
@@ -130,7 +130,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/window-dis.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
 
@@ -145,7 +145,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/window-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
                                 <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
@@ -167,7 +167,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/fridge-gas.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
                                 <h4 className="text-xs text-center mt-3">Gas Refilling</h4>
@@ -189,7 +189,7 @@ export default function ToolHome() {
                             }}
                         >
                             <div>
-                                <div className="border rounded-full p-6 bg-green-200 border-2 border-green-500">
+                                <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
                                     <img src='/washing-machine.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
                                 <h4 className="text-xs text-center mt-3">Inspection</h4>
