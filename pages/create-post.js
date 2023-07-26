@@ -1,6 +1,7 @@
 import { useEffect, useRef, useState } from "react";
-import { db, storage } from "./api/auth/firebase-config";
+import app, { db, storage } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
+import { getAuth } from "firebase/auth";
 import {
     doc,
     getDoc,
@@ -16,18 +17,15 @@ import Link from "next/link";
 import Head from "next/head";
 
 const CreatePost = () => {
-    const { data: session } = useSession();
+    const uid = getAuth(app).currentUser.uid;
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
     const filePickerRef = useRef(null);
     const [showEmojis, setShowEmojis] = useState(false);
     const router = useRouter();
-
     const [postId, setPostId] = useState(uuid());
-
     const [loading2, setLoading2] = useState(true);
-
     const [user, setUser] = useState();
 
     useEffect(() => {
@@ -36,8 +34,8 @@ const CreatePost = () => {
 
 
     const getResponse = async () => {
-        if(session && loading2) {
-            const docRef = doc(db, "users", session.user.uid);
+        if(loading2) {
+            const docRef = doc(db, "users", uid);
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()) {
                 setUser(docSnap);
@@ -48,48 +46,46 @@ const CreatePost = () => {
 
 
     const sendPost = async () => {
-        if(!session) {
-            router.push('/login');
-        } else {
-            if(loading) return;
-            setLoading(true);
+        if(loading) return;
+        setLoading(true);
 
-            const docdata = {
-                postId: `${input.toLowerCase()
-                    .replace(/ /g, '-')
-                    .replace(/[^\w-]+/g, '')}-${postId}`,
-                id: session.user.uid,
-                username: user?.data()?.name,
-                userImg: user?.data()?.profileImg,
-                text: input,
-                timestamp: serverTimestamp(),
-                tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
-            }
-
-            setDoc(doc(db, "posts", `${input.toLowerCase()
+        const postSchema = {
+            postId: `${input.toLowerCase()
                 .replace(/ /g, '-')
-                .replace(/[^\w-]+/g, '')}-${postId}`), docdata);
+                .replace(/[^\w-]+/g, '')}-${postId}`,
+            postType: 'a1',
+            uid: uid,
+            likes: [],
+            imLen: 0,
+            description: input,
+            datePublished: serverTimestamp(),
 
-            const imageRef = ref(storage, `posts/${session.user.name}/${postId}/image`);
+        }
 
-            if(selectedFile) {
-                await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-                    const downloadURL = await getDownloadURL(imageRef);
-                    await updateDoc(doc(db, "posts", `${input.toLowerCase()
-                        .replace(/ /g, '-')
-                        .replace(/[^\w-]+/g, '')}-${postId}`), {
-                        image: downloadURL,
-                    });
+        setDoc(doc(db, "posts", `${input.toLowerCase()
+            .replace(/ /g, '-')
+            .replace(/[^\w-]+/g, '')}-${postId}`), postSchema);
+
+        const imageRef = ref(storage, `posts/${uid}/${postId}/image`);
+
+        if(selectedFile) {
+            await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+                const downloadURL = await getDownloadURL(imageRef);
+                await updateDoc(doc(db, "posts", `${input.toLowerCase()
+                    .replace(/ /g, '-')
+                    .replace(/[^\w-]+/g, '')}-${postId}`), {
+                    image: downloadURL,
                 });
-            }
+            });
 
 
             setInput("");
             setSelectedFile(null);
             setShowEmojis(false);
             setLoading(false);
-            router.push('/');
+
         }
+        router.push('/');
     };
 
     const addImageToPost = (e) => {
@@ -193,19 +189,13 @@ const CreatePost = () => {
                     <div className="flex flex-shrink-0 pb-0">
                         <Link href="#" className="flex-shrink-0 group block">
                             <div className="flex items-top">
-                                <div>
-                                    <img
-                                        className="inline-block h-12 w-12 rounded-full"
-                                        src={user?.data()?.profileImg}
-                                        alt=""
-                                    />
-                                </div>
+
                                 <div className="ml-3">
                                     <p className="text-base leading-6 font-medium text-gray-800 dark:text-white">
-                                        {user?.data()?.name}
+                                        {user?.data()?.username}
                                     </p>
                                     <span className="ml-1 text-sm leading-5 font-medium text-gray-400 group-hover:text-gray-300 transition ease-in-out duration-150">
-                                        @{session?.user?.tag}
+                                        @{uid}
                                     </span>
                                 </div>
                             </div>
@@ -294,8 +284,8 @@ const CreatePost = () => {
                             />
                         </div>
                     )}
-                    <p className="mt-5 mb-3 text-sm font-semibold ml-1 text-gray-800 dark:text-white">Related Tags</p>
-                    <ul className='px-1 flex flex-wrap gap-2'>
+
+                    {/* <ul className='px-1 flex flex-wrap gap-2'>
                         {tags.map((item, index) => {
                             return (
                                 <li
@@ -309,7 +299,7 @@ const CreatePost = () => {
                                 </li>
                             );
                         })}
-                    </ul>
+                    </ul>*/}
                     <button
                         disabled={!input && !selectedFile}
                         onClick={sendPost}
@@ -329,13 +319,7 @@ const CreatePost = () => {
 
                     </button>
                 </div>
-                {
-                    session?.user?.name ?
 
-                        <p className="text-center text-xs mt-4 dark:text-white">This Post Created as <span className="text-primary">{session?.user?.name}</span></p>
-                        :
-                        <p className="text-center text-xs mt-4">you can not post anything! <Link href='/login' className="text-primary">please login</Link></p>
-                }
             </div>
             {/* /Middle */}
 

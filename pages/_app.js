@@ -7,11 +7,14 @@ import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
 import ScrollButton from "../components/utils/Scroll-btn"
 import Script from "next/script";
+import { useRouter } from "next/router";
 
 export default function App({
   Component,
   pageProps: { session, ...pageProps },
 }) {
+
+  const { pathname } = useRouter();
   return (
     <>
 
@@ -34,7 +37,10 @@ export default function App({
           <RecoilRoot>
 
             <div className="font-[Urbanist]">
-              <Navbar />
+              {pathname?.includes('/login') || pathname?.includes('/register') ?
+                <></> : <Navbar />}
+
+
               <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
 
               <div className="pt-16 dark:bg-gray-900">

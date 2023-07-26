@@ -31,7 +31,7 @@ const Post = ({ title, time, author, authorUID, blogTag, description, thumbnail,
         if (loading2) {
 
             if (session) {
-                const docRef = doc(db, "users", session?.user?.uid);
+                const docRef = doc(db, "users", '');
                 const docSnap = await getDoc(docRef);
                 if (docSnap.exists()) {
                     setUser(docSnap.data());

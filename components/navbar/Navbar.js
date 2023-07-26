@@ -6,6 +6,7 @@ import { signOut, useSession } from 'next-auth/react'
 import { doc, getDoc } from '@firebase/firestore'
 import { db } from '../../pages/api/auth/firebase-config'
 import { useTheme } from 'next-themes'
+import { getAuth, onAuthStateChanged } from 'firebase/auth'
 
 const navigation = [
     { name: 'Ask', href: '/ask', current: true },
@@ -23,6 +24,9 @@ export default function Navbar() {
     const { theme, setTheme } = useTheme();
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
+    const auth = getAuth();
+    const [logged, setLogged] = useState(false);
+
 
     const [userImg, setUserImg] = useState(session?.user?.image);
 
@@ -36,15 +40,29 @@ export default function Navbar() {
             const docRef = doc(db, "users", session.user.uid);
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()) {
-                setUserImg(docSnap.data().profileImg);
+                setUserImg(docSnap.data().photoUrl);
                 setLoading(false);
             } else { setLoading(false) }
         }
     }
     const LogOut = async () => {
-        signOut();
-        router.push('/')
+        auth.signOut();
+        router.push('/account/login')
     }
+
+
+
+    onAuthStateChanged(auth, (user) => {
+        if(user) {
+            // User is signed in, see docs for a list of available properties
+            // https://firebase.google.com/docs/reference/js/auth.user
+            const uid = user.uid;
+            setLogged(true);
+            // ...
+        } else {
+            setLogged(false);
+        }
+    });
 
 
     return (
@@ -164,16 +182,16 @@ export default function Navbar() {
                                                             {({ active }) => (
                                                                 <>
                                                                     {
-                                                                        session ?
+                                                                        logged ?
                                                                             <div
                                                                                 onClick={LogOut}
-                                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-gray-700 hover:bg-gray-100')}
+                                                                                className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm text-red-600 hover:bg-gray-100')}
                                                                             >
                                                                                 Sign Out
                                                                             </div>
                                                                             :
                                                                             <div
-                                                                                onClick={() => router.push('/login')}
+                                                                                onClick={() => router.push('account/login')}
                                                                                 className={classNames(active ? 'bg-gray-100' : '', 'block px-4 py-2 text-sm hover:bg-gray-100 text-primary')}
                                                                             >
                                                                                 Sign In

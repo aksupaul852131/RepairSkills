@@ -3,15 +3,16 @@ import Feed from "../components/Feed";
 import { useRouter } from "next/router";
 import { useEffect, useState } from 'react'
 import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
-import { db } from "./api/auth/firebase-config";
+import { db, app } from "./api/auth/firebase-config";
 import { useSession } from "next-auth/react";
+import { getAuth } from "firebase/auth";
 
 
 export default function Home() {
     const router = useRouter();
     const { data: session } = useSession();
     const [loading, setLoading] = useState(true);
-
+    const auth = getAuth(app);
 
     useEffect(() => {
         (() => getResponse())();
@@ -19,40 +20,6 @@ export default function Home() {
 
     const getResponse = async () => {
 
-
-        if (session) {
-            if (loading) {
-                const docRef = doc(db, "users", session?.user?.uid);
-                const docSnap = await getDoc(docRef);
-
-                if (docSnap.exists()) {
-                    setLoading(false);
-
-                } else {
-                    // doc.data() will be undefined in this case
-
-                    const userData = {
-                        name: session.user.name,
-                        profileImg: session.user.image,
-                        bio: '',
-                        uid: session.user.uid,
-                        timestamp: serverTimestamp(),
-                        skills: [],
-                        workExp: 0,
-                        // experince: [{
-                        //   brandImg: '',
-                        //   brandInfo: '',
-                        //   brandLink: '',
-                        //   brandName: '',
-                        //   workLocation: '',
-                        //   expYear: '',
-                        // }]
-                    }
-                    setDoc(doc(db, "users", session.user.uid), userData);
-                    setLoading(false);
-                }
-            }
-        }
 
     }
 
@@ -83,7 +50,7 @@ export default function Home() {
                         </div>
                     </div>
 
-                    <Feed />
+
                 </div>
 
             </div>

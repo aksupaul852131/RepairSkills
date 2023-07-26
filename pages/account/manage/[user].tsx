@@ -1,6 +1,6 @@
 import Link from "next/link";
-import Post from '../../components/post/Post'
-import { db } from "../api/auth/firebase-config";
+import Post from '../../../components/post/Post'
+import { db } from "../../api/auth/firebase-config";
 import { collection, query, doc, getDoc, where, getDocs } from "@firebase/firestore";
 import { useSession } from "next-auth/react";
 import Moment from "react-moment";
@@ -15,7 +15,7 @@ const Users = ({ userData, allposts }: any) => {
     return (
         <>
             <Head>
-                <title>{userData?.name} - RepairSkills</title>
+                <title>{userData?.username} - RepairSkills</title>
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
@@ -29,12 +29,12 @@ const Users = ({ userData, allposts }: any) => {
                             <div className="h-16 absolute -top-14 left-4 md:left-12">
                                 <img
                                     className="w-24 h-24 object-cover rounded-full"
-                                    src={userData?.profileImg}
+                                    src={userData?.photoUrl}
                                     alt="Joe Biden"
                                 />
-                                <h3 className="mt-4 text-black font-bold dark:text-white">{userData?.name}</h3>
-                                <p className="text-primary text-sm md:text-base">Joined <Moment fromNow>{userData?.timestamp}</Moment></p>
-                                <p className="text-sm mt-2">Experience {userData?.workExp} years +</p>
+                                <h3 className="mt-4 text-black font-bold dark:text-white">{userData?.username}</h3>
+
+                                <p className="text-sm mt-2">{userData?.bio}</p>
 
                             </div>
 
@@ -96,20 +96,7 @@ const Users = ({ userData, allposts }: any) => {
                                     </div>
                                     <div className="flex-auto p-4 mt-2">
                                         <ul>
-                                            {
-                                                userData?.experience?.map((i: any, index: number) => (
-                                                    <li id={index} className="grid grid-cols-8">
-                                                        <div className="col-span-2 md:col-span-1">
-                                                            <img className="w-14 h-14 rounded-full object-cover" src={i?.brandImg} />
-                                                        </div>
-                                                        <div className="col-span-6">
-                                                            <h4 className="text-lg font-bold text-black hover:text-primary dark:text-white"><Link href={i?.brandLink}>{i?.brandName}</Link></h4>
-                                                            <div className="flex justify-between text-xs my-1 md:my-2"><p>{i?.workLocation}</p></div>
-                                                            <p className="text-xs">{i?.brandInfo}</p>
-                                                        </div>
-                                                    </li>
-                                                ))
-                                            }
+
 
                                         </ul>
                                     </div>
@@ -203,25 +190,29 @@ export async function getServerSideProps(context: GetServerSidePropsContext) {
 
 
     try {
-        const userRef = doc(db, 'users', context.query.user as string);
+        const userRef = doc(db, 'users', '113801632127877277749');
         const user = await getDoc(userRef);
 
-        const postRef = query(collection(db, "posts"), where('id', '==', context.query.user as string));
-        const Posts = await getDocs(postRef);
+        // print(user.data());
 
-        const allpost = Posts.docs.map(docSnap => {
-            return {
-                ...docSnap.data(),
-                timestamp: docSnap.data().timestamp.toMillis(),
-            }
-        })
+
+        // const postRef = query(collection(db, "posts"), where('id', '==', context.query.user as string));
+        // const Posts = await getDocs(postRef);
+
+        // const allpost = Posts.docs.map(docSnap => {
+        //     return {
+        //         ...docSnap.data(),
+        //         timestamp: docSnap.data().timestamp.toMillis(),
+        //     }
+        // })
+
+
         return {
             props: {
                 userData: {
                     ...user.data(),
-                    timestamp: user?.data().timestamp.toMillis(),
                 },
-                allposts: allpost,
+
             },
         };
     } catch (error) {

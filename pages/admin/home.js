@@ -60,7 +60,7 @@ export default function AdminHome() {
 
     }
 
-    if(session?.user?.uid != '101407720271822219811' && session?.user?.uid != '101790720557592011732') return (<p>you are not authrised</p>)
+    // if(session?.user?.uid != '101407720271822219811' && session?.user?.uid != '101790720557592011732') return (<p>you are not authrised</p>)
 
     return (
         <>

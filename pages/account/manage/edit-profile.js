@@ -7,7 +7,7 @@ import { useRef } from "react";
 import { useEffect } from "react";
 import { useState } from "react";
 import uuid from "react-uuid";
-import { db, storage } from "../api/auth/firebase-config";
+import { db, storage } from "../../api/auth/firebase-config";
 
 export default function EditPost() {
 
