@@ -7,7 +7,6 @@ import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
 
 
 function Register() {
-    const [page, setPage] = useState('login');
     const auth = getAuth(app);
     const [name, setName] = useState("");
     const [email, setEmail] = useState("");
