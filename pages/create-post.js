@@ -1,5 +1,5 @@
 import { useEffect, useRef, useState } from "react";
-import app, { db, storage } from "./api/auth/firebase-config";
+import { db, storage, app } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
 import { getAuth } from "firebase/auth";
 import {
@@ -10,7 +10,6 @@ import {
     updateDoc,
 } from "@firebase/firestore";
 import { getDownloadURL, ref, uploadString } from "@firebase/storage";
-import { useSession } from "next-auth/react";
 import Picker from '@emoji-mart/react'
 import uuid from 'react-uuid';
 import Link from "next/link";
