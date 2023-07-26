@@ -1,7 +1,7 @@
 import { useEffect, useRef, useState } from "react";
 import { db, storage, app } from "./api/auth/firebase-config";
 import { useRouter } from "next/router";
-import { getAuth } from "firebase/auth";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 import {
     doc,
     getDoc,
@@ -16,7 +16,9 @@ import Link from "next/link";
 import Head from "next/head";
 
 const CreatePost = () => {
-    const uid = getAuth(app).currentUser.uid;
+    const auth = getAuth();
+    const [uid, setUid] = useState();
+
     const [input, setInput] = useState("");
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -24,22 +26,43 @@ const CreatePost = () => {
     const [showEmojis, setShowEmojis] = useState(false);
     const router = useRouter();
     const [postId, setPostId] = useState(uuid());
-    const [loading2, setLoading2] = useState(true);
+    const [loading2, setLoading2] = useState(false);
     const [user, setUser] = useState();
 
     useEffect(() => {
-        (() => getResponse())();
+        (() => {
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+
+                    setUid(user.uid);
+                    setLoading2(true);
+                    // ...
+                } else {
+                    router.push('account/login')
+
+                }
+            });
+            getResponse();
+        })();
     });
 
 
+
+
+
     const getResponse = async () => {
-        if(loading2) {
-            const docRef = doc(db, "users", uid);
-            const docSnap = await getDoc(docRef);
-            if(docSnap.exists()) {
-                setUser(docSnap);
-                setLoading2(false);
-            } else { setLoading2(false) }
+
+
+        if(uid != 'false') {
+            if(loading2) {
+                const docRef = doc(db, "users", uid);
+                const docSnap = await getDoc(docRef);
+                if(docSnap.exists()) {
+                    setUser(docSnap);
+                    setLoading2(false);
+                } else { setLoading2(false) }
+            }
+
         }
     }
 
