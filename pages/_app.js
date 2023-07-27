@@ -9,7 +9,7 @@ import { useRouter } from "next/router";
 
 export default function App({
   Component,
-  pageProps: { session, ...pageProps },
+
 }) {
 
   const { pathname } = useRouter();

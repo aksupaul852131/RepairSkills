@@ -4,13 +4,12 @@ import { useRouter } from "next/router";
 import { useEffect, useState } from 'react'
 import { doc, getDoc, serverTimestamp, setDoc } from "@firebase/firestore";
 import { db, app } from "./api/auth/firebase-config";
-import { useSession } from "next-auth/react";
 import { getAuth } from "firebase/auth";
 
 
 export default function Home() {
     const router = useRouter();
-    const { data: session } = useSession();
+
     const [loading, setLoading] = useState(true);
     const auth = getAuth(app);
 
