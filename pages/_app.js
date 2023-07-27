@@ -13,7 +13,9 @@ export default function App({
 }) {
 
   const { pathname } = useRouter();
-  console.log(pathname);
+  const router = useRouter();
+
+  console.log(router.query);
 
   return (
     <>
@@ -37,7 +39,7 @@ export default function App({
       <RecoilRoot>
 
         <div className="font-[Urbanist]">
-          {pathname?.includes('/login') || pathname?.includes('/register') || pathname.indexOf('R123') ?
+          {pathname?.includes('/login') || pathname?.includes('/register') || router.query['key'] == 'R123' ?
             <></> : <Navbar />}
 
 
@@ -48,7 +50,11 @@ export default function App({
             <Component {...pageProps} />
           </div>
         </div>
-        <MobileNav />
+        {
+          router.query['key'] == 'R123' ?
+            <></> : <MobileNav />
+        }
+
         <ScrollButton />
       </RecoilRoot>
 
