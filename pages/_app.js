@@ -1,9 +1,7 @@
 import "../styles/globals.css";
-import { SessionProvider } from "next-auth/react";
 import { RecoilRoot } from "recoil";
 import MobileNav from "../components/navbar/mobile-nav";
 import Navbar from "../components/navbar/Navbar";
-import { ThemeProvider } from 'next-themes'
 import NextNProgress from 'nextjs-progressbar';
 import ScrollButton from "../components/utils/Scroll-btn"
 import Script from "next/script";
@@ -32,26 +30,26 @@ export default function App({
         `}
       </Script>
 
-      <ThemeProvider attribute="class">
-        <SessionProvider session={session}>
-          <RecoilRoot>
-
-            <div className="font-[Urbanist]">
-              {pathname?.includes('/login') || pathname?.includes('/register') ?
-                <></> : <Navbar />}
 
 
-              <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+      <RecoilRoot>
 
-              <div className="pt-16 dark:bg-gray-900">
-                <Component {...pageProps} />
-              </div>
-            </div>
-            <MobileNav />
-            <ScrollButton />
-          </RecoilRoot>
-        </SessionProvider>
-      </ThemeProvider >
+        <div className="font-[Urbanist]">
+          {pathname?.includes('/login') || pathname?.includes('/register') ?
+            <></> : <Navbar />}
+
+
+          <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
+
+          <div className="pt-16 dark:bg-white dark:text-white">
+            <Component {...pageProps} />
+          </div>
+        </div>
+        <MobileNav />
+        <ScrollButton />
+      </RecoilRoot>
+
+
     </>
 
   );

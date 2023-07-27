@@ -2,7 +2,7 @@ import { Fragment, useEffect, useState } from 'react'
 import { Disclosure, Menu, Transition } from '@headlessui/react'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
-import { signOut, useSession } from 'next-auth/react'
+import { signOut, } from 'next-auth/react'
 import { doc, getDoc } from '@firebase/firestore'
 import { db } from '../../pages/api/auth/firebase-config'
 import { useTheme } from 'next-themes'
@@ -22,22 +22,38 @@ function classNames(...classes) {
 export default function Navbar() {
     const router = useRouter();
     const { theme, setTheme } = useTheme();
-    const { data: session } = useSession();
+    const [uid, setUid] = useState();
     const [loading, setLoading] = useState(true);
     const auth = getAuth();
     const [logged, setLogged] = useState(false);
+    const [loading2, setLoading2] = useState(false);
+    const [userimg, setUserImg] = useState('');
 
-
-    const [userImg, setUserImg] = useState(session?.user?.image);
 
     useEffect(() => {
-        (() => getResponse())();
+        (() => {
+
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+                    // User is signed in, see docs for a list of available properties
+                    // https://firebase.google.com/docs/reference/js/auth.user
+                    setUid(user.uid);
+                    setLogged(true);
+                    setLoading2(true);
+                    // ...
+                } else {
+                    setLogged(false);
+                }
+            });
+
+            getResponse()
+        })();
     });
 
 
     const getResponse = async () => {
-        if(session && loading) {
-            const docRef = doc(db, "users", session.user.uid);
+        if(loading2) {
+            const docRef = doc(db, "users", uid);
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()) {
                 setUserImg(docSnap.data().photoUrl);
@@ -52,17 +68,6 @@ export default function Navbar() {
 
 
 
-    onAuthStateChanged(auth, (user) => {
-        if(user) {
-            // User is signed in, see docs for a list of available properties
-            // https://firebase.google.com/docs/reference/js/auth.user
-            const uid = user.uid;
-            setLogged(true);
-            // ...
-        } else {
-            setLogged(false);
-        }
-    });
 
 
     return (
@@ -108,14 +113,7 @@ export default function Navbar() {
                                         </div>
                                         <div className="absolute inset-y-0 right-0 flex items-center pr-2 sm:static sm:inset-auto sm:ml-6 sm:pr-0">
 
-                                            <button
-                                                onClick={() => setTheme(theme === 'dark' ? 'light' : 'dark')}
-                                            >
-                                                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className={`${theme === 'dark' && 'fill-black'} w-6 h-6 mr-3`}>
-                                                    <path strokeLinecap="round" strokeLinejoin="round" d="M21.752 15.002A9.718 9.718 0 0118 15.75c-5.385 0-9.75-4.365-9.75-9.75 0-1.33.266-2.597.748-3.752A9.753 9.753 0 003 11.25C3 16.635 7.365 21 12.75 21a9.753 9.753 0 009.002-5.998z" />
-                                                </svg>
 
-                                            </button>
 
                                             <Link
                                                 href='/steps/home'
@@ -133,15 +131,8 @@ export default function Navbar() {
                                                 <div>
                                                     <Menu.Button className="flex rounded-full text-sm ">
                                                         <span className="sr-only">Open user menu</span>
-                                                        {session?.user?.image ?
-                                                            <img
-                                                                className="h-8 w-8 object-cover rounded-full"
-                                                                src={userImg}
-                                                                alt={session?.user?.name}
-                                                                width={100} height={100}
-                                                                title='User'
-                                                            />
-                                                            :
+                                                        {
+
                                                             <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="stroke-primary w-9">
                                                                 <path strokeLinecap="round" strokeLinejoin="round" d="M17.982 18.725A7.488 7.488 0 0012 15.75a7.488 7.488 0 00-5.982 2.975m11.963 0a9 9 0 10-11.963 0m11.963 0A8.966 8.966 0 0112 21a8.966 8.966 0 01-5.982-2.275M15 9.75a3 3 0 11-6 0 3 3 0 016 0z" />
                                                             </svg>
