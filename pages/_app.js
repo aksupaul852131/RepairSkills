@@ -13,6 +13,8 @@ export default function App({
 }) {
 
   const { pathname } = useRouter();
+  console.log(pathname);
+
   return (
     <>
 
@@ -35,13 +37,14 @@ export default function App({
       <RecoilRoot>
 
         <div className="font-[Urbanist]">
-          {pathname?.includes('/login') || pathname?.includes('/register') ?
+          {pathname?.includes('/login') || pathname?.includes('/register') || pathname.indexOf('R123') ?
             <></> : <Navbar />}
 
 
           <NextNProgress color="#0dd354" startPosition={0.3} stopDelayMs={200} height={3} showOnShallow={true} />
 
           <div className="pt-16 dark:bg-white dark:text-white">
+            <h1></h1>
             <Component {...pageProps} />
           </div>
         </div>

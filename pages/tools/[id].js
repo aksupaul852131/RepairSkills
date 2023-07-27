@@ -24,7 +24,7 @@ export default function Tool() {
     });
 
     const getResponse = async () => {
-        const urlSearchParams = new URLSearchParams(window.location.search)
+        const urlSearchParams = new URLSearchParams(window.location.search);
         setDbKey(urlSearchParams.get('key'));
 
         if(loading2) {
