@@ -17,9 +17,9 @@ function Feed() {
 
   const fetchData = () => {
 
-    if (fetchData) {
+    if (fetchLoad) {
       onSnapshot(
-        query(collection(db, "posts"), orderBy("timestamp", "desc")),
+        query(collection(db, "posts"), orderBy("datePublished", "desc")),
         (snapshot) => {
           setPosts(snapshot.docs);
         }
@@ -37,7 +37,11 @@ function Feed() {
           <div className="pb-24">
             {posts.map((post) => (
               <Post key={post.id} id={post.id} post={post.data()} />
+
+
             ))}
+
+            <h1>test</h1>
           </div>
       }
     </>

@@ -22,13 +22,15 @@ function PostPage({ quetionPost }: any) {
     return (
         <>
             <Head>
-                <title>{quetionPost.text} - RepairSkills</title>
+                {/* <title>{quetionPost.description} - RepairSkills</title> */}
                 <link rel="icon" href="/favicon.ico" />
             </Head>
 
 
             <div className="w-full px-0 md:px-16 lg:px-24 py-3 md:py-6">
-                <FullPost id={id} post={quetionPost} postId={quetionPost.id} />
+                {
+                    quetionPost.map((e: any) => <h1>jd</h1>)
+                }
 
             </div>
             <RightBar />
@@ -40,17 +42,15 @@ function PostPage({ quetionPost }: any) {
 export default PostPage;
 
 export async function getServerSideProps(context: GetServerSidePropsContext) {
-
+    // context.query.id as string
     try {
-        const stepRef = doc(db, 'posts', context.query.id as string);
-        const getSteps = await getDoc(stepRef);
+        const stepRef = doc(db, 'posts', '6a2ba540-283f-11ee-98c1-25cc6c913ffb');
+        const getQ = await getDoc(stepRef);
 
         return {
             props: {
                 quetionPost: {
-                    ...getSteps.data(),
-                    timestamp: getSteps?.data().timestamp.toMillis(),
-                    id: getSteps.id
+                    title: getQ.data()!.description,
                 },
 
             },

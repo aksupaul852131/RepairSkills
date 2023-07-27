@@ -64,7 +64,7 @@ export default function ToolHome() {
                                 <div className="rounded-full p-6 bg-green-200 border-2 border-green-500">
 
 
-                                    <img src='/check.png' className='w-32 h-32' alt='ReairSkils' width={100} height={100} title='Home' />
+                                    <img src='/check.png' className='w-32' alt='ReairSkils' width={100} height={100} title='Home' />
                                 </div>
 
                                 <h4 className="text-xs text-center mt-3">Installation</h4>

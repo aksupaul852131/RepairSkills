@@ -3,6 +3,7 @@ import {
     collection,
     deleteDoc,
     doc,
+    getDoc,
     onSnapshot,
     orderBy,
     query,
@@ -27,6 +28,7 @@ import 'react-toastify/dist/ReactToastify.css';
 import ShareModalBox from '../model/share';
 import uuid from "react-uuid";
 import Link from "next/link";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 
@@ -49,66 +51,64 @@ function Post({ id, post, postId }) {
     const [share, setShare] = useState(false);
 
 
-    // fetch post vote length
-    useEffect(
-        () => {
-
-            onSnapshot(collection(db, "posts", id, "upVote"), (snapshot) =>
-                setVoteUpLength(snapshot.docs)
-            );
-            onSnapshot(collection(db, "posts", id, "downVote"), (snapshot) =>
-                setVoteDownLength(snapshot.docs)
-            );
-
-        },
-        [db, id]
-    );
 
 
-    // only for bg color of vote btn colors
-    useEffect(
-        () => {
-            if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
-                setholdVote(
-                    1
-                )
-            } else if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
-                setholdVote(
-                    2
-                )
+    const auth = getAuth();
+    const [uid, setUid] = useState();
+    const [loading2, setLoading2] = useState(false);
+
+    const [fetchLoad, setFetchLoad] = useState(true);
+    const [user, setUser] = useState();
+    const [image, setImages] = useState([]);
+
+    useEffect(() => {
+        (() => {
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+
+                    setUid(user.uid);
+                    setLoading2(true);
+                    // ...
+                } else {
+                    router.push('account/login')
+                }
+            });
+
+            fetchData();
+        })();
+    });
+
+
+
+
+
+    const fetchData = async () => {
+
+        if(fetchLoad) {
+            if(loading2) {
+                const docRef = doc(db, "users", uid);
+                const docSnap = await getDoc(docRef);
+                if(docSnap.exists()) {
+                    setUser(docSnap);
+                    setLoading2(false);
+                } else { setLoading2(false) }
             }
-        },
-        [voteUpLength]
-    );
 
 
-    //  voting fuctions
-    const likePost = async () => {
-        if(!session) {
-            router.push('/login');
-        } else {
-            if(holdVote == 0 || holdVote == 2) {
-                setholdVote(1);
-                await deleteDoc(doc(db, "posts", id, "downVote", session?.user.uid));
-                await setDoc(doc(db, "posts", id, "upVote", session?.user.uid), {
-                    username: session?.user.name,
-                });
+            const docRef = doc(db, "users", post.uid);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                setUser(docSnap);
             }
+
+            setFetchLoad(false);
         }
-    };
-    const downV = async () => {
-        if(!session) {
-            router.push('/login');
-        } else {
-            if(holdVote == 0 || holdVote == 1) {
-                setholdVote(2);
-                await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
-                await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
-                    username: session.user.name,
-                });
-            }
-        }
-    };
+    }
+
+
+
+
+
 
 
     // fetch comments
@@ -117,7 +117,7 @@ function Post({ id, post, postId }) {
             onSnapshot(
                 query(
                     collection(db, "posts", id, "comments"),
-                    orderBy("timestamp", "desc")
+
                 ),
                 (snapshot) => setComments(snapshot.docs)
             ),
@@ -166,7 +166,7 @@ function Post({ id, post, postId }) {
             className="px-3 h-full">
             <div>
                 <img
-                    src={post?.image}
+                    src={post?.photoUrl}
                     alt=""
                     className="max-h-[600px] w-full bg-white object-cover"
                     onClick={() => router.push(`/quetion/${id}`)}

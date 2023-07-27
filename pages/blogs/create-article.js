@@ -16,10 +16,13 @@ import uuid from 'react-uuid';
 import ArticleEditor from '../../components/utils/article-editor'
 import { db, storage } from "../api/auth/firebase-config";
 import Head from "next/head";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 export default function CreatePost() {
 
-    const { data: session } = useSession();
+    const auth = getAuth();
+    const [uid, setUid] = useState();
+
     const [article, setArticle] = useState("");
     const [loading, setLoading] = useState(false);
     const [selectedFile, setSelectedFile] = useState(null);
@@ -30,18 +33,30 @@ export default function CreatePost() {
 
     const [articleId] = useState(uuid());
 
-    const [loading2, setLoading2] = useState(true);
-
+    const [loading2, setLoading2] = useState(false);
     const [user, setUser] = useState();
 
     useEffect(() => {
-        (() => getResponse())();
+        (() => {
+            onAuthStateChanged(auth, (user) => {
+                if(user) {
+
+                    setUid(user.uid);
+                    setLoading2(true);
+                    // ...
+                } else {
+                    router.push('account/login')
+                }
+            });
+            getResponse();
+        })();
     });
 
 
+
     const getResponse = async () => {
-        if(session && loading2) {
-            const docRef = doc(db, "users", session.user.uid);
+        if(loading2) {
+            const docRef = doc(db, "users", uid);
             const docSnap = await getDoc(docRef);
             if(docSnap.exists()) {
                 setUser(docSnap);
@@ -52,55 +67,53 @@ export default function CreatePost() {
 
 
     const publishPost = async () => {
-        if(!session) {
-            router.push('/login');
-        } else {
-            if(title.length > 3) {
-                if(!loading) {
-                    setLoading(true);
-                    const docdata = {
-                        uid: session.user.uid,
-                        title: title,
-                        description: desc,
-                        articleId: `${title.toLowerCase()
-                            .replace(/[?]/g, '-').replace(/ /g, '-')
-                            .replace(/[^\w-]+/g, '')}-${articleId}`,
-                        username: user?.data()?.name,
-                        userImg: user?.data()?.profileImg,
-                        body: article,
-                        timestamp: serverTimestamp(),
-                        tags: tags.filter(i => i.pos == 'act').map((e) => (e.name)),
-                        postImg: '',
-                        status: 1,
-                    }
 
-                    setDoc(doc(db, "blogs", `${title.toLowerCase()
-                        .replace(/ /g, '-').replace(/[?]/g, '-')
-                        .replace(/[^\w-]+/g, '')}-${articleId}`), docdata);
-
-                    const imageRef = ref(storage, `blogs/article/${session.user.name}/${articleId}/image`);
-
-                    if(selectedFile) {
-                        await uploadString(imageRef, selectedFile, "data_url").then(async () => {
-                            const downloadURL = await getDownloadURL(imageRef);
-                            await updateDoc(doc(db, "blogs", `${title.toLowerCase()
-                                .replace(/ /g, '-').replace(/[?]/g, '-')
-                                .replace(/[^\w-]+/g, '')}-${articleId}`), {
-                                postImg: downloadURL,
-                            });
-                        });
-                    }
-
-                    setSelectedFile(null);
-                    setLoading(false);
-                    router.push('/blogs/home');
-                } else {
-                    toast.loading('uploading please wait...');
+        if(title.length > 3) {
+            if(!loading) {
+                setLoading(true);
+                const docdata = {
+                    uid: uid,
+                    title: title,
+                    description: desc,
+                    articleId: `${title.toLowerCase()
+                        .replace(/[?]/g, '-').replace(/ /g, '-')
+                        .replace(/[^\w-]+/g, '')}-${articleId}`,
+                    username: user?.data()?.username,
+                    userImg: user?.data()?.photoUrl,
+                    body: article,
+                    timestamp: serverTimestamp(),
+                    tags: tags.filter(i => i.pos == 'act').map((e) => (e.username)),
+                    postImg: '',
+                    status: 1,
                 }
+
+                setDoc(doc(db, "blogs", `${title.toLowerCase()
+                    .replace(/ /g, '-').replace(/[?]/g, '-')
+                    .replace(/[^\w-]+/g, '')}-${articleId}`), docdata);
+
+                const imageRef = ref(storage, `blogs/article/${user.data().username}/${articleId}/image`);
+
+                if(selectedFile) {
+                    await uploadString(imageRef, selectedFile, "data_url").then(async () => {
+                        const downloadURL = await getDownloadURL(imageRef);
+                        await updateDoc(doc(db, "blogs", `${title.toLowerCase()
+                            .replace(/ /g, '-').replace(/[?]/g, '-')
+                            .replace(/[^\w-]+/g, '')}-${articleId}`), {
+                            postImg: downloadURL,
+                        });
+                    });
+                }
+
+                setSelectedFile(null);
+                setLoading(false);
+                router.push('/blogs/home');
             } else {
-                toast.error('title must be unique');
+                toast.loading('uploading please wait...');
             }
+        } else {
+            toast.error('title must be unique');
         }
+
     };
 
     const addImageToPost = (e) => {
@@ -267,7 +280,7 @@ export default function CreatePost() {
 
                                 className={`${item.pos == 'act' ? `border-primary border-2 bg-primary text-white` : 'bg-gray-200'} px-4 rounded py-1 text-sm dark:text-white dark:bg-gray-800`}
                             >
-                                {item.name}
+                                {item.username}
 
                             </li>
                         );
@@ -292,7 +305,7 @@ export default function CreatePost() {
                             : <span className="font-bold text-sm px-4">publish</span>
                     }
                 </button>
-                <p className="mt-2 text-center text-sm dark:text-white">This Post Publish By <span className="text-primary">{user?.data()?.name}</span></p>
+                <p className="mt-2 text-center text-sm dark:text-white">This Post Publish By <span className="text-primary">{user?.data()?.username}</span></p>
                 <Toaster
                     position="bottom-center"
                     reverseOrder={false}

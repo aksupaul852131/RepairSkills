@@ -39,7 +39,6 @@ const CreatePost = () => {
                     // ...
                 } else {
                     router.push('account/login')
-
                 }
             });
             getResponse();
@@ -48,21 +47,14 @@ const CreatePost = () => {
 
 
 
-
-
     const getResponse = async () => {
-
-
-        if(uid != 'false') {
-            if(loading2) {
-                const docRef = doc(db, "users", uid);
-                const docSnap = await getDoc(docRef);
-                if(docSnap.exists()) {
-                    setUser(docSnap);
-                    setLoading2(false);
-                } else { setLoading2(false) }
-            }
-
+        if(loading2) {
+            const docRef = doc(db, "users", uid);
+            const docSnap = await getDoc(docRef);
+            if(docSnap.exists()) {
+                setUser(docSnap);
+                setLoading2(false);
+            } else { setLoading2(false) }
         }
     }
 
@@ -107,7 +99,7 @@ const CreatePost = () => {
             setLoading(false);
 
         }
-        router.push('/');
+        router.push('/ask');
     };
 
     const addImageToPost = (e) => {
@@ -129,71 +121,71 @@ const CreatePost = () => {
         setInput(input + emoji);
     };
 
-    const [tags, setTags] = useState([
-        {
-            name: 'HVAC',
-            pos: 'dec',
-        },
-        {
-            name: 'Refrigrator',
-            pos: 'dec',
-        },
-        {
-            name: 'VRV',
-            pos: 'dec',
-        },
-        {
-            name: 'Split AC',
-            pos: 'dec',
-        },
-        {
-            name: 'AC Error',
-            pos: 'dec',
-        },
-        {
-            name: 'Technology',
-            pos: 'dec',
-        },
-        {
-            name: 'Refrigrant Gas',
-            pos: 'dec',
-        },
-        {
-            name: 'Ductable',
-            pos: 'dec',
-        },
-        {
-            name: 'Wiring',
-            pos: 'dec',
-        },
-        {
-            name: 'Repair',
-            pos: 'dec',
-        },
-        {
-            name: 'Chiller',
-            pos: 'dec',
-        },
-        {
-            name: 'Installation',
-            pos: 'dec',
-        },
-        {
-            name: 'Diagnostic',
-            pos: 'dec',
-        },
-        {
-            name: 'Other',
-            pos: 'dec',
-        },
-    ]);
+    // const [tags, setTags] = useState([
+    //     {
+    //         name: 'HVAC',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Refrigrator',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'VRV',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Split AC',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'AC Error',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Technology',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Refrigrant Gas',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Ductable',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Wiring',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Repair',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Chiller',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Installation',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Diagnostic',
+    //         pos: 'dec',
+    //     },
+    //     {
+    //         name: 'Other',
+    //         pos: 'dec',
+    //     },
+    // ]);
 
-    const handlechange = (index) => {
-        const newUsers = [...tags];
+    // const handlechange = (index) => {
+    //     const newUsers = [...tags];
 
-        newUsers[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
-        setTags(newUsers);
-    };
+    //     newUsers[index].pos = tags[index].pos == 'act' ? 'dec' : 'act';
+    //     setTags(newUsers);
+    // };
 
     return (
         <>

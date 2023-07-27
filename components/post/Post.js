@@ -2,6 +2,7 @@ import {
   collection,
   deleteDoc,
   doc,
+  getDoc,
   onSnapshot,
   orderBy,
   query,
@@ -18,6 +19,7 @@ import ShareModalBox from "../model/share";
 import PostModelBox from "../model/post-model";
 import Link from "next/link";
 import Image from "next/image";
+import { getAuth, onAuthStateChanged } from "firebase/auth";
 
 
 function Post({ id, post, userpage }) {
@@ -34,85 +36,64 @@ function Post({ id, post, userpage }) {
   const [share, setShare] = useState(false);
   const [menu, setMenu] = useState(false);
 
+  const auth = getAuth();
+  const [uid, setUid] = useState();
+  const [loading2, setLoading2] = useState(false);
 
-  useEffect(
-    () =>
-      onSnapshot(
-        query(
-          collection(db, "posts", id, "comments"),
-          orderBy("timestamp", "desc")
-        ),
-        (snapshot) => setComments(snapshot.docs)
-      ),
-    [db, id]
-  );
+  const [fetchLoad, setFetchLoad] = useState(true);
+  const [user, setUser] = useState();
+  const [image, setImages] = useState([]);
 
-  // fetch post vote length
-  useEffect(
-    () => {
-      onSnapshot(collection(db, "posts", id, "upVote"), (snapshot) =>
-        setVoteUpLength(snapshot.docs)
-      );
-      onSnapshot(collection(db, "posts", id, "downVote"), (snapshot) =>
-        setVoteDownLength(snapshot.docs)
-      );
-    },
-    [db, id]
-  );
+  useEffect(() => {
+    (() => {
+      onAuthStateChanged(auth, (user) => {
+        if(user) {
+
+          setUid(user.uid);
+          setLoading2(true);
+          // ...
+        } else {
+          router.push('account/login')
+        }
+      });
+      getResponse();
+      fetchData();
+    })();
+  });
 
 
-  // only for bg color of vote btn
-  useEffect(
-    () => {
-      if(voteUpLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
-        setholdVote(
-          1
-        )
-      } else if(voteDownLength.findIndex((like) => like.id === session?.user?.uid) !== -1) {
-        setholdVote(
-          2
-        )
-      }
-    },
-    [voteUpLength]
-  );
 
-  //  do things
-  const likePost = async () => {
-    if(!session) {
-      router.push('/login');
-    } else {
-      if(holdVote == 0 || holdVote == 2) {
-        setholdVote(1);
-        await deleteDoc(doc(db, "posts", id, "downVote", session.user.uid));
-        await setDoc(doc(db, "posts", id, "upVote", session.user.uid), {
-          username: session.user.name,
-        });
-      }
+  const getResponse = async () => {
+    if(loading2) {
+      const docRef = doc(db, "users", uid);
+      const docSnap = await getDoc(docRef);
+      if(docSnap.exists()) {
+        setUser(docSnap);
+        setLoading2(false);
+      } else { setLoading2(false) }
     }
-  };
+  }
 
 
+  const fetchData = async () => {
 
-  const downV = async () => {
-    if(!session) {
-      router.push('/login');
-    } else {
-      if(holdVote == 0 || holdVote == 1) {
-        setholdVote(2);
-        await deleteDoc(doc(db, "posts", id, "upVote", session.user.uid));
-        await setDoc(doc(db, "posts", id, "downVote", session.user.uid), {
-          username: session.user.name,
-        });
+    if(fetchLoad) {
+      const docRef = doc(db, "users", post?.uid);
+      const docSnap = await getDoc(docRef);
+      if(docSnap.exists()) {
+        setUser(docSnap);
       }
+      if(post?.imLen != 0) {
+
+        onSnapshot(
+          query(
+            collection(db, "posts", post?.postId, 'gallery'),
+          ),
+          (snapshot) => setImages(snapshot.docs)
+        );
+      }
+      setFetchLoad(false);
     }
-  };
-
-
-  const deletePost = async (e) => {
-    e.stopPropagation();
-    deleteDoc(doc(db, "posts", id));
-    router.push("/");
   }
 
 
@@ -125,14 +106,14 @@ function Post({ id, post, userpage }) {
         {
           !userpage && (
             <Link
-              href={`/account/${post?.id}`}
+              href={`/account/manage/${post?.uid}`}
             >
               <Image
                 width={160}
                 height={120}
-                src={post?.userImg}
-                alt={`${post?.username} - RepairSkills`}
-                title={post?.username}
+                src={user?.data()?.photoUrl == 'empety' ? '/no-image.png' : user?.data()?.photoUrl}
+                alt={user?.data()?.username}
+                title={user?.data()?.username}
                 className="h-11 w-11 rounded-full mr-4"
               />
             </Link>
@@ -144,14 +125,14 @@ function Post({ id, post, userpage }) {
               className={`font-bold text-[15px] sm:text-base group-hover:underline inline-block`}
             >
               <Link
-                href={`/account/${post?.id}`}
-              >{post?.username}</Link>
+                href={`/account/manage/${post?.uid}`}
+              >{user?.data()?.username}</Link>
 
             </h2>
           </div>
           {/* post time */}
           <span className="hover:underline text-gray-600 dark:text-gray-400 text-sm sm:text-[15px]">
-            <Moment fromNow>{userpage ? post?.timestamp : post?.timestamp?.toDate()}</Moment><span className="ml-1 text-blue-600">{post?.tags[0] && `#${post?.tags[0]}`}</span>
+            <Moment fromNow>{userpage ? post?.datePublished : post?.datePublished?.toDate()}</Moment>
           </span>
         </div>
         {/* 3 dots */}
@@ -167,7 +148,7 @@ function Post({ id, post, userpage }) {
 
       {/* post text */}
       <p onClick={() => router.push(`/quetion/${id}`)} className="text-gray-700 dark:text-white text-[15px] sm:text-base my-3">
-        {post?.text}
+        {post?.description}
       </p>
 
       <div className="flex flex-col space-y-2 w-full">
@@ -175,21 +156,21 @@ function Post({ id, post, userpage }) {
 
         {/* post image */}
         <div>
+          {image.map((e) => (<>
 
-          {
-            !userpage && (
+            {
+              <Image
+                width={500}
+                height={500}
+                src={e.data().url}
+                alt={`${post?.description} - RepairSkills`}
+                className="rounded-2xl md:max-h-[350px] w-full object-cover my-2"
+                onClick={() => router.push(`/quetion/${post.postId}`)}
+              />
+            }
+          </>
+          ))}
 
-              post?.image && (
-                <Image
-                  width={500}
-                  height={500}
-                  src={post?.image}
-                  alt={`${post?.text} - RepairSkills`}
-                  className="rounded-2xl md:max-h-[350px] w-full object-cover my-2"
-                  onClick={() => router.push(`/quetion/${id}`)}
-                />)
-            )
-          }
         </div>
 
 
@@ -216,32 +197,15 @@ function Post({ id, post, userpage }) {
                 <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:stroke-white">
                   <path strokeLinecap="round" strokeLinejoin="round" d="M6.633 10.5c.806 0 1.533-.446 2.031-1.08a9.041 9.041 0 012.861-2.4c.723-.384 1.35-.956 1.653-1.715a4.498 4.498 0 00.322-1.672V3a.75.75 0 01.75-.75A2.25 2.25 0 0116.5 4.5c0 1.152-.26 2.243-.723 3.218-.266.558.107 1.282.725 1.282h3.126c1.026 0 1.945.694 2.054 1.715.045.422.068.85.068 1.285a11.95 11.95 0 01-2.649 7.521c-.388.482-.987.729-1.605.729H13.48c-.483 0-.964-.078-1.423-.23l-3.114-1.04a4.501 4.501 0 00-1.423-.23H5.904M14.25 9h2.25M5.904 18.75c.083.205.173.405.27.602.197.4-.078.898-.523.898h-.908c-.889 0-1.713-.518-1.972-1.368a12 12 0 01-.521-3.507c0-1.553.295-3.036.831-4.398C3.387 10.203 4.167 9.75 5 9.75h1.053c.472 0 .745.556.5.96a8.958 8.958 0 00-1.302 4.665c0 1.194.232 2.333.654 3.375z" />
                 </svg>
-                {voteUpLength.length > 0 && (
+                {post?.likes.length > 0 && (
                   <span
                   >
-                    {voteUpLength.length}
+                    {post?.likes.length}
                   </span>
                 )}
               </div>
 
 
-              {/* down */}
-              <div
-                onClick={(e) => {
-                  e.stopPropagation();
-                  downV();
-                }}
-                className={`rounded-full px-3 py-1 flex gap-2 ${holdVote == 2 ? `bg-primary text-white` : `bg-gray-100 dark:bg-gray-800`}`}>
-                <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6 dark:stroke-white">
-                  <path strokeLinecap="round" strokeLinejoin="round" d="M7.5 15h2.25m8.024-9.75c.011.05.028.1.052.148.591 1.2.924 2.55.924 3.977a8.96 8.96 0 01-.999 4.125m.023-8.25c-.076-.365.183-.75.575-.75h.908c.889 0 1.713.518 1.972 1.368.339 1.11.521 2.287.521 3.507 0 1.553-.295 3.036-.831 4.398C20.613 14.547 19.833 15 19 15h-1.053c-.472 0-.745-.556-.5-.96a8.95 8.95 0 00.303-.54m.023-8.25H16.48a4.5 4.5 0 01-1.423-.23l-3.114-1.04a4.5 4.5 0 00-1.423-.23H6.504c-.618 0-1.217.247-1.605.729A11.95 11.95 0 002.25 12c0 .434.023.863.068 1.285C2.427 14.306 3.346 15 4.372 15h3.126c.618 0 .991.724.725 1.282A7.471 7.471 0 007.5 19.5a2.25 2.25 0 002.25 2.25.75.75 0 00.75-.75v-.633c0-.573.11-1.14.322-1.672.304-.76.93-1.33 1.653-1.715a9.04 9.04 0 002.86-2.4c.498-.634 1.226-1.08 2.032-1.08h.384" />
-                </svg>
-                {voteDownLength.length > 0 && (
-                  <span
-                  >
-                    {voteDownLength.length}
-                  </span>
-                )}
-              </div>
 
               <div
                 className="flex items-center space-x-1 group bg-gray-100 dark:bg-gray-800 rounded-full px-4 py-1"
@@ -278,7 +242,6 @@ function Post({ id, post, userpage }) {
 
       </div>
       <ShareModalBox showModel={share} closeModel={setShare} shareLink={`https://repair-skills.vercel.app/quetion/${id}`} />
-      <PostModelBox showModel={menu} closeModel={setMenu} delete={deletePost} showMenu={session?.user.uid == post.id ? true : false} />
 
     </div>
   );

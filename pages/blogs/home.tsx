@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Image from "next/image";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { collection, query, getDocs, } from "@firebase/firestore";
 import { db } from "../api/auth/firebase-config";
 import Moment from "react-moment";
@@ -10,7 +10,7 @@ import { GetServerSidePropsContext } from "next";
 
 const BlogHome = ({ allPosts }: any) => {
 
-
+    useEffect(() => console.log(allPosts));
 
     const [filter, setFilter] = useState('All');
     const [tags, setTags] = useState([
@@ -149,44 +149,44 @@ const BlogHome = ({ allPosts }: any) => {
                     </div>
                     <h2 className="mt-2 font-bold px-3 dark:text-white">Latest Update</h2>
                     <ul className="mt-4 px-2">
-                        {
-                            allPosts.filter(filter != 'All' ? ((ff: any) => ff.tags[0] == filter) : ((ff: { title: any; }) => ff.title)).map((e) => (
-                                <Link
-                                    href={`/blogs/article/${e?.articleId}`}
-                                >
-                                    <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 lg:px-3 rounded">
-                                        <div className="flex gap-3 w-full">
-                                            <Image
-                                                width={160}
-                                                height={120}
-                                                alt={e?.title.length != 0 ? e.title.substring(0, 80) : 'RepairSkills'}
-                                                className="h-[90px] rounded-lg object-cover" src={e?.postImg ? e?.postImg : '/no-image.png'} />
-                                            <div className="w-full">
-                                                <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">
-                                                    {e?.title.length != 0 ? e.title.substring(0, 80) : 'No Title'}
-                                                </h2>
-                                                <h3 className="mt-1 text-secondry  dark:text-gray-400 text-xs">
-                                                    <Moment fromNow>{e?.timestamp}</Moment>
-                                                    - By
-                                                    {e?.username}
-                                                </h3>
-                                                <p className={`flex text-xs mt-1 ${e?.tags[0] ? `justify-between` : 'justify-end'}`}>
-                                                    {e?.tags[0] && (
-                                                        <span className="rounded-full text-blue-600 mr-2">
-                                                            #{e?.tags[0]}
-                                                        </span>
-                                                    )}
-                                                    <span className="dark:text-white mr-2">
-                                                        <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
-                                                            <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
-                                                        </svg>
-                                                    </span></p>
-                                            </div>
+                        {/* {
+                            allPosts.map((e: any) => <Link
+                                href={`/blogs/article/${e?.articleId}`}
+                            >
+                                <li className="mb-3 bg-gray-50 dark:bg-gray-800 py-4 px-1 lg:px-3 rounded">
+                                    <div className="flex gap-3 w-full">
+                                        <Image
+                                            width={160}
+                                            height={120}
+                                            alt={e?.title.length != 0 ? e.title.substring(0, 80) : 'RepairSkills'}
+                                            className="h-[90px] rounded-lg object-cover" src={e?.postImg ? e?.postImg : '/no-image.png'} />
+                                        <div className="w-full">
+                                            <h2 className="text-sm text-black dark:text-white font-bold hover:text-primary">
+                                                {e?.title.length != 0 ? e.title.substring(0, 80) : 'No Title'}
+                                            </h2>
+                                            <h3 className="mt-1 text-secondry  dark:text-gray-400 text-xs">
+                                                <Moment fromNow>{e?.timestamp}</Moment>
+                                                - By
+                                                {e?.username}
+                                            </h3>
+                                            <p className={`flex text-xs mt-1 ${e?.tags[0] ? `justify-between` : 'justify-end'}`}>
+                                                {e?.tags[0] && (
+                                                    <span className="rounded-full text-blue-600 mr-2">
+                                                        #{e?.tags[0]}
+                                                    </span>
+                                                )}
+                                                <span className="dark:text-white mr-2">
+                                                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-6 h-6">
+                                                        <path strokeLinecap="round" strokeLinejoin="round" d="M4.5 19.5l15-15m0 0H8.25m11.25 0v11.25" />
+                                                    </svg>
+                                                </span></p>
                                         </div>
-                                    </li>
-                                </Link>
-                            ))
-                        }
+                                    </div>
+                                </li>
+                            </Link>)
+                        } */}
+
+
 
                     </ul>
                 </div>
@@ -197,29 +197,56 @@ const BlogHome = ({ allPosts }: any) => {
 }
 
 
-export async function getServerSideProps(context: GetServerSidePropsContext) {
+export async function getServerSideProps() {
+
+    // try {
+
+    //     const q = query(collection(db, "blogs"));
+    //     const querySnapshot = await getDocs(q);
+    //     console.log('querySnapshot')
+
+    //     console.log(querySnapshot)
+
+
+    //     const allBlogs = querySnapshot.docs.map(docSnap => {
+    //         return {
+    //             ...docSnap.data(),
+    //             timestamp: docSnap.data().timestamp.toMillis(),
+    //         }
+    //     })
+
+
+
+    //     return {
+    //         props: {
+    //             allPosts: allBlogs,
+    //         },
+    //     };
+    // } catch (error) {
+    //     return {
+    //         props: {
+    //             notFound: true,
+    //         },
+    //     };
+    // }
+
 
     try {
-
-        const q = query(collection(db, "blogs"));
-        const querySnapshot = await getDocs(q);
-
-        const allBlogs = querySnapshot.docs.map(docSnap => {
-            return {
-                ...docSnap.data(),
-                timestamp: docSnap.data().timestamp.toMillis(),
-            }
-        })
+        // Fetch the blog data from Firebase Firestore
+        const blogCollection = query(collection(db, "blogs"));
+        const querySnapshot = await blogCollection.getdocs();
+        const blogData = querySnapshot.docs.map((doc: any) => doc.data());
 
         return {
             props: {
-                allPosts: allBlogs,
+                blogData,
             },
         };
     } catch (error) {
+        console.error('Error fetching blog data:', error);
         return {
             props: {
-                notFound: true,
+                blogData: null, // You can set a default value or handle the error as per your requirements
             },
         };
     }
